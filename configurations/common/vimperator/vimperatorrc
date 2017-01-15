@@ -1,0 +1,41 @@
+"3.3 (created: 2011/11/13 17:32:12)
+
+
+" highlight Hint font-family: monospace; font-size: 12px; font-weight: bold; text-transform: uppercase; color: white; background-color: #FF3366; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 1px 0px 1px; 
+" highlight HintElem background-color: #FFCC33;  color: black;
+" source! /Users/troydm/.vimperatorrc.local
+
+set incsearch
+set hlsearch
+set smartcase
+set hintchars='hjkl'
+
+let g:hintsio='io'
+map x :tabclose<cr>
+map s :tabopen duckduckgo 
+map S YP
+nmap <c-a><c-a> <c-^>
+nmap <c-a>c t<cr>
+nmap <c-a>0 b1<cr>
+nmap <c-a>1 b2<cr>
+nmap <c-a>2 b3<cr>
+nmap <c-a>3 b4<cr>
+nmap <c-a>4 b5<cr>
+nmap <c-a>5 b6<cr>
+nmap <c-a>6 b7<cr>
+nmap <c-a>7 b8<cr>
+nmap <c-a>8 b9<cr>
+nmap <c-a>9 b10<cr>
+imap <c-b> <c-a>
+set defsearch=duckduckgo
+cabbrev !j !java
+cabbrev !g !google
+cabbrev !gr !grepcode
+cabbrev !gre !grepcode
+cabbrev !grep !grepcode
+cabbrev !ma !myanimelist
+cabbrev !mal !myanimelist
+
+colorscheme indigo
+
+" vim: set ft=vimperator:
