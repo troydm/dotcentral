@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 # -------------------------------------------------------------------------
 # # central - dot files manager licensed under LGPLv3 (see LICENSE file)  |
@@ -21,6 +22,7 @@ def checkTool(name,check)
 end
 
 checkTool('file','file --version ')
+checkTool('grep','grep --version ')
 checkTool('ln','ln --version')
 checkTool('readlink','readlink --version')
 checkTool('git','git --version')
@@ -66,6 +68,11 @@ def file_exists?(path)
     File.file?(path) && File.readable?(path)
 end
 
+def dir_exists?(path)
+    path = abs(path)
+    Dir.exists?(path)
+end
+
 def file_dir(path)
     File.dirname(abs(path))
 end
@@ -87,17 +94,41 @@ end
 def symlink(from,to)
     from = abs(from)
     to = abs(to)
-    out = sudo("ln -s #{to} #{from}")
-    if out.downcase.end_with?('file exists')
-        if !symlink?(from)
-            puts "File #{from} exists in place of symlink..."
-            exit 1
-        elsif symlink_path(from) != to
+    if symlink?(from)
+        if symlink_path(from) != to
             rm from
             symlink from, to
         end
+    elsif file_exists?(from)
+        puts "File #{from} exists in place of symlink..."
+        exit 1
     else
+        out = sudo("ln -s #{to} #{from}")
         puts "Created symlink: #{from} → #{to}"
+    end
+end
+
+def git(url,path)
+    path = abs(path)
+    if dir_exists?(path)
+        cwd = pwd()
+        chdir path
+        out = sudo('git pull')
+        chdir cwd
+    else
+        out = sudo("git clone #{url} #{path}")
+        puts "Git repository cloned: #{url} → #{path}"
+    end
+end
+
+def source(file,source)
+    file = abs(file)
+    source = abs(source)
+    source_line = "source #{source}"
+    out = sudo("grep -Fx '#{source_line}' #{file}")
+    if out == ""
+        sudo("echo '#{source_line}' >> #{file}")
+        puts "Added source #{source} line to #{file}"
     end
 end
 
