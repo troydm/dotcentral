@@ -1,0 +1,119 @@
+#!/usr/bin/env ruby
+
+# -------------------------------------------------------------------------
+# # central - dot files manager licensed under LGPLv3 (see LICENSE file)  |
+# # written in Ruby by Dmitry Geurkov (d.geurkov@gmail.com)               |
+# -------------------------------------------------------------------------
+
+require 'socket'
+
+# get hostname
+def hostname
+    Socket.gethostname
+end
+
+# check all required tools
+def checkTool(name,check)
+    if !system("#{check} 2>&1 1>/dev/null")
+        puts "#{name} not found, please install it to use central"
+        exit 1
+    end
+end
+
+checkTool('file','file --version ')
+checkTool('ln','ln --version')
+checkTool('readlink','readlink --version')
+checkTool('git','git --version')
+
+# tool commands
+def sudo(command,sudo=false)
+    if sudo
+        sudo = 'sudo '
+    else
+        sudo = ''
+    end
+    command = sudo+command
+    out = `#{command} 2>&1`
+    if out.downcase.end_with?('permission denied')
+        out = sudo(command,true)
+    else
+        # removing line feed
+        if out.length > 0 && out[-1].ord == 10
+            out = out[0...-1]
+        end
+        # removing cariage return
+        if out.length > 0 && out[-1].ord == 13
+            out = out[0...-1]
+        end
+    end
+    return out
+end
+
+def pwd
+    Dir.pwd
+end
+
+def abs(path)
+    File.absolute_path(File.expand_path(path))
+end
+
+def chdir(dir)
+    Dir.chdir(abs(dir))
+end
+
+def file_exists?(path)
+    path = abs(path)
+    File.file?(path) && File.readable?(path)
+end
+
+def file_dir(path)
+    File.dirname(abs(path))
+end
+
+def symlink?(symlink)
+    sudo("file #{abs(symlink)}").downcase.include?('symbolic link')
+end
+
+def symlink_path(symlink)
+    sudo("readlink #{abs(symlink)}")
+end
+
+def rm(path)
+    path = abs(path)
+    out = sudo("rm -f #{path}")
+    puts "Removed file: #{path}"
+end
+
+def symlink(from,to)
+    from = abs(from)
+    to = abs(to)
+    out = sudo("ln -s #{to} #{from}")
+    if out.downcase.end_with?('file exists')
+        if !symlink?(from)
+            puts "File #{from} exists in place of symlink..."
+            exit 1
+        elsif symlink_path(from) != to
+            rm from
+            symlink from, to
+        end
+    else
+        puts "Created symlink: #{from} → #{to}"
+    end
+end
+
+def run(file)
+    cwd = pwd()
+    file = abs(file)
+    file_cwd = file_dir(file)
+    chdir file_cwd
+    load file
+    chdir cwd
+end
+
+def run_if_exists(file)
+    if file_exists?(file)
+        run file
+    end
+end
+
+run 'configuration.rb'
