@@ -143,7 +143,7 @@ def erb(file,output_file = nil)
         if file.end_with?('.erb')
             output_file = file[0...-4]
         else
-            output_file = file
+            output_file = file+'.out'
         end
     end
     if file_exists?(file)
