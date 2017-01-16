@@ -16,13 +16,13 @@ end
 # check all required tools
 def checkTool(name,check)
     if !system("#{check} 2>&1 1>/dev/null")
-        puts "#{name} not found, please install it to use central"
+        STDERR.puts "#{name} not found, please install it to use central"
         exit 1
     end
 end
 
-checkTool('file','file --version ')
-checkTool('grep','grep --version ')
+checkTool('file','file --version')
+checkTool('grep','grep --version')
 checkTool('ln','ln --version')
 checkTool('readlink','readlink --version')
 checkTool('git','git --version')
@@ -36,16 +36,20 @@ def sudo(command,sudo=false)
     end
     command = sudo+command
     out = `#{command} 2>&1`
+    # removing line feed
+    if out.length > 0 && out[-1].ord == 10
+        out = out[0...-1]
+    end
+    # removing cariage return
+    if out.length > 0 && out[-1].ord == 13
+        out = out[0...-1]
+    end
     if out.downcase.end_with?('permission denied')
-        out = sudo(command,true)
-    else
-        # removing line feed
-        if out.length > 0 && out[-1].ord == 10
-            out = out[0...-1]
-        end
-        # removing cariage return
-        if out.length > 0 && out[-1].ord == 13
-            out = out[0...-1]
+        if sudo
+            STDERR.puts "Couldn't execute #{command} due to permission denied\nrun central with sudo privileges"
+            exit 1
+        else
+            out = sudo(command,true)
         end
     end
     return out
@@ -100,7 +104,7 @@ def symlink(from,to)
             symlink from, to
         end
     elsif file_exists?(from)
-        puts "File #{from} exists in place of symlink..."
+        STDERR.puts "File #{from} exists in place of symlink..."
         exit 1
     else
         out = sudo("ln -s #{to} #{from}")
