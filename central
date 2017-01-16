@@ -6,6 +6,7 @@
 # # written in Ruby by Dmitry Geurkov (d.geurkov@gmail.com)               |
 # -------------------------------------------------------------------------
 
+require 'erb'
 require 'socket'
 
 # get hostname
@@ -133,6 +134,25 @@ def source(file,source)
     if out == ""
         sudo("echo '#{source_line}' >> #{file}")
         puts "Added source #{source} line to #{file}"
+    end
+end
+
+def erb(file,output_file = nil)
+    file = abs(file)
+    if output_file == nil
+        if file.end_with?('.erb')
+            output_file = file[0...-4]
+        else
+            output_file = file
+        end
+    end
+    if file_exists?(file)
+        output = ERB.new(File.read(file)).result
+        File.write(output_file,output)
+        puts "Processed erb #{file} → #{output_file}"
+    else
+        STDERR.puts "Couldn't process erb file #{file}..."
+        exit 1
     end
 end
 
