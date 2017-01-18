@@ -1,5 +1,7 @@
 symlink '~/.dircolors', 'dircolors'
 source '~/.bashrc', 'bashrc'
+symlink '~/.gitconfig', 'gitconfig'
+symlink '~/.gitignore', 'gitignore'
 run 'vifm/configuration.rb'
 run 'vim/configuration.rb'
 run 'vimperator/configuration.rb'

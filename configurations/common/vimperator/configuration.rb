@@ -1,2 +1,2 @@
-symlink '~/.vimperator', pwd()
+symlink '~/.vimperator', pwd
 symlink '~/.vimperatorrc', 'vimperatorrc'

@@ -159,6 +159,7 @@ end
 def run(file)
     cwd = pwd()
     file = abs(file)
+    puts "Running configuration: "+file
     file_cwd = file_dir(file)
     chdir file_cwd
     load file
@@ -171,4 +172,8 @@ def run_if_exists(file)
     end
 end
 
-run 'configuration.rb'
+if ARGV.length > 0
+    ARGV.map {|configuration| run configuration }
+else
+    run 'configuration.rb'
+end

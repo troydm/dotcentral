@@ -1,0 +1,49 @@
+[user]
+    name = troydm
+    email = d.geurkov@gmail.com
+
+[push]
+    default = simple
+
+[alias]
+    ad = add
+    st = status
+    co = checkout
+    ci = commit
+    br = branch
+    log-tree = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+
+[instaweb]
+    httpd=webrick  
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[color "diff"]
+    plain = normal
+    meta = 245
+    frag = 183
+    old = 196
+    new = 154
+    commit = 208
+    whitespace = 159 
+
+[color "branch"]
+    current = 214
+    local = 213
+    remote = 77
+    plain = 220
+
+[color "status"]
+    header = 245
+    added = 191
+    changed = 111
+    untracked = 225 
+    nobranch = 228
+
+[credential]
+    helper = cache --timeout=3600

@@ -1,1 +1,1 @@
-symlink '~/.vifm', pwd()
+symlink '~/.vifm', pwd
