@@ -1,4 +1,5 @@
 symlink '~/.dircolors', 'dircolors'
 source '~/.bashrc', 'bashrc'
+run 'vifm/configuration.rb'
 run 'vim/configuration.rb'
 run 'vimperator/configuration.rb'

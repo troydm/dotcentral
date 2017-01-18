@@ -1,0 +1,5 @@
+" set color scheme
+color Zenburn
+
+" alias for quit command, some habits are really hard to break
+command qa :q

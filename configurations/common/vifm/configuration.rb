@@ -1,0 +1,1 @@
+symlink '~/.vifm', pwd()
