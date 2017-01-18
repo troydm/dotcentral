@@ -1,0 +1,121 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use HTTP::Request::Common qw(POST);
+use LWP::UserAgent;
+use LWP::Protocol::https;
+use Proc::Daemon;
+use File::Basename 'dirname';
+use Cwd 'abs_path';
+
+# read notifymyandroid api key
+open my $apifh, '<', dirname(abs_path($0))."/../../private/keys/notifymyandroid/api_key" or die $!;
+my $apikey;
+while(<$apifh>){
+    chomp;
+    $apikey = $_;
+}
+close $apifh;
+
+Proc::Daemon::Init;
+
+my $continue = 1;
+my $notified = 0;
+my $critical = 0;
+
+$SIG{TERM} = sub { $continue = 0; };
+
+sub update(){
+my $sys = `sensors`;
+
+my $cpu; 
+my $core;
+my $mb; 
+my $cpurpm;
+my $psurpm;
+
+foreach my $line (split "\n", $sys ){
+	if($line =~ q/^temp1:\s+\+(\d+.\d+)/){
+		$core = $1;
+	}
+	if($line =~ q/^SYSTIN:\s+\+(\d+.\d+)/){
+		$mb = $1;
+	}
+	if($line =~ q/^CPUTIN:\s+\+(\d+.\d+)/){
+		$cpu = $1;
+	}
+	if($line =~ q/^fan2:\s+(\d+)/){
+		$cpurpm = $1;
+	}
+	if($line =~ q/^fan1:\s+(\d+)/){
+		$psurpm = $1;
+	}
+}
+my $hdd1='';
+my $hdd2='';
+my $hddtemp = `/usr/sbin/hddtemp --debug /dev/sdb | grep field\\(194\\)`;
+chop $hddtemp;
+if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
+        $hdd1 = $1;
+}
+
+$hddtemp = `/usr/sbin/hddtemp --debug /dev/sdc | grep field\\(194\\)`;
+chop $hddtemp;
+if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
+    $hdd2 = $1;
+}
+
+my $ssd;
+my $ssdtemp = `/usr/sbin/hddtemp --debug /dev/sda | grep field\\(190\\)`;
+chop $ssdtemp;
+if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
+    $ssd = $1;
+}
+
+my $ret = "CPU:$cpu"."°C $core"."°C MB:$mb"."°C RPM: CPU $cpurpm PSU $psurpm SSD:$ssd"."°C HDD:$hdd1"."°C $hdd2"."°C";
+open my $fh, '>', '/tmp/tmux-info';
+print $fh $ret;
+close $fh;
+
+if($cpu > 75 || $core > 70 || $mb > 70 || $cpurpm < 800 || $psurpm < 350 || $ssd > 65 || $hdd1 > 64 || $hdd2 > 64){
+    if(!$notified){
+            notify($ret);
+            $notified = 1;
+    }
+}else{
+    $notified = 0;
+    $critical = 0;
+}
+
+if($cpu >= 85 || $core >= 85 || $mb >= 85 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $hdd1 > 70 || $hdd2 > 70){
+    $critical++;
+}
+
+if($critical >= 60){
+     system("cp /tmp/tmux-info /home/troydm/critical-shutdown.log");
+     exec("sudo shutdown -h now");
+}
+
+return $ret;
+}
+
+sub notify(){
+    my $info = shift;
+    my $ua = LWP::UserAgent->new;
+     
+    my $req = POST 'https://www.notifymyandroid.com/publicapi/notify',
+                  [ apikey => $apikey,
+                    application =>'tmux-info',
+                    event=>'troynas server is overheating!',
+                    description=>$info,
+                    priority=>'2'];
+                   
+    $ua->request($req)->as_string;
+}
+
+while($continue){
+update;
+sleep 1;
+}
+

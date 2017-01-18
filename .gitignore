@@ -1,2 +1,3 @@
 configurations/common/vim/bundle/**/*
 configurations/common/vimperator/info/**/*
+configurations/private/**/*
