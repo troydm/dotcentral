@@ -134,6 +134,16 @@ def git(url,path)
     end
 end
 
+def read(file)
+    file = abs(file)
+    if file_exists?(file)
+        return File.read(file)
+    else
+        STDERR.puts "Couldn't read file #{file}..."
+        exit 1
+    end
+end
+
 def source(file,source)
     file = abs(file)
     source = abs(source)
