@@ -1,0 +1,62 @@
+color default color231 color237
+color cursor color220 color243
+color status color231 color234
+color title-focus color231 color241
+color title-blur color231 color241
+color delimiter red yellow
+color line-number color243 red
+color date color214 color237
+color author color177 color237
+color mode color190 default
+
+color tree.header color148 color237
+color tree.directory color111 color237
+color tree.file color252 color237
+
+color graph-commit color190 color237
+color palette-0 color202 color237
+color palette-1 color213 color237
+color palette-2 color220 color237
+color palette-3 color153 color237
+color palette-4 color155 color237
+color palette-5 color117 color237
+color palette-6 color210 color237
+
+color main-commit color205 color237
+color main-head color215 color237
+color main-remote color204 color237
+color main-tracked color221 color237
+color main-tag color190 color237
+color main-local-tag color189 color237
+color main-ref color186 color237
+
+color status.header color232 color214
+color status.section color231 color243
+color stat-staged color155 color237
+color stat-unstaged color147 color237
+color stat-untracked color225 color237
+
+color diff-header color231 color243
+color diff-chunk color183 color237
+color diff-add color190 color237
+color diff-del color124 color237
+color diff-stat color153 color237
+
+color diff-oldmode color220 color237
+color diff-newmode color220 color237
+color 'copy from' color220 color237
+color 'copy to' color220 color237
+color diff-similarity color220 color237
+color 'dissimilarity ' color220 color237
+color 'diff-tree ' color220 color237
+color diff-index color247 color237
+
+color 'Commit: ' color211 color237
+color 'Date: ' color214 color237
+color 'AuthorDate: ' color214 color237
+color 'CommitDate: ' color214 color237
+color 'Author: ' color177 color237
+color pp-refs color190 default
+
+color commit color211 color237
+color author color177 color237
