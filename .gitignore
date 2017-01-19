@@ -1,6 +1,7 @@
 configurations/common/bashrc
 configurations/common/bin/sshc
 configurations/common/sshc/**/*
+configurations/common/fonts/**/*
 configurations/common/vim/bundle/**/*
 configurations/common/vimperator/info/**/*
 configurations/private/**/*

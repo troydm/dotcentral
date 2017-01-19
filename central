@@ -61,7 +61,7 @@ def pwd
 end
 
 def abs(path)
-    File.absolute_path(File.expand_path(path))
+    path = File.absolute_path(File.expand_path(path))
 end
 
 def chdir(dir)
@@ -83,24 +83,24 @@ def file_dir(path)
 end
 
 def symlink?(symlink)
-    sudo("file #{abs(symlink)}").downcase.include?('symbolic link')
+    sudo("file \"#{abs(symlink)}\"").downcase.include?('symbolic link')
 end
 
 def symlink_path(symlink)
-    sudo("readlink #{abs(symlink)}")
+    sudo("readlink \"#{abs(symlink)}\"")
 end
 
 def mkdir(path)
     path = abs(path)
     if !dir_exists?(path)
-        out = sudo("mkdir -p #{path}")
+        out = sudo("mkdir -p \"#{path}\"")
         puts "Created directory: #{path}"
     end
 end
 
 def rm(path)
     path = abs(path)
-    out = sudo("rm -f #{path}")
+    out = sudo("rm -f \"#{path}\"")
     puts "Removed file: #{path}"
 end
 
@@ -116,7 +116,7 @@ def symlink(from,to)
         STDERR.puts "File #{from} exists in place of symlink..."
         exit 1
     else
-        out = sudo("ln -s #{to} #{from}")
+        out = sudo("ln -s \"#{to}\" \"#{from}\"")
         puts "Created symlink: #{from} → #{to}"
     end
 end
@@ -129,7 +129,7 @@ def git(url,path)
         out = sudo('git pull')
         chdir cwd
     else
-        out = sudo("git clone #{url} #{path}")
+        out = sudo("git clone #{url} \"#{path}\"")
         puts "Git repository cloned: #{url} → #{path}"
     end
 end
@@ -147,12 +147,46 @@ end
 def source(file,source)
     file = abs(file)
     source = abs(source)
-    source_line = "source #{source}"
-    out = sudo("grep -Fx '#{source_line}' #{file}")
+    source_line = "source \"#{source}\""
+    out = sudo("grep -Fx '#{source_line}' \"#{file}\"")
     if out == ""
-        sudo("echo '#{source_line}' >> #{file}")
+        sudo("echo '#{source_line}' >> \"#{file}\"")
         puts "Added source #{source} line to #{file}"
     end
+end
+
+def ls(path,options={})
+    path = abs(path)
+    if options[:dotfiles]
+        dotfiles = '-a '
+    else
+        dotfiles = ''
+    end
+    command = "ls -1 #{dotfiles}\"#{path}\""
+    if options.key?(:grep) && options[:grep].length > 0
+        command += " | grep #{options[:grep]}"
+    end
+    output = sudo(command)
+    if output.downcase.end_with?('no such file or directory')
+        STDERR.puts "Couldn't ls directory #{path}..."
+        exit 1
+    end
+    ls = output.split("\n")
+    dir = true
+    file = true
+    if options.key?(:dir)
+        dir = options[:dir]
+    end
+    if options.key?(:file)
+        file = options[:file]
+    end
+    if !dir
+        ls = ls.keep_if {|f| !File.directory?("#{path}/#{f}") }
+    end
+    if !file
+        ls = ls.keep_if {|f| !File.file?("#{path}/#{f}") }
+    end
+    return ls
 end
 
 def erb(file,output_file = nil)
