@@ -123,7 +123,7 @@ end
 
 def git(url,path)
     path = abs(path)
-    if dir_exists?(path)
+    if dir_exists?(path) && dir_exists?("#{path}/.git")
         cwd = pwd()
         chdir path
         out = sudo('git pull')
