@@ -1,4 +1,7 @@
+git 'https://github.com/troydm/sshc.git', 'sshc'
+symlink 'bin/sshc', 'sshc/sshc'
 symlink '~/.dircolors', 'dircolors'
+erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
