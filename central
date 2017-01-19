@@ -90,6 +90,14 @@ def symlink_path(symlink)
     sudo("readlink #{abs(symlink)}")
 end
 
+def mkdir(path)
+    path = abs(path)
+    if !dir_exists?(path)
+        out = sudo("mkdir -p #{path}")
+        puts "Created directory: #{path}"
+    end
+end
+
 def rm(path)
     path = abs(path)
     out = sudo("rm -f #{path}")
