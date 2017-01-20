@@ -1,12 +1,22 @@
+# install sshc
 git 'https://github.com/troydm/sshc.git', 'sshc'
+symlink 'bin/sshc', 'sshc/sshc'
+
+# install Powerline fonts
 git 'https://github.com/powerline/fonts.git', 'fonts'
-mkdir '~/.fonts'
+if os == 'linux'
+    install_fontsdir = '~/.fonts'
+elsif os == 'osx'
+    install_fontsdir = '~/Library/Fonts'
+end
+mkdir install_fontsdir
 ls('fonts',{:file => false}).each { |fontdir|
     ls("fonts/#{fontdir}",{:grep => '.[ot]tf'}).each { |font|
-        symlink "~/.fonts/#{font}", "fonts/#{fontdir}/#{font}"
+        symlink "#{install_fontsdir}/#{font}", "fonts/#{fontdir}/#{font}"
     }
 }
-symlink 'bin/sshc', 'sshc/sshc'
+
+
 symlink '~/.dircolors', 'dircolors'
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'

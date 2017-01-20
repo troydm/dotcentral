@@ -14,19 +14,14 @@ def hostname
     Socket.gethostname
 end
 
-# check all required tools
-def checkTool(name,check)
-    if !system("#{check} 2>&1 1>/dev/null")
-        STDERR.puts "#{name} not found, please install it to use central"
-        exit 1
+# get operating system
+def os
+    if RUBY_PLATFORM.include?('linux')
+        return 'linux'
+    elsif RUBY_PLATFORM.include?('darwin')
+        return 'osx'
     end
 end
-
-checkTool('file','file --version')
-checkTool('grep','grep --version')
-checkTool('ln','ln --version')
-checkTool('readlink','readlink --version')
-checkTool('git','git --version')
 
 # tool commands
 def sudo(command,sudo=false)
@@ -56,6 +51,22 @@ def sudo(command,sudo=false)
     return out
 end
 
+# check all required tools
+def checkTool(name,check)
+    output = sudo("#{check} 2>&1 1>/dev/null").downcase
+    if output.include?('command not found')
+        STDERR.puts "#{name} not found, please install it to use central"
+        exit 1
+    end
+end
+
+checkTool('file','file --version')
+checkTool('grep','grep --version')
+checkTool('ln','ln --version')
+checkTool('readlink','readlink --version')
+checkTool('git','git --version')
+
+
 def pwd
     Dir.pwd
 end
@@ -83,7 +94,7 @@ def file_dir(path)
 end
 
 def symlink?(symlink)
-    sudo("file \"#{abs(symlink)}\"").downcase.include?('symbolic link')
+    File.symlink?(abs(symlink))
 end
 
 def symlink_path(symlink)
@@ -114,6 +125,9 @@ def symlink(from,to)
         end
     elsif file_exists?(from)
         STDERR.puts "File #{from} exists in place of symlink..."
+        exit 1
+    elsif dir_exists?(from)
+        STDERR.puts "Directory #{from} exists in place of symlink..."
         exit 1
     else
         out = sudo("ln -s \"#{to}\" \"#{from}\"")

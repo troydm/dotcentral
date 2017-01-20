@@ -10,7 +10,7 @@ use File::Basename 'dirname';
 use Cwd 'abs_path';
 
 # read notifymyandroid api key
-open my $apifh, '<', dirname(abs_path($0))."/../../private/keys/notifymyandroid/api_key" or die $!;
+open my $apifh, '<', dirname(abs_path($0))."/../../private/common/notifymyandroid/api_key" or die $!;
 my $apikey;
 while(<$apifh>){
     chomp;
