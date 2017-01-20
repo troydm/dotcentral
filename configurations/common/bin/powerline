@@ -47,5 +47,5 @@ if($git){
 }else{
       print colored($sep,"$alt_color on_black"),"\n";
 }
-print colored(" $lambda ","black on_$alt_color"),
-      colored($sep,"$alt_color on_black"),"\n";
+#print colored(" $lambda ","black on_$alt_color"),
+#      colored($sep,"$alt_color on_black");

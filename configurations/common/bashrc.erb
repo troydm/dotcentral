@@ -25,7 +25,8 @@ export PATH=$PATH:"<%= pwd+"/bin" %>"
 
 # Add powerline
 function _update_ps1() {
-    PS1="$(powerline $? 2> /dev/null) "
+PS1="$(powerline $? 2> /dev/null)
+\[\033[0;30m\033[48;5;224m\] λ \[\033[38;5;224m\033[40m\]\[$reset\] "
 }
 
 if [ "$TERM" != "linux" ]; then
