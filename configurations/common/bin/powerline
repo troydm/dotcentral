@@ -28,6 +28,8 @@ if(-d "$dir/.git"){
 $dir =~ s/^\Q$home\E/~/;
 $dir =~ s/^\///;
 $dir =~ s/\//$sep_thin /g;
+$dir =~ s/^([^~])/\/$1/;
+$dir =~ s/^$/\//;
 
 binmode(STDOUT, ":utf8");
 
@@ -37,7 +39,7 @@ my $alt_color = "rgb445";
 
 print colored($host,"black on_$main_color"),
       colored($sep,"$main_color on_$alt_color"),
-      colored(" $dir","black on_$alt_color");
+      colored($dir,"black on_$alt_color");
 if($git){
       print colored($sep,"$alt_color on_$main_color"),
             colored("$git_symbol$git","black on_$main_color"),
