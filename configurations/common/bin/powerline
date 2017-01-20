@@ -1,0 +1,34 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use Cwd;
+use Sys::Hostname;
+use Term::ANSIColor;
+
+# symbols
+my $lambda = "\N{U+03BB}";
+my $sep = "\N{U+E0B0}";
+my $sep_thin = "\N{U+E0B1}";
+
+# variables
+my $dir = getcwd();
+my $home = $ENV{'HOME'};
+my $host = hostname();
+
+# prettify path
+$dir =~ s/^\Q$home\E/~/;
+$dir =~ s/^\///;
+$dir =~ s/\//$sep_thin /g;
+
+binmode(STDOUT, ":utf8");
+
+my $main_color = "rgb453";
+my $alt_color = "rgb345";
+
+print colored($host,"black on_$main_color"),
+      colored($sep,"$main_color on_$alt_color"),
+      colored(" $dir ","black on_$alt_color"),
+      colored($sep,"$alt_color on_black"),"\n",
+      colored(" $lambda ","black on_$alt_color"),
+      colored($sep,"$alt_color on_black"),"\n";

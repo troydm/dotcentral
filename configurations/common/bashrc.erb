@@ -22,3 +22,12 @@ alias myip="curl -s icanhazip.com"
 
 # Add bin directory to PATH
 export PATH=$PATH:"<%= pwd+"/bin" %>"
+
+# Add powerline
+function _update_ps1() {
+    PS1="$(powerline $? 2> /dev/null) "
+}
+
+if [ "$TERM" != "linux" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
