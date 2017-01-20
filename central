@@ -115,6 +115,16 @@ def rm(path)
     puts "Removed file: #{path}"
 end
 
+def chmod(path,permissions,recursive=false)
+    path = abs(path)
+    if recursive
+        recursive = '-R '
+    else
+        recursive = ''
+    end
+    sudo("chmod #{recursive}#{permissions} \"#{path}\"")
+end
+
 def symlink(from,to)
     from = abs(from)
     to = abs(to)
