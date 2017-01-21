@@ -224,6 +224,9 @@ def erb(file,output_file = nil)
     end
     if file_exists?(file)
         output = ERB.new(File.read(file)).result
+        if File.exists?(output_file) && File.read(output_file) == output
+            return
+        end
         File.write(output_file,output)
         puts "Processed erb #{file} → #{output_file}"
     else
