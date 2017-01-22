@@ -24,7 +24,7 @@ alias myip="curl -s icanhazip.com"
 export PATH=$PATH:"<%= pwd+"/bin" %>"
 
 # Add powerline
-if [ "$TERM" != "linux" ]; then
+if [[ "$TERM" == "xterm-256color" || "$TERM" == "screen-256color" ]]; then
     PS1="\[\033[1m\033[38;5;222m\033[48;5;236m\] λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
     PROMPT_COMMAND='powerline 2> /dev/null'
 fi
