@@ -24,11 +24,7 @@ alias myip="curl -s icanhazip.com"
 export PATH=$PATH:"<%= pwd+"/bin" %>"
 
 # Add powerline
-function _update_ps1() {
-PS1="$(powerline $? 2> /dev/null)
-\[\033[0;30m\033[48;5;224m\] λ \[\033[38;5;224m\033[40m\]\[\033[0m\] "
-}
-
 if [ "$TERM" != "linux" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+    PS1="\[\033[1m\033[38;5;222m\033[48;5;236m\] λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+    PROMPT_COMMAND='powerline 2> /dev/null'
 fi

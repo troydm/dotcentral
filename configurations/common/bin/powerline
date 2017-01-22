@@ -15,6 +15,7 @@ my $git_symbol = "\N{U+E0A0}";
 # variables
 my $dir = getcwd();
 my $home = $ENV{'HOME'};
+my $user = getpwuid($<);
 my $host = hostname();
 
 # git related
@@ -33,19 +34,23 @@ $dir =~ s/^$/\//;
 
 binmode(STDOUT, ":utf8");
 
-my $main_color = "rgb544";
-my $alt_color = "rgb445";
+my $bg_color = "grey4";
+my $alt_bg_color = "grey8";
+my $user_color = "rgb533";
+my $host_color = "rgb554";
+my $dir_color  = "rgb543 bold";
+my $git_color  = "rgb343";
 
-
-print colored($host,"black on_$main_color"),
-      colored($sep,"$main_color on_$alt_color"),
-      colored($dir,"black on_$alt_color");
+print colored($user,"$user_color on_$bg_color"),
+      colored("\@$host","$host_color on_$bg_color"),
+      colored($sep,"$bg_color on_$alt_bg_color"),
+      colored($dir,"$dir_color on_$alt_bg_color");
 if($git){
-      print colored($sep,"$alt_color on_$main_color"),
-            colored("$git_symbol$git","black on_$main_color"),
-            colored($sep,"$main_color on_black"),"\n";
+      print colored($sep,"$alt_bg_color on_$bg_color"),
+            colored("$git_symbol$git","$git_color on_$bg_color"),
+            colored($sep,$bg_color),"\n";
 }else{
-      print colored($sep,"$alt_color on_black"),"\n";
+      print colored($sep,$alt_bg_color),"\n";
 }
 #print colored(" $lambda ","black on_$alt_color"),
 #      colored($sep,"$alt_color on_black");
