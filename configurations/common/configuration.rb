@@ -17,6 +17,8 @@ ls('fonts',{:file => false}).each { |fontdir|
 }
 
 
+symlink '~/.Xresources', 'Xresources'
+symlink '~/.urxvt', 'urxvt'
 symlink '~/.dircolors', 'dircolors'
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'

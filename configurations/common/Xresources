@@ -1,0 +1,46 @@
+URxvt.font: xft:DejaVu Sans Mono for Powerline:size=10
+URxvt*scrollBar: false
+URxvt*termName: screen-256color
+URxvt*xftAntialias: true
+URxvt*depth: 32
+URxvt*background: #3f3f3f
+URxvt*foreground: #dcdccc
+URxvt*cursorColor: #aaaaaa
+URxvt*colorUL: #cc9393
+URxvt*underlineColor: #dfaf8f
+URxvt*color0: #3f3f3f
+URxvt*color1: #cc9393
+URxvt*color2: #7f9f7f
+URxvt*color3: #d0bf8f
+URxvt*color4: #6ca0a3
+URxvt*color5: #dc8cc3
+URxvt*color6: #93e0e3
+URxvt*color7: #dcdccc
+URxvt*color8: #000000
+URxvt*color9: #dca3a3
+URxvt*color10: #bfebbf
+URxvt*color11: #f0dfaf
+URxvt*color12: #8cd0d3
+URxvt*color13: #dc8cc3
+URxvt*color14: #93e0e3
+URxvt*color15: #ffffff
+URxvt.perl-ext-common:  default,clipboard,fullscreen,url-select
+URxvt.keysym.F11:       perl:fullscreen:switch
+URxvt.iso14755: False
+URxvt.keysym.M-c:   perl:clipboard:copy
+URxvt.keysym.M-v:   perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.clipboard.copycmd:  xclip -i -selection clipboard
+URxvt.clipboard.pastecmd: xclip -o -selection clipboard
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.button: 1C
+URxvt.tabbed.tab-fg: 216
+URxvt.tabbed.tab-bg: 0
+
+rofi.bg: #333333
+rofi.bgalt: #222222
+rofi.bw: 2
+rofi.bc: #000000
+rofi.hlbg: #000000
+rofi.fg: #DDDDDD
+rofi.opacity: 80
