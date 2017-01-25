@@ -25,7 +25,7 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 " Plugin 'rson/vim-conque'
-Plugin 'molok/vim-smartusline'
+" Plugin 'molok/vim-smartusline'
 Plugin 'ervandew/supertab'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'majutsushi/tagbar'
@@ -59,6 +59,8 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-fireplace'
 Plugin 'zah/nim.vim'
 Plugin 'troydm/hiparen.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " vim-scripts repos
 Plugin 'YankRing.vim'
@@ -87,17 +89,18 @@ set smartindent
 set softtabstop=4
 set shiftwidth=4
 set wildmenu
-set statusline=\ %f\ %#Keyword#%m%r%h%w%*\ (%l/%L,\ %c)\ %P%=\ %y\ \|%{&encoding}:%{&fileformat}\|\ \ 
+" set statusline=\ %f\ %#Keyword#%m%r%h%w%*\ (%l/%L,\ %c)\ %P%=\ %y\ \|%{&encoding}:%{&fileformat}\|\ \ 
 set laststatus=2
 set timeoutlen=500
 set directory^=~/.backups
 
 " Some options for plugins
-let g:smartusline_hi_replace = 'guibg=#d7afff guifg=black ctermbg=183 ctermfg=black'
-let g:smartusline_hi_insert = 'guibg=#afd7ff guifg=black ctermbg=153 ctermfg=black'
-let g:smartusline_hi_virtual_replace = 'guibg=#d6aefe guifg=black ctermbg=183 ctermfg=black'
-let g:smartusline_hi_normal = 'guibg=#ffd7af guifg=black ctermbg=223 ctermfg=black'
-let g:smartusline_string_to_highlight = ' %f '
+" let g:smartusline_hi_replace = 'guibg=#d7afff guifg=black ctermbg=183 ctermfg=black'
+" let g:smartusline_hi_insert = 'guibg=#afd7ff guifg=black ctermbg=153 ctermfg=black'
+" let g:smartusline_hi_virtual_replace = 'guibg=#d6aefe guifg=black ctermbg=183 ctermfg=black'
+" let g:smartusline_hi_normal = 'guibg=#ffd7af guifg=black ctermbg=223 ctermfg=black'
+" let g:smartusline_string_to_highlight = ' %f '
+let g:airline_powerline_fonts=1
 let g:ConqueTerm_InsertOnEnter = 0
 let g:ConqueTerm_CWInsert = 1
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|(^|[/\\])build($|[/\\])'

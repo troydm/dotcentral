@@ -10,8 +10,10 @@ if has("gui_running")
 
     if has('gui_win32') || has('gui_win64')
         set guifont=DejaVu_Sans_Mono:h10:cRUSSIAN
+    elseif has('gui_macvim')
+	set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
     else
-	set guifont=DejaVu\ Sans\ Mono\ 9
+	set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
     endif
 
     " Some meta mappings
