@@ -11,53 +11,53 @@ require 'socket'
 
 # get hostname
 def hostname
-    Socket.gethostname
+  Socket.gethostname
 end
 
 # get operating system
 def os
-    if RUBY_PLATFORM.include?('linux')
-        return 'linux'
-    elsif RUBY_PLATFORM.include?('darwin')
-        return 'osx'
-    end
+  if RUBY_PLATFORM.include?('linux')
+    return 'linux'
+  elsif RUBY_PLATFORM.include?('darwin')
+    return 'osx'
+  end
 end
 
 # tool commands
 def sudo(command,sudo=false)
+  if sudo
+    sudo = 'sudo '
+  else
+    sudo = ''
+  end
+  command = sudo+command
+  out = `#{command} 2>&1`
+  # removing line feed
+  if out.length > 0 && out[-1].ord == 10
+    out = out[0...-1]
+  end
+  # removing cariage return
+  if out.length > 0 && out[-1].ord == 13
+    out = out[0...-1]
+  end
+  if out.downcase.end_with?('permission denied')
     if sudo
-        sudo = 'sudo '
+      STDERR.puts "Couldn't execute #{command} due to permission denied\nrun central with sudo privileges"
+      exit 1
     else
-        sudo = ''
+      out = sudo(command,true)
     end
-    command = sudo+command
-    out = `#{command} 2>&1`
-    # removing line feed
-    if out.length > 0 && out[-1].ord == 10
-        out = out[0...-1]
-    end
-    # removing cariage return
-    if out.length > 0 && out[-1].ord == 13
-        out = out[0...-1]
-    end
-    if out.downcase.end_with?('permission denied')
-        if sudo
-            STDERR.puts "Couldn't execute #{command} due to permission denied\nrun central with sudo privileges"
-            exit 1
-        else
-            out = sudo(command,true)
-        end
-    end
-    return out
+  end
+  return out
 end
 
 # check all required tools
 def checkTool(name,check)
-    output = sudo("#{check} 2>&1 1>/dev/null").downcase
-    if output.include?('command not found')
-        STDERR.puts "#{name} not found, please install it to use central"
-        exit 1
-    end
+  output = sudo("#{check} 2>&1 1>/dev/null").downcase
+  if output.include?('command not found')
+    STDERR.puts "#{name} not found, please install it to use central"
+    exit 1
+  end
 end
 
 checkTool('file','file --version')
@@ -68,191 +68,191 @@ checkTool('git','git --version')
 
 
 def pwd
-    Dir.pwd
+  Dir.pwd
 end
 
 def abs(path)
-    path = File.absolute_path(File.expand_path(path))
+  path = File.absolute_path(File.expand_path(path))
 end
 
 def chdir(dir)
-    Dir.chdir(abs(dir))
+  Dir.chdir(abs(dir))
 end
 
 def file_exists?(path)
-    path = abs(path)
-    File.file?(path) && File.readable?(path)
+  path = abs(path)
+  File.file?(path) && File.readable?(path)
 end
 
 def dir_exists?(path)
-    path = abs(path)
-    Dir.exists?(path)
+  path = abs(path)
+  Dir.exists?(path)
 end
 
 def file_dir(path)
-    File.dirname(abs(path))
+  File.dirname(abs(path))
 end
 
 def symlink?(symlink)
-    File.symlink?(abs(symlink))
+  File.symlink?(abs(symlink))
 end
 
 def symlink_path(symlink)
-    sudo("readlink \"#{abs(symlink)}\"")
+  sudo("readlink \"#{abs(symlink)}\"")
 end
 
 def mkdir(path)
-    path = abs(path)
-    if !dir_exists?(path)
-        out = sudo("mkdir -p \"#{path}\"")
-        puts "Created directory: #{path}"
-    end
+  path = abs(path)
+  if !dir_exists?(path)
+    out = sudo("mkdir -p \"#{path}\"")
+    puts "Created directory: #{path}"
+  end
 end
 
 def rm(path)
-    path = abs(path)
-    out = sudo("rm -f \"#{path}\"")
-    puts "Removed file: #{path}"
+  path = abs(path)
+  out = sudo("rm -f \"#{path}\"")
+  puts "Removed file: #{path}"
 end
 
 def chmod(path,permissions,recursive=false)
-    path = abs(path)
-    if recursive
-        recursive = '-R '
-    else
-        recursive = ''
-    end
-    sudo("chmod #{recursive}#{permissions} \"#{path}\"")
+  path = abs(path)
+  if recursive
+    recursive = '-R '
+  else
+    recursive = ''
+  end
+  sudo("chmod #{recursive}#{permissions} \"#{path}\"")
 end
 
 def symlink(from,to)
-    from = abs(from)
-    to = abs(to)
-    if symlink?(from)
-        if symlink_path(from) != to
-            rm from
-            symlink from, to
-        end
-    elsif file_exists?(from)
-        STDERR.puts "File #{from} exists in place of symlink..."
-        exit 1
-    elsif dir_exists?(from)
-        STDERR.puts "Directory #{from} exists in place of symlink..."
-        exit 1
-    else
-        out = sudo("ln -s \"#{to}\" \"#{from}\"")
-        puts "Created symlink: #{from} → #{to}"
+  from = abs(from)
+  to = abs(to)
+  if symlink?(from)
+    if symlink_path(from) != to
+      rm from
+      symlink from, to
     end
+  elsif file_exists?(from)
+    STDERR.puts "File #{from} exists in place of symlink..."
+    exit 1
+  elsif dir_exists?(from)
+    STDERR.puts "Directory #{from} exists in place of symlink..."
+    exit 1
+  else
+    out = sudo("ln -s \"#{to}\" \"#{from}\"")
+    puts "Created symlink: #{from} → #{to}"
+  end
 end
 
 def git(url,path)
-    path = abs(path)
-    if dir_exists?(path) && dir_exists?("#{path}/.git")
-        cwd = pwd()
-        chdir path
-        out = sudo('git pull')
-        chdir cwd
-    else
-        out = sudo("git clone #{url} \"#{path}\"")
-        puts "Git repository cloned: #{url} → #{path}"
-    end
+  path = abs(path)
+  if dir_exists?(path) && dir_exists?("#{path}/.git")
+    cwd = pwd()
+    chdir path
+    out = sudo('git pull')
+    chdir cwd
+  else
+    out = sudo("git clone #{url} \"#{path}\"")
+    puts "Git repository cloned: #{url} → #{path}"
+  end
 end
 
 def read(file)
-    file = abs(file)
-    if file_exists?(file)
-        return File.read(file)
-    else
-        STDERR.puts "Couldn't read file #{file}..."
-        exit 1
-    end
+  file = abs(file)
+  if file_exists?(file)
+    return File.read(file)
+  else
+    STDERR.puts "Couldn't read file #{file}..."
+    exit 1
+  end
 end
 
 def source(file,source)
-    file = abs(file)
-    source = abs(source)
-    source_line = "source \"#{source}\""
-    out = sudo("grep -Fx '#{source_line}' \"#{file}\"")
-    if out == ""
-        sudo("echo '#{source_line}' >> \"#{file}\"")
-        puts "Added source #{source} line to #{file}"
-    end
+  file = abs(file)
+  source = abs(source)
+  source_line = "source \"#{source}\""
+  out = sudo("grep -Fx '#{source_line}' \"#{file}\"")
+  if out == ""
+    sudo("echo '#{source_line}' >> \"#{file}\"")
+    puts "Added source #{source} line to #{file}"
+  end
 end
 
 def ls(path,options={})
-    path = abs(path)
-    if options[:dotfiles]
-        dotfiles = '-a '
-    else
-        dotfiles = ''
-    end
-    command = "ls -1 #{dotfiles}\"#{path}\""
-    if options.key?(:grep) && options[:grep].length > 0
-        command += " | grep #{options[:grep]}"
-    end
-    output = sudo(command)
-    if output.downcase.end_with?('no such file or directory')
-        STDERR.puts "Couldn't ls directory #{path}..."
-        exit 1
-    end
-    ls = output.split("\n")
-    dir = true
-    file = true
-    if options.key?(:dir)
-        dir = options[:dir]
-    end
-    if options.key?(:file)
-        file = options[:file]
-    end
-    if !dir
-        ls = ls.keep_if {|f| !File.directory?("#{path}/#{f}") }
-    end
-    if !file
-        ls = ls.keep_if {|f| !File.file?("#{path}/#{f}") }
-    end
-    return ls
+  path = abs(path)
+  if options[:dotfiles]
+    dotfiles = '-a '
+  else
+    dotfiles = ''
+  end
+  command = "ls -1 #{dotfiles}\"#{path}\""
+  if options.key?(:grep) && options[:grep].length > 0
+    command += " | grep #{options[:grep]}"
+  end
+  output = sudo(command)
+  if output.downcase.end_with?('no such file or directory')
+    STDERR.puts "Couldn't ls directory #{path}..."
+    exit 1
+  end
+  ls = output.split("\n")
+  dir = true
+  file = true
+  if options.key?(:dir)
+    dir = options[:dir]
+  end
+  if options.key?(:file)
+    file = options[:file]
+  end
+  if !dir
+    ls = ls.keep_if {|f| !File.directory?("#{path}/#{f}") }
+  end
+  if !file
+    ls = ls.keep_if {|f| !File.file?("#{path}/#{f}") }
+  end
+  return ls
 end
 
 def erb(file,output_file = nil)
-    file = abs(file)
-    if output_file == nil
-        if file.end_with?('.erb')
-            output_file = file[0...-4]
-        else
-            output_file = file+'.out'
-        end
-    end
-    if file_exists?(file)
-        output = ERB.new(File.read(file)).result
-        if File.exists?(output_file) && File.read(output_file) == output
-            return
-        end
-        File.write(output_file,output)
-        puts "Processed erb #{file} → #{output_file}"
+  file = abs(file)
+  if output_file == nil
+    if file.end_with?('.erb')
+      output_file = file[0...-4]
     else
-        STDERR.puts "Couldn't process erb file #{file}..."
-        exit 1
+      output_file = file+'.out'
     end
+  end
+  if file_exists?(file)
+    output = ERB.new(File.read(file)).result
+    if File.exists?(output_file) && File.read(output_file) == output
+      return
+    end
+    File.write(output_file,output)
+    puts "Processed erb #{file} → #{output_file}"
+  else
+    STDERR.puts "Couldn't process erb file #{file}..."
+    exit 1
+  end
 end
 
 def run(file)
-    cwd = pwd()
-    file = abs(file)
-    puts "Running configuration: "+file
-    file_cwd = file_dir(file)
-    chdir file_cwd
-    load file
-    chdir cwd
+  cwd = pwd()
+  file = abs(file)
+  puts "Running configuration: "+file
+  file_cwd = file_dir(file)
+  chdir file_cwd
+  load file
+  chdir cwd
 end
 
 def run_if_exists(file)
-    if file_exists?(file)
-        run file
-    end
+  if file_exists?(file)
+    run file
+  end
 end
 
 if ARGV.length > 0
-    ARGV.map {|configuration| run configuration }
+  ARGV.map {|configuration| run configuration }
 else
-    run 'configuration.rb'
+  run 'configuration.rb'
 end

@@ -309,6 +309,9 @@ au FileType erlang setlocal foldenable foldopen=all foldclose=all
 " XML Related settings
 au FileType xml setlocal sw=2 sts=2
 
+" Ruby related settings
+autocmd FileType ruby setlocal expandtab sw=2 sts=2 tabstop=2
+
 " Auto source .vimrc on save
 " if has("autocmd")
 "     autocmd BufWritePost .vimrc source $MYVIMRC
