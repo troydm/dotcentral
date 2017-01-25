@@ -101,6 +101,7 @@ set directory^=~/.backups
 " let g:smartusline_hi_normal = 'guibg=#ffd7af guifg=black ctermbg=223 ctermfg=black'
 " let g:smartusline_string_to_highlight = ' %f '
 let g:airline_powerline_fonts=1
+let g:airline_exclude_filetypes = ['easytree','asyncfinder']
 let g:ConqueTerm_InsertOnEnter = 0
 let g:ConqueTerm_CWInsert = 1
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|(^|[/\\])build($|[/\\])'
