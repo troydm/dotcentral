@@ -1,0 +1,28 @@
+general {
+    output_format = "i3bar"
+    colors = false
+    interval = 2
+}
+
+order += "wireless wlan0"
+order += "cpu_temperature 0"
+order += "cpu_usage"
+order += "tztime local"
+
+wireless wlan0 {
+    format_up = " (%quality at %essid, %bitrate) %ip"
+    format_down = " down"
+}
+
+cpu_usage {
+    format = " %usage"
+}
+
+cpu_temperature 0 {
+    format = " %degrees°C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
+}
+
+tztime local {
+    format = " %m-%d %H:%M:%S"
+}

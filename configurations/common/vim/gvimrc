@@ -13,7 +13,7 @@ if has("gui_running")
     elseif has('gui_macvim')
 	set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11
     else
-	set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+	set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
     endif
 
     " Some meta mappings

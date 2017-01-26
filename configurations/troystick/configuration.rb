@@ -1,0 +1,6 @@
+symlink '~/.config/compton.conf', 'compton.conf'
+symlink '~/.config/redshift.conf', 'redshift.conf'
+mkdir '~/.config/i3'
+symlink '~/.config/i3/config', 'i3/config'
+mkdir '~/.config/i3status'
+symlink '~/.config/i3status/config', 'i3status/config'
