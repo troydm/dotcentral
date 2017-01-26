@@ -60,7 +60,7 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'zah/nim.vim'
 Plugin 'troydm/hiparen.vim'
 Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+" Plugin 'vim-airline/vim-airline-themes'
 
 " vim-scripts repos
 Plugin 'YankRing.vim'
@@ -89,7 +89,6 @@ set smartindent
 set softtabstop=4
 set shiftwidth=4
 set wildmenu
-" set statusline=\ %f\ %#Keyword#%m%r%h%w%*\ (%l/%L,\ %c)\ %P%=\ %y\ \|%{&encoding}:%{&fileformat}\|\ \ 
 set laststatus=2
 set timeoutlen=500
 set directory^=~/.backups
@@ -100,6 +99,7 @@ set directory^=~/.backups
 " let g:smartusline_hi_virtual_replace = 'guibg=#d6aefe guifg=black ctermbg=183 ctermfg=black'
 " let g:smartusline_hi_normal = 'guibg=#ffd7af guifg=black ctermbg=223 ctermfg=black'
 " let g:smartusline_string_to_highlight = ' %f '
+let g:airline_theme='easyburn'
 let g:airline_powerline_fonts=1
 let g:airline_exclude_filetypes = ['easytree','asyncfinder']
 let g:ConqueTerm_InsertOnEnter = 0
@@ -175,7 +175,7 @@ function! MvnInitializeProject()
             call javacomplete#AddSourcePath('src/test/java')
             let g:mvn_project_source_path_set = 1
         endif
-    endif     
+    endif
 endfunction
 
 function! MvnJavaComplete(findstart, base)
@@ -250,7 +250,7 @@ function! JavaGenBeanProps(l1,l2,...)
         endif
         let type = m[1]
         let name = m[2]
-        let cName = toupper(strpart(name,0,1)) . strpart(name,1) 
+        let cName = toupper(strpart(name,0,1)) . strpart(name,1)
         let getName = 'get' . cName
         let setName = 'set' . cName
         if type == 'boolean'
@@ -522,7 +522,7 @@ function! WinMoveLeft()
 endfunction
 
 function! WinSwapLeft()
-    let b = bufname('%') 
+    let b = bufname('%')
     let w = winnr()
     :wincmd h
     if w == winnr()
