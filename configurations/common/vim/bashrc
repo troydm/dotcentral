@@ -1,7 +1,7 @@
 # Some vim hacks
 vim()
 {
-    local STTYOPTS="$(stty --save)"
+    local STTYOPTS="$(stty -g)"
     stty stop '' start '' -ixoff
     command vim "$@"
     stty "$STTYOPTS"

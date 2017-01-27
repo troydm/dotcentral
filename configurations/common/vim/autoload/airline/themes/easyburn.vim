@@ -2,20 +2,20 @@
 
 
 " Normal mode                                    " fg             & bg
-let s:N1 = [ '#005f00' , '#afd700' , 250  , 232 ]
-let s:N2 = [ '#9e9e9e' , '#303030' , 108 , 236 ]
+let s:N1 = [ '#bcbcbc' , '#080808' , 250  , 232 ]
+let s:N2 = [ '#88a671' , '#303030' , 108 , 236 ]
 let s:N3 = [ '#ffffff' , '#121212' , 231 , 233 ]
 
 " Insert mode                                    " fg             & bg
-let s:I1 = [ '#005f5f' , '#ffffff' , 223  , 232 ]
-let s:I2 = [ '#5fafd7' , '#0087af' , 108  , 236  ]
-let s:I3 = [ '#87d7ff' , '#005f87' , 231 , 233  ]
+let s:I1 = [ '#fed7b1' , '#080808' , 223  , 232 ]
+let s:I2 = [ '#88a671' , '#303030' , 108  , 236  ]
+let s:I3 = [ '#ffffff' , '#121212' , 231 , 233  ]
 
 " Visual mode                                    " fg             & bg
-let s:V1 = [ '#080808' , '#ffaf00' , 224 , 233 ]
+let s:V1 = [ '#080808' , '#fed7b1' , 232 , 223 ]
 
 " Replace mode                                   " fg             & bg
-let s:RE = [ '#ffffff' , '#d70000' , 224 , 233 ]
+let s:RE = [ '#fed7d8' , '#080808' , 224 , 233 ]
 
 let g:airline#themes#easyburn#palette = {}
 
@@ -35,8 +35,17 @@ let g:airline#themes#easyburn#palette.replace.airline_a = [ s:RE[0] , s:RE[1] , 
 let s:IA = [ s:N2[0] , s:N3[1] , s:N2[2] , s:N3[3] , '' ]
 let g:airline#themes#easyburn#palette.inactive = airline#themes#generate_color_map(s:IA, s:IA, s:IA)
 
-let g:airline#themes#easyburn#palette.whitespace = airline#themes#generate_color_map(s:IA, s:IA, s:IA)
-
 let g:airline#themes#easyburn#palette.accents = {
-       \ 'red': [ '#ff2c4b' , '' , 181 , '' , '' ]
+       \ 'red': [ '#e89a94' , '' , 174 , '' , '' ]
        \ }
+
+" Warnings
+let g:airline#themes#easyburn#palette.normal.airline_warning = [
+            \ '#d6a490', '#303030', 181, 236
+            \ ]
+
+" Errors
+let g:airline#themes#easyburn#palette.normal.airline_error = [
+            \ '#e89a94', '#080808', 174, 232
+            \ ]
+

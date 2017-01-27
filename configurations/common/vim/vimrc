@@ -9,7 +9,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Plugin 'gmarik/Vundle.vim'
 
 " Bundles
@@ -274,11 +274,11 @@ command! JavaPackageName :exe 'normal ggOpackage '.GetJavaPackageName().';<esc>B
 function! GetJavaPackageName()
     let curdir = expand('%:h:p')
     let suffix_p = ''
-    let p = g:java_package_name_search_dir_limit 
+    let p = g:java_package_name_search_dir_limit
     while p > 0
-       let pn = GetJavaPackageNameDir(curdir) 
-       if pn != '' 
-           return pn . suffix_p 
+       let pn = GetJavaPackageNameDir(curdir)
+       if pn != ''
+           return pn . suffix_p
        else
            let suffix_p = '.' . fnamemodify(curdir,':t') . suffix_p
            let curdir = fnamemodify(curdir,':h')
@@ -341,10 +341,10 @@ endfunction
 command! -complete=customlist,ListAntCompletions -nargs=* Ant call ShellAnt(<q-args>)
 fun! ShellAnt(command)
     call SwitchToFileBuffer()
-    execute 'Shell ant '.a:command 
+    execute 'Shell ant '.a:command
 endfun
 fun! ListAntCompletions(A,L,P)
-    let antgoals = [] 
+    let antgoals = []
     let anttargets = split(system('ant -p'),'\n')
     let i = -1
     for l in anttargets
@@ -359,9 +359,9 @@ fun! ListAntCompletions(A,L,P)
         endif
         if l == 'Main targets:'
             let i = 0
-        endif 
+        endif
     endfor
-    return filter(antgoals,"v:val =~ \'^".a:A."\'") 
+    return filter(antgoals,"v:val =~ \'^".a:A."\'")
 endfun
 
 " Maven
@@ -370,14 +370,14 @@ command! -complete=customlist,ListMavenCompletions -nargs=+ Mvn call ShellMvn(<q
 fun! ShellMvn(command)
     call SwitchToFileBuffer()
     if a:command =~ '^archetype:generate'
-        execute '!mvn '.a:command  
+        execute '!mvn '.a:command
     else
-        execute 'Shell mvn '.a:command 
+        execute 'Shell mvn '.a:command
     endif
 endfun
 fun! ListMavenCompletions(A,L,P)
-    let mavengoals = ['compile','package','validate','test','deploy','site','clean','install','archetype:generate'] 
-    return filter(mavengoals,"v:val =~ \'^".a:A."\'") 
+    let mavengoals = ['compile','package','validate','test','deploy','site','clean','install','archetype:generate']
+    return filter(mavengoals,"v:val =~ \'^".a:A."\'")
 endfun
 
 " Save file on <C-s>
@@ -389,31 +389,31 @@ cmap <c-n> <CR>n/<c-p>
 " PbYank and PbPaste
 let g:pb_command_prefix = 'ssh mini '
 
-" FuzzyFinder keybindings 
+" FuzzyFinder keybindings
 function! OpenFile(grep)
     if getbufvar('%','&filetype') == 'easytree'
         if winnr("$") == 1
            execute &columns/9 . 'vs'
         endif
-        :wincmd w 
+        :wincmd w
     endif
     if a:grep
-        :AsyncGrep 
+        :AsyncGrep
     else
-        :AsyncFinder 
+        :AsyncFinder
     endif
 endfunction
 noremap <silent> <C-f> :call OpenFile(0)<CR>
 noremap <silent> <C-g> :call OpenFile(1)<CR>
 
 " C-Tab buffer switching
-let g:switch_buf_time = reltime() 
+let g:switch_buf_time = reltime()
 function! SwitchTimeDiff(t,nt)
     let t2 = reltimestr(a:nt)
     let t1 = reltimestr(a:t)
     let t2f = str2float(strpart(t2,3,stridx(t2,'.')+2))
     let t1f = str2float(strpart(t1,3,stridx(t1,'.')+2))
-    return t2f-t1f 
+    return t2f-t1f
 endfunction
 
 function! SwitchBuf()
@@ -447,7 +447,7 @@ function! WinMoveUp()
 endfunction
 
 function! WinSwapUp()
-    let b = bufname('%') 
+    let b = bufname('%')
     let w = winnr()
     :wincmd k
     if w == winnr()
@@ -472,7 +472,7 @@ function! WinMoveDown()
 endfunction
 
 function! WinSwapDown()
-    let b = bufname('%') 
+    let b = bufname('%')
     let w = winnr()
     :wincmd j
     if w == winnr()
@@ -497,7 +497,7 @@ function! WinMoveRight()
 endfunction
 
 function! WinSwapRight()
-    let b = bufname('%') 
+    let b = bufname('%')
     let w = winnr()
     :wincmd l
     if w == winnr()
@@ -596,7 +596,7 @@ nnoremap <silent> <leader>u :UndotreeToggle<CR>
 au FileType clojure nnoremap <buffer> <silent> <leader>e :Eval<CR> | nnoremap <buffer> <silent> <leader>r :Require<CR>
 
 " lisp slimv keymappings
-au FileType lisp nnoremap <buffer> <silent> <leader>e :<C-U>call SlimvEvalExp()<CR> 
+au FileType lisp nnoremap <buffer> <silent> <leader>e :<C-U>call SlimvEvalExp()<CR>
 
 
 " Term command for starting bash
