@@ -20,6 +20,10 @@ def os
     return 'linux'
   elsif RUBY_PLATFORM.include?('darwin')
     return 'osx'
+  elsif RUBY_PLATFORM.include?('freebsd')
+    return 'freebsd'
+  elsif RUBY_PLATFORM.include?('solaris')
+    return 'solaris'
   end
 end
 
