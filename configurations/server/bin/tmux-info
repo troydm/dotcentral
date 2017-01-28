@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+
+sub daemonize {
+   use POSIX;
+   POSIX::setsid or die "setsid: $!";
+   my $pid = fork ();
+   if ($pid < 0) {
+      die "fork: $!";
+   } elsif ($pid) {
+      exit 0;
+   }
+   chdir "/";
+   umask 0;
+   foreach (0 .. (POSIX::sysconf (&POSIX::_SC_OPEN_MAX) || 1024))
+      { POSIX::close $_ }
+   open (STDIN, "</dev/null");
+   open (STDOUT, ">/dev/null");
+   open (STDERR, ">&STDOUT");
+}
+
+daemonize;
+
+sub execute {
+    my $cmd = $_[0];
+    open (CMD,"$cmd|");
+    my $out = <CMD>;    
+    close(CMD);
+    return $out;
+}
+
+while(1){
+    my $a = execute("/usr/local/bin/tmux-newmail.pl");
+    my $b = execute("/usr/local/bin/tmux-accu-weather.pl");
+    my $c = execute("/usr/local/bin/tmux-vbox-vm-load.pl");
+    my $d = execute("/usr/local/bin/tmux-torrent.pl");
+    my $e = execute("/usr/local/bin/tmux-mem-cpu-load -load --interval=2 --graphs=20");
+    open(OUT,">/tmp/tmux-info");
+    print OUT "$a$b $c $d $e";
+    close(OUT);
+}
