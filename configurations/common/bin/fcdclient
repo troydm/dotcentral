@@ -6,7 +6,11 @@ use utf8;
 
 my $dir = $ARGV[0] || "";
 if($dir =~ /^\.{0,2}$/){
-    print $dir;
+    if($dir){
+        print $dir;
+    }else{
+        print $ENV{'HOME'};
+    }
     exit 0;
 }
 
