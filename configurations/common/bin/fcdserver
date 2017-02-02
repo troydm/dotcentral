@@ -1,0 +1,174 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use utf8;
+use File::Spec;
+use File::Basename;
+use Cwd qw(cwd);
+use IO::Socket::UNIX;
+use POSIX "setsid";
+
+sub daemonize {
+    chdir("/")                  || die "can't chdir to /: $!";
+    open(STDIN,  "< /dev/null") || die "can't read /dev/null: $!";
+    open(STDOUT, "> /dev/null") || die "can't write to /dev/null: $!";
+    defined(my $pid = fork())   || die "can't fork: $!";
+    exit if $pid;               # non-zero now means I am the parent
+    (setsid() != -1)            || die "can't start a new session: $!";
+    open(STDERR, ">&STDOUT")    || die "can't dup stdout: $!";
+}
+
+daemonize unless defined($ARGV[0]) && $ARGV[0] eq '-f';
+
+my $user = getpwuid($<);
+our $socket_path = "/tmp/fcd_$user.sock";
+
+sub signal_handler {
+    unlink $socket_path;
+    exit 0;
+}
+
+$SIG{INT} = \&signal_handler;
+$SIG{TERM} = \&signal_handler;
+
+our %freq;
+
+sub list_dirs {
+    my $dir = shift;
+    my @a;
+    opendir(my $dh, $dir);
+    while(readdir $dh){
+        if(!($_ =~ /^\.\.?$/) && -d "$dir/$_"){
+            push @a, $_;
+        }
+    }
+    closedir $dh;
+    return \@a;
+}
+
+sub ff_dir {
+    my ($dir,$base) = @_;
+    my @dirs = @{(list_dirs($dir))};
+    my $max = 0;
+    my $max_path = 0;
+    foreach my $d (@dirs) {
+        if($d =~ /^\Q$base\E/i){
+            my $path = "$dir/$d";
+            if(defined($freq{$path}) && $freq{$path} > $max){
+                $max = $freq{$path};
+                $max_path = $path;
+            }
+            unless($max){
+                $max_path = $path;
+            }
+        }
+    }
+    if($max_path){
+        return $max_path;
+    }
+    foreach my $d (@dirs) {
+        if($d =~ /\Q$base\E/i){
+            my $path = "$dir/$d";
+            if(defined($freq{$path}) && $freq{$path} > $max){
+                $max = $freq{$path};
+                $max_path = $path;
+            }
+            unless($max){
+                $max_path = $path;
+            }
+        }
+    }
+    return $max_path;
+}
+
+sub ff_dirp {
+    my @p = @_;
+    my $wd = cwd();
+    my @dirs = @{(list_dirs($wd))};
+    my $max = 0;
+    my $max_path = 0;
+    foreach my $d (@dirs) {
+        my $path = "$wd/$d";
+        if(match_all($path,\@p)){
+            if(defined($freq{$path}) && $freq{$path} > $max){
+                $max = $freq{$path};
+                $max_path = $path;
+            }
+            unless($max){
+                $max_path = $path;
+            }
+        }
+    }
+    return $max_path;
+}
+
+sub match_all {
+    my $a = shift;
+    my @p = @{(shift)};
+    foreach my $p (@p){
+        return 0 if $a !~ /\Q$p\E/i;
+    }
+    return 1;
+}
+
+sub ff_freq {
+    my @search = @_;
+    my $max = 0;
+    my $max_path = 0;
+    foreach my $d (keys %freq) {
+        if(match_all($d,\@search) && $freq{$d} > $max){
+            $max = $freq{$d};
+            $max_path = $d;
+        }
+    }
+    return $max_path;
+}
+
+sub found {
+    my $dir = shift;
+    my $path = File::Spec->rel2abs($dir); 
+    my $f = $freq{$path} || 0;
+    $freq{$path} = $f+1;
+    return $path;
+}
+
+sub fcd {
+    my @p = split /\|/, $_[0];
+    my $cwd = shift @p;
+    chdir($cwd);
+    if(@p == 1){
+        my $dir = $p[0];
+        # Directory exists
+        if(-d $dir){
+            return found($dir);
+        }
+        my $path = ff_dir(dirname($dir),basename($dir)) || ff_freq($dir) || ff_freq(basename($dir));
+        if($path){
+            return found($path);
+        }
+    }else{
+        my $path = ff_dirp(@p) || ff_freq(@p);
+        if($path){
+            return found($path);
+        }
+    }
+    return (join '',@p);
+}
+
+unlink $socket_path if -e $socket_path;
+
+my $socket = IO::Socket::UNIX->new(
+    Local  => $socket_path,
+    Type   => SOCK_STREAM(),
+    Listen => SOMAXCONN(),
+) or die("Couldn't create a socket $!");
+
+while(1){
+    next unless my $con = $socket->accept;
+    $con->autoflush(1);
+    chomp(my $line = <$con>);
+    print $con fcd($line)."\n";
+    close $con;
+}
+

@@ -20,6 +20,14 @@ alias l='ls -CF'
 # useful aliases
 alias myip="curl -s icanhazip.com"
 
+# fcd
+fcd(){
+    local dir=`fcdclient $@`
+    cd $dir
+}
+export -f fcd
+alias z=fcd
+
 # Add bin directory to PATH
 export PATH=$PATH:"<%= pwd+"/bin" %>"
 
