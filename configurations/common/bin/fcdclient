@@ -3,19 +3,15 @@
 use strict;
 use warnings;
 use utf8;
-
-my $dir = $ARGV[0] || "";
-if($dir =~ /^\.{0,2}$/){
-    if($dir){
-        print $dir;
-    }else{
-        print $ENV{'HOME'};
-    }
-    exit 0;
-}
-
 use IO::Socket::UNIX;
 use Cwd qw(cwd);
+
+my $dir;
+if(@ARGV){
+    $dir = join '|', @ARGV;
+}else{
+    $dir = $ENV{'HOME'};
+}
 
 my $wd = cwd();
 my $user = getpwuid($<);
@@ -37,7 +33,6 @@ while(1){
     }
 }
 
-$dir = join '|', @ARGV;
 $socket->autoflush(1);
 print $socket "$wd|$dir\n";
 chomp(my $line = <$socket>);

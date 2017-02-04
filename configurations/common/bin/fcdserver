@@ -35,47 +35,47 @@ $SIG{TERM} = \&signal_handler;
 our %freq;
 
 sub list_dirs {
-    my $dir = shift;
-    my @a;
+    my $dir = $_[0];
+    my @dirs;
     opendir(my $dh, $dir);
     while(readdir $dh){
         if(!($_ =~ /^\.\.?$/) && -d "$dir/$_"){
-            push @a, $_;
+            push @dirs, $_;
         }
     }
     closedir $dh;
-    return \@a;
+    return @dirs;
 }
 
 sub ff_dir {
     my ($dir,$base) = @_;
-    my @dirs = @{(list_dirs($dir))};
+    my @dirs = list_dirs($dir);
     my $max = 0;
     my $max_path = 0;
     foreach my $d (@dirs) {
         if($d =~ /^\Q$base\E/i){
             my $path = "$dir/$d";
-            if(defined($freq{$path}) && $freq{$path} > $max){
-                $max = $freq{$path};
-                $max_path = $path;
-            }
-            unless($max){
-                $max_path = $path;
+            if(exists($freq{$path})){
+                if($freq{$path} > $max){
+                    $max = $freq{$path};
+                    $max_path = $path;
+                }
+            }else{
+                return $path;
             }
         }
     }
-    if($max_path){
-        return $max_path;
-    }
+    return $max_path if $max_path;
     foreach my $d (@dirs) {
         if($d =~ /\Q$base\E/i){
             my $path = "$dir/$d";
-            if(defined($freq{$path}) && $freq{$path} > $max){
-                $max = $freq{$path};
-                $max_path = $path;
-            }
-            unless($max){
-                $max_path = $path;
+            if(exists($freq{$path})){
+                if($freq{$path} > $max){
+                    $max = $freq{$path};
+                    $max_path = $path;
+                }
+            }else{
+                return $path;
             }
         }
     }
@@ -85,18 +85,19 @@ sub ff_dir {
 sub ff_dirp {
     my @p = @_;
     my $wd = cwd();
-    my @dirs = @{(list_dirs($wd))};
+    my @dirs = list_dirs($wd);
     my $max = 0;
     my $max_path = 0;
     foreach my $d (@dirs) {
         my $path = "$wd/$d";
         if(match_all($path,\@p)){
-            if(defined($freq{$path}) && $freq{$path} > $max){
-                $max = $freq{$path};
-                $max_path = $path;
-            }
-            unless($max){
-                $max_path = $path;
+            if(exists($freq{$path})){
+                if($freq{$path} > $max){
+                    $max = $freq{$path};
+                    $max_path = $path;
+                }
+            }else{
+                return $path;
             }
         }
     }
@@ -104,8 +105,8 @@ sub ff_dirp {
 }
 
 sub match_all {
-    my $a = shift;
-    my @p = @{(shift)};
+    my $a = $_[0];
+    my @p = @{$_[1]};
     foreach my $p (@p){
         return 0 if $a !~ /\Q$p\E/i;
     }
@@ -117,6 +118,13 @@ sub ff_freq {
     my $max = 0;
     my $max_path = 0;
     foreach my $d (keys %freq) {
+        if(match_all(basename($d),\@search) && $freq{$d} > $max){
+            $max = $freq{$d};
+            $max_path = $d;
+        }
+    }
+    return $max_path if $max_path;
+    foreach my $d (keys %freq) {
         if(match_all($d,\@search) && $freq{$d} > $max){
             $max = $freq{$d};
             $max_path = $d;
@@ -126,8 +134,8 @@ sub ff_freq {
 }
 
 sub found {
-    my $dir = shift;
-    my $path = File::Spec->rel2abs($dir); 
+    my $dir = $_[0];
+    my $path = File::Spec->rel2abs($dir);
     my $f = $freq{$path} || 0;
     $freq{$path} = $f+1;
     return $path;
@@ -143,7 +151,7 @@ sub fcd {
         if(-d $dir){
             return found($dir);
         }
-        my $path = ff_dir(dirname($dir),basename($dir)) || ff_freq($dir) || ff_freq(basename($dir));
+        my $path = ff_dir(File::Spec->rel2abs(dirname($dir)),basename($dir)) || ff_freq($dir) || ff_freq(basename($dir));
         if($path){
             return found($path);
         }
