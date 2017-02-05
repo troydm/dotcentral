@@ -113,10 +113,27 @@ def mkdir(path)
   end
 end
 
-def rm(path)
+def rm(path,recursive=false)
   path = abs(path)
-  out = sudo("rm -rf \"#{path}\"")
+  if recursive
+    recursive = '-R '
+  else
+    recursive = ''
+  end
+  out = sudo("rm -#{recursive}f \"#{path}\"")
   puts "Removed file: #{path}"
+end
+
+def rmdir(path)
+  rm(path,true)
+end
+
+def touch(path)
+  path = abs(path)
+  unless file_exists?(path)
+    out = sudo("touch \"#{path}\"")
+    puts "Touched file: #{path}"
+  end
 end
 
 def chmod(path,permissions,recursive=false)

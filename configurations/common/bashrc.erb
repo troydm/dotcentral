@@ -1,3 +1,10 @@
+# skip this file on non-interactive shell
+[ -z "$PS1" ] && return
+
+# global variables
+export PAGER=less
+export EDITOR=vim
+
 # set vi command editing mode
 set -o vi
 
