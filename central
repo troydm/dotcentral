@@ -115,7 +115,7 @@ end
 
 def rm(path)
   path = abs(path)
-  out = sudo("rm -f \"#{path}\"")
+  out = sudo("rm -rf \"#{path}\"")
   puts "Removed file: #{path}"
 end
 
