@@ -107,7 +107,7 @@ end
 
 def mkdir(path)
   path = abs(path)
-  if !dir_exists?(path)
+  unless dir_exists?(path)
     out = sudo("mkdir -p \"#{path}\"")
     puts "Created directory: #{path}"
   end
@@ -115,7 +115,7 @@ end
 
 def rm(path)
   path = abs(path)
-  out = sudo("rm -f \"#{path}\"")
+  out = sudo("rm -rf \"#{path}\"")
   puts "Removed file: #{path}"
 end
 
@@ -208,10 +208,10 @@ def ls(path,options={})
   if options.key?(:file)
     file = options[:file]
   end
-  if !dir
+  unless dir
     ls = ls.keep_if {|f| !File.directory?("#{path}/#{f}") }
   end
-  if !file
+  unless file
     ls = ls.keep_if {|f| !File.file?("#{path}/#{f}") }
   end
   return ls
