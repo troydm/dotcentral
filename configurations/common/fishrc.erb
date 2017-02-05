@@ -1,0 +1,8 @@
+# Add bin directory to PATH
+set PATH $PATH "<%= pwd+"/bin" %>"
+
+# Add powerline prompt
+function fish_prompt
+    powerline ^/dev/null
+    printf "\033[1m\033[38;5;222m\033[48;5;236m λ \033[0m\033[38;5;236m\033[0m "
+end

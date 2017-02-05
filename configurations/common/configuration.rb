@@ -27,6 +27,10 @@ source '~/.bashrc', 'bashrc'
 if file_exists? '~/.zshrc'
   source '~/.zshrc', 'bashrc'
 end
+if file_exists? '~/.config/fish/config.fish'
+  erb 'fishrc.erb'
+  source '~/.config/fish/config.fish', 'fishrc'
+end
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
 symlink '~/.tigrc', 'tigrc'

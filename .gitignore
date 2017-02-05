@@ -1,5 +1,5 @@
 configurations/common/bashrc
-configurations/common/zshrc
+configurations/common/fishrc
 configurations/common/bin/sshc
 configurations/common/sshc
 configurations/common/fonts
