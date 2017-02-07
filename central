@@ -69,6 +69,7 @@ checkTool('grep','grep --version')
 checkTool('ln','ln --version')
 checkTool('readlink','readlink --version')
 checkTool('git','git --version')
+checkTool('curl','curl --version')
 
 
 def pwd
@@ -177,6 +178,20 @@ def git(url,path)
     out = sudo("git clone #{url} \"#{path}\"")
     puts "Git repository cloned: #{url} → #{path}"
   end
+end
+
+def curl(url,path)
+  path = abs(path)
+  output = sudo("curl -s \"#{url}\"")
+  unless $?.exitstatus == 0
+    STDERR.puts "Couldn't download file from #{url}..."
+    exit 1
+  end
+  if File.exists?(path) && File.read(path) == output
+    return
+  end
+  File.write(path,output)
+  puts "Downloaded #{url} → #{path}"
 end
 
 def read(file)

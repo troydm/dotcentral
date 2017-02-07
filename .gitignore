@@ -1,3 +1,4 @@
+configurations/common/bin/ack
 configurations/common/bashrc
 configurations/common/fishrc
 configurations/common/bin/sshc
