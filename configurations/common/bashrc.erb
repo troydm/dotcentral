@@ -22,7 +22,7 @@ if [ -x /usr/bin/dircolors ] && [ -f ~/.dircolors ]; then
 fi
 
 # some more ls aliases
-alias ll='ls -ahl'
+alias ll='ls -Ahl'
 alias la='ls -A'
 alias lg='la | grep'
 alias l=ls
@@ -37,21 +37,36 @@ alias z=fcd
 # Add bin directory to PATH
 export PATH="$PATH:<%= pwd+"/bin" %>:."
 
+# less colors and options
+export LESS='-RS#3NM~g'
+export LESS_TERMCAP_md=$'\E[38;5;223m'
+export LESS_TERMCAP_us=$'\E[38;5;181m'
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_so=$'\E[38;5;223m\E[48;5;238m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_ue=$'\E[0m'
+
 # zsh only related options
 if [ -n "$ZSH_VERSION" ]; then
-    HISTFILE=~/.histfile
+    HISTFILE=~/.zsh_history
     HISTSIZE=10000
     SAVEHIST=100000
+    setopt APPEND_HISTORY
+    setopt AUTO_CD
+    setopt LONGLISTJOBS
     # vi mode for zsh
     bindkey -v
     bindkey '^r' history-incremental-search-backward
     bindkey '^[[3~' delete-char
+    bindkey '^[[Z' reverse-menu-complete
     export KEYTIMEOUT=1
 
+    zstyle ':completion:*' menu select
+    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} 'ma=48;5;236;38;5;223'
     zstyle :compinstall filename "$HOME/.zshrc"
 
-    autoload -Uz compinit
-    compinit
+    autoload -Uz compinit && compinit
 fi
 
 # Add powerline prompt
