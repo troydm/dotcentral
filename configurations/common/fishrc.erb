@@ -1,8 +1,47 @@
+# disable fish greeting
+set fish_greeting ""
+
+# some more ls aliases
+alias ll 'ls -Ahl'
+alias la 'ls -A'
+alias lg 'la | grep'
+alias l ls
+
+# useful aliases
+alias myip 'curl -s icanhazip.com'
+
+# fcd
+function fcd
+    cd (fcdclient $argv)
+end
+alias z fcd
+
 # Add bin directory to PATH
 set PATH $PATH "<%= pwd+"/bin" %>"
 
+# colors
+set fish_color_autosuggestion 6c6c6c
+set fish_color_command ffd7af
+set fish_color_comment 87af87
+set fish_color_error d7afaf
+set fish_color_status d7afaf
+set fish_color_match yellow
+set fish_color_operator white
+set fish_color_param white
+set fish_color_redirection ffd7af
+set fish_color_quote d78787
+set fish_color_history_current yellow
+set fish_color_selection --background=444444
+set fish_color_search_match --background=444444
+set fish_pager_color_description 87af87
+set fish_pager_color_prefix ffd7af
+set fish_pager_color_progress d7afaf
+
+
 # Add powerline prompt
-function fish_prompt
-    powerline ^/dev/null
-    printf "\033[1m\033[38;5;222m\033[48;5;236m λ \033[0m\033[38;5;236m\033[0m "
+if test "$TERM" = "xterm-256color"; or test "$TERM" = "screen-256color"
+    function fish_prompt
+        powerline ^/dev/null
+        printf "\033[1m\033[38;5;222m\033[48;5;236m λ \033[0m\033[38;5;236m\033[0m "
+    end
 end
