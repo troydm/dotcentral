@@ -1,5 +1,5 @@
 # disable fish greeting
-set fish_greeting ""
+set -e fish_greeting
 
 # some more ls aliases
 alias ll 'ls -Ahl'
@@ -21,7 +21,7 @@ set PATH $PATH "<%= pwd+"/bin" %>"
 
 # colors
 set fish_color_autosuggestion 6c6c6c
-set fish_color_command ffd7af
+set fish_color_command ffd7af --bold
 set fish_color_comment 87af87
 set fish_color_error d7afaf
 set fish_color_status d7afaf
@@ -36,6 +36,14 @@ set fish_color_search_match --background=444444
 set fish_pager_color_description 87af87
 set fish_pager_color_prefix ffd7af
 set fish_pager_color_progress d7afaf
+
+# set vi mode keybindings
+function fish_user_key_bindings
+    fish_vi_key_bindings insert
+end
+function fish_mode_prompt 
+end
+set fish_key_bindings fish_user_key_bindings
 
 
 # Add powerline prompt

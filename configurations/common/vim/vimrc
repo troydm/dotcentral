@@ -99,6 +99,7 @@ set directory^=~/.backups
 " let g:smartusline_hi_virtual_replace = 'guibg=#d6aefe guifg=black ctermbg=183 ctermfg=black'
 " let g:smartusline_hi_normal = 'guibg=#ffd7af guifg=black ctermbg=223 ctermfg=black'
 " let g:smartusline_string_to_highlight = ' %f '
+let g:asyncfinder_grep_cmd = 'ack'
 let g:airline_theme='easyburn'
 let g:airline_powerline_fonts=1
 let g:airline_exclude_filetypes = ['easytree','asyncfinder']
