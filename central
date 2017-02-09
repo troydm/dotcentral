@@ -173,9 +173,14 @@ def git(url,path)
     cwd = pwd()
     chdir path
     out = sudo('git pull')
+    unless out.downcase.include? "already up-to-date"
+      puts out
+      puts "Git repository pulled: #{url} → #{path}"
+    end
     chdir cwd
   else
     out = sudo("git clone #{url} \"#{path}\"")
+    puts out
     puts "Git repository cloned: #{url} → #{path}"
   end
 end
