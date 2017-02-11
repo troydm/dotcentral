@@ -104,6 +104,30 @@ sub ff_dirp {
     return $max_path;
 }
 
+sub ff_parent {
+    my @search = @_;
+    my $wd = cwd();
+    while($wd && $wd ne '/'){
+        $wd =~ s/\/[^\/]+$//;
+        if(match_all(basename($wd),\@search)){
+            return $wd;
+        }
+    }
+    return 0;
+}
+
+sub ff_parentp {
+    my @search = @_;
+    my $wd = cwd();
+    while($wd && $wd ne '/'){
+        $wd =~ s/\/[^\/]+$//;
+        if(match_all($wd,\@search)){
+            return $wd;
+        }
+    }
+    return 0;
+}
+
 sub match_all {
     my $a = $_[0];
     my @p = @{$_[1]};
@@ -151,12 +175,12 @@ sub fcd {
         if(-d $dir){
             return found($dir);
         }
-        my $path = ff_dir(File::Spec->rel2abs(dirname($dir)),basename($dir)) || ff_freq($dir) || ff_freq(basename($dir));
+        my $path = ff_dir(File::Spec->rel2abs(dirname($dir)),basename($dir)) || ff_parent($dir) || ff_freq($dir) || ff_freq(basename($dir));
         if($path){
             return found($path);
         }
     }else{
-        my $path = ff_dirp(@p) || ff_freq(@p);
+        my $path = ff_dirp(@p)  || ff_parentp(@p) || ff_freq(@p);
         if($path){
             return found($path);
         }
