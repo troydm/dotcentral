@@ -29,28 +29,28 @@ $SIG{TERM} = sub { $continue = 0; };
 sub update(){
 my $sys = `sensors`;
 
-my $cpu; 
+my $cpu;
 my $core;
-my $mb; 
+my $mb;
 my $cpurpm;
 my $psurpm;
 
 foreach my $line (split "\n", $sys ){
-	if($line =~ q/^temp1:\s+\+(\d+.\d+)/){
-		$core = $1;
-	}
-	if($line =~ q/^SYSTIN:\s+\+(\d+.\d+)/){
-		$mb = $1;
-	}
-	if($line =~ q/^CPUTIN:\s+\+(\d+.\d+)/){
-		$cpu = $1;
-	}
-	if($line =~ q/^fan2:\s+(\d+)/){
-		$cpurpm = $1;
-	}
-	if($line =~ q/^fan1:\s+(\d+)/){
-		$psurpm = $1;
-	}
+    if($line =~ q/^temp1:\s+\+(\d+.\d+)/){
+        $core = $1;
+    }
+    if($line =~ q/^SYSTIN:\s+\+(\d+.\d+)/){
+        $mb = $1;
+    }
+    if($line =~ q/^CPUTIN:\s+\+(\d+.\d+)/){
+        $cpu = $1;
+    }
+    if($line =~ q/^fan2:\s+(\d+)/){
+        $cpurpm = $1;
+    }
+    if($line =~ q/^fan1:\s+(\d+)/){
+        $psurpm = $1;
+    }
 }
 my $hdd1='';
 my $hdd2='';
@@ -103,14 +103,14 @@ return $ret;
 sub notify(){
     my $info = shift;
     my $ua = LWP::UserAgent->new;
-     
+
     my $req = POST 'https://www.notifymyandroid.com/publicapi/notify',
                   [ apikey => $apikey,
                     application =>'tmux-info',
                     event=>'troynas server is overheating!',
                     description=>$info,
                     priority=>'2'];
-                   
+
     $ua->request($req)->as_string;
 }
 
