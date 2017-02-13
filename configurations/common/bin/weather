@@ -37247,6 +37247,14 @@ sub icon {
     }
 }
 
+sub round {
+    if($_[0] < 0){
+        return int($_[0]-0.5);
+    }else{
+        return int($_[0]+0.5);
+    }
+}
+
 sub timefmt {
     my ($t,$f) = @_;
     return strftime($f, localtime($t));
@@ -37254,9 +37262,9 @@ sub timefmt {
 
 my $status = $data->{'currently'}->{'summary'};
 my $icon = icon($data->{'currently'}->{'icon'});
-my $temp = $data->{'currently'}->{'temperature'};
+my $temp = round($data->{'currently'}->{'temperature'});
 my $windSpeed = $data->{'currently'}->{'windSpeed'};
-my $pressure = int($data->{'currently'}->{'pressure'} + 0.5);
+my $pressure = round($data->{'currently'}->{'pressure'});
 
 
 binmode(STDOUT, ":utf8");
@@ -37281,9 +37289,9 @@ foreach my $hi (@{$data->{'hourly'}->{'data'}}){
     }
     my $time = timefmt($hi->{'time'},'%H:%M');
     if($i == 0){
-        print "|  $time  |";
+        print "| $time |";
     }else{
-        print "  $time  |";
+        print " $time |";
     }
 }
 print "\n";
@@ -37298,8 +37306,8 @@ foreach my $hi (@{$data->{'hourly'}->{'data'}}){
         print '|';
     }
     $icon = icon($hi->{'icon'});
-    $temp = $hi->{'temperature'};
-    printf "%8s°|", "$icon $temp";
+    $temp = round($hi->{'temperature'});
+    printf "%6s°|", "$icon $temp";
 }
 
 # daily weather info
@@ -37310,10 +37318,10 @@ print "\n$icon $status\n";
 foreach my $di (@{$data->{'daily'}->{'data'}}){
     $icon = icon($di->{'icon'});
     my $time = timefmt($di->{'time'},'%a');
-    my $tempMin = $di->{'temperatureMin'};
-    my $tempMax = $di->{'temperatureMax'};
+    my $tempMin = round($di->{'temperatureMin'});
+    my $tempMax = round($di->{'temperatureMax'});
     $windSpeed = $di->{'windSpeed'};
-    $pressure = int($di->{'pressure'} + 0.5);
+    $pressure = round($di->{'pressure'});
     $status = $di->{'summary'};
-    printf "$icon $time %8s %8s %12s %8s $status\n", "$tempMin°↓","$tempMax°↑","$windSpeed kPh ➘","$pressure hPa";
+    printf "$icon $time %5s %5s %12s %8s $status\n", "$tempMin°↓","$tempMax°↑","$windSpeed kPh ➘","$pressure hPa";
 }
