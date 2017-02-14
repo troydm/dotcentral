@@ -7,6 +7,7 @@ use File::Basename 'dirname';
 use Cwd 'abs_path';
 use JSON::PP qw(decode_json);
 use POSIX qw(floor strftime);
+use Term::ANSIColor;
 
 my %cities = (
 "Qal eh-ye Now" => {
@@ -37235,15 +37236,15 @@ my $data = decode_json($req);
 
 sub icon {
     if($_[0] =~ /cloud/){
-        return "☁";
+        return colored("☁","rgb555 bold");
     }elsif($_[0] =~ /sun/){
-        return "☼";
+        return colored("☼","rgb543 bold");
     }elsif($_[0] =~ /snow/){
-        return "❆";
+        return colored("❆","blue bold");
     }elsif($_[0] =~ /rain/){
-        return "☔";
+        return colored("☔","blue bold");
     }else{
-        return "☼";
+        return colored("☼","rgb543 bold");
     }
 }
 
@@ -37260,7 +37261,7 @@ sub timefmt {
     return strftime($f, localtime($t));
 }
 
-my $status = $data->{'currently'}->{'summary'};
+my $status = colored($data->{'currently'}->{'summary'},'rgb555');
 my $icon = icon($data->{'currently'}->{'icon'});
 my $temp = round($data->{'currently'}->{'temperature'});
 my $windSpeed = $data->{'currently'}->{'windSpeed'};
@@ -37270,7 +37271,7 @@ my $pressure = round($data->{'currently'}->{'pressure'});
 binmode(STDOUT, ":utf8");
 
 # current weather info
-print "$city, $country $icon $temp° $windSpeed kPh ➘ $pressure hPa $status";
+print "$city, $country $icon $temp° $windSpeed ➘kPh $pressure hPa $status";
 
 if($ARGV[0] eq '-1'){
     exit 0;
@@ -37278,7 +37279,7 @@ if($ARGV[0] eq '-1'){
 
 # hourly weather info
 $icon = icon($data->{'hourly'}->{'icon'});
-$status = $data->{'hourly'}->{'summary'};
+$status = colored($data->{'hourly'}->{'summary'},"rgb555");
 print "\n$icon $status\n";
 
 my $i = -1;
@@ -37287,11 +37288,11 @@ foreach my $hi (@{$data->{'hourly'}->{'data'}}){
     if(($i % 4) != 0){
         next;
     }
-    my $time = timefmt($hi->{'time'},'%H:%M');
+    my $time = colored(timefmt($hi->{'time'},'%H:%M'),"white bold");
     if($i == 0){
-        print "| $time |";
+        print colored('|','grey12'), "  $time ", colored('|','grey12');
     }else{
-        print " $time |";
+        print "  $time ", colored('|','grey12');
     }
 }
 print "\n";
@@ -37303,25 +37304,25 @@ foreach my $hi (@{$data->{'hourly'}->{'data'}}){
         next;
     }
     if($i == 0){
-        print '|';
+        print colored('|','grey12');
     }
     $icon = icon($hi->{'icon'});
     $temp = round($hi->{'temperature'});
-    printf "%6s°|", "$icon $temp";
+    printf " $icon %3s° %s", $temp, colored('|','grey12');
 }
 
 # daily weather info
 $icon = icon($data->{'daily'}->{'icon'});
-$status = $data->{'daily'}->{'summary'};
+$status = colored($data->{'daily'}->{'summary'},'rgb555');
 print "\n$icon $status\n";
 
 foreach my $di (@{$data->{'daily'}->{'data'}}){
     $icon = icon($di->{'icon'});
-    my $time = timefmt($di->{'time'},'%a');
+    my $time = timefmt($di->{'time'},'%a %d');
     my $tempMin = round($di->{'temperatureMin'});
     my $tempMax = round($di->{'temperatureMax'});
     $windSpeed = $di->{'windSpeed'};
     $pressure = round($di->{'pressure'});
-    $status = $di->{'summary'};
-    printf "$icon $time %5s %5s %12s %8s $status\n", "$tempMin°↓","$tempMax°↑","$windSpeed kPh ➘","$pressure hPa";
+    $status = colored($di->{'summary'},'rgb555');
+    printf "$icon $time  %5s %5s %12s %8s $status\n", "$tempMin°↓","$tempMax°↑","$windSpeed ➘kPh ","$pressure hPa";
 }
