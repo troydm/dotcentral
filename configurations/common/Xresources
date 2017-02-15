@@ -1,4 +1,6 @@
 URxvt.font: xft:DejaVu Sans Mono for Powerline:size=10
+XTerm*faceName: DejaVu Sans Mono for Powerline
+XTerm*faceSize: 10
 URxvt*scrollBar: false
 URxvt*termName: screen-256color
 URxvt*xftAntialias: true
