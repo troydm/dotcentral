@@ -11,12 +11,12 @@ use POSIX "setsid";
 
 sub daemonize {
     chdir("/")                  || die "can't chdir to /: $!";
-    open(STDIN,  "< /dev/null") || die "can't read /dev/null: $!";
-    open(STDOUT, "> /dev/null") || die "can't write to /dev/null: $!";
+    open(STDIN,  "<","/dev/null") || die "can't read /dev/null: $!";
+    open(STDOUT, ">","/dev/null") || die "can't write to /dev/null: $!";
     defined(my $pid = fork())   || die "can't fork: $!";
     exit if $pid;               # non-zero now means I am the parent
     (setsid() != -1)            || die "can't start a new session: $!";
-    open(STDERR, ">&STDOUT")    || die "can't dup stdout: $!";
+    open(STDERR, ">","/dev/null")    || die "can't write to /dev/null: $!";
 }
 
 daemonize unless defined($ARGV[0]) && $ARGV[0] eq '-f';
@@ -198,6 +198,7 @@ my $socket = IO::Socket::UNIX->new(
 
 while(1){
     next unless my $con = $socket->accept;
+    binmode($con, ":encoding(UTF-8)");
     $con->autoflush(1);
     chomp(my $line = <$con>);
     print $con fcd($line)."\n";

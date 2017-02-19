@@ -19,7 +19,7 @@ my $user = getpwuid($<);
 my $host = hostname();
 
 # git related
-my $git='';
+my $git;
 if(-d "$dir/.git"){
     $git = `git rev-parse --abbrev-ref HEAD`;
     chomp $git;
@@ -32,7 +32,7 @@ $dir =~ s/\//$sep_thin /g;
 $dir =~ s/^([^~])/\/$1/;
 $dir =~ s/^$/\//;
 
-binmode(STDOUT, ":utf8");
+binmode(STDOUT, ":encoding(UTF-8)");
 
 my $bg_color = "grey5";
 my $alt_bg_color = "grey1";

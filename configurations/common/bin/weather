@@ -37268,7 +37268,7 @@ my $windSpeed = $data->{'currently'}->{'windSpeed'};
 my $pressure = round($data->{'currently'}->{'pressure'});
 
 
-binmode(STDOUT, ":utf8");
+binmode(STDOUT, ":encoding(UTF-8)");
 
 # current weather info
 print "$city, $country $icon $temp° $windSpeed ➘kPh $pressure hPa $status";
