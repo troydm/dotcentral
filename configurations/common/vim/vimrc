@@ -60,7 +60,7 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'zah/nim.vim'
 Plugin 'troydm/hiparen.vim'
 Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
+Plugin 'derekwyatt/vim-scala'
 
 " vim-scripts repos
 Plugin 'YankRing.vim'
