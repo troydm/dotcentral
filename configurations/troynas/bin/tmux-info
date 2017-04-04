@@ -73,7 +73,14 @@ if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
     $ssd = $1;
 }
 
-my $ret = "CPU:$cpu"."°C $core"."°C MB:$mb"."°C RPM: CPU $cpurpm PSU $psurpm SSD:$ssd"."°C HDD:$hdd1"."°C $hdd2"."°C";
+my $ssd2;
+$ssdtemp = `/usr/sbin/hddtemp --debug /dev/sdd | grep field\\(190\\)`;
+chop $ssdtemp;
+if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
+    $ssd2 = $1;
+}
+
+my $ret = "CPU:$cpu"."°C $core"."°C MB:$mb"."°C RPM: CPU $cpurpm PSU $psurpm SSD:$ssd"."°C $ssd2"."°C HDD:$hdd1"."°C $hdd2"."°C";
 open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
