@@ -10,10 +10,10 @@ set -g status-right "#[bg=colour236 fg=colour232]#[default]#(cat /tmp/tmux-in
 
 # Session
 new -d -s server
-rename-window -t server:0 weechat
-send-keys -t server:0 "ssh vubuntu\n"
-new-window -t server:1
-new-window -t server:2 -n vubuntu
-send-keys -t server:2 "ssh vubuntu\n"
-new-window -t server:3
-select-window -t server:0
+rename-window -t server:1 weechat
+send-keys -t server:1 "ssh vubuntu\n"
+new-window -t server:2
+new-window -t server:3 -n vubuntu
+send-keys -t server:3 "ssh vubuntu\n"
+new-window -t server:4
+select-window -t server:1
