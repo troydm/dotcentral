@@ -31,6 +31,15 @@ alias l=ls
 alias v=vagrant
 alias myip="curl -s icanhazip.com"
 
+# vtop
+vtop() {
+<% if os == 'linux' %>
+top `pgrep VBoxHeadless | awk '{print "-p " $0}' | tr '\n' ' '` -d 1
+<% elsif os == 'osx' %>
+top `pgrep VBoxHeadless | awk '{print "-pid " $0}' | tr '\n' ' '` -s 1
+<% end %>
+}
+
 # fcd
 fcd() { cd "$(fcdclient "$@")"; }
 alias z=fcd
