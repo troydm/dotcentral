@@ -25,6 +25,8 @@ my $notified = 0;
 my $critical = 0;
 
 $SIG{TERM} = sub { $continue = 0; };
+my $hdd1='35';
+my $hdd2='35';
 
 sub update(){
 my $sys = `sensors`;
@@ -52,18 +54,19 @@ foreach my $line (split "\n", $sys ){
         $psurpm = $1;
     }
 }
-my $hdd1='';
-my $hdd2='';
-my $hddtemp = `/usr/sbin/hddtemp --debug /dev/sdb | grep field\\(194\\)`;
-chop $hddtemp;
-if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
-        $hdd1 = $1;
-}
 
-$hddtemp = `/usr/sbin/hddtemp --debug /dev/sdc | grep field\\(194\\)`;
-chop $hddtemp;
-if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
-    $hdd2 = $1;
+if(time() % 300 == 0){
+    my $hddtemp = `/usr/sbin/hddtemp --debug /dev/sdb | grep field\\(194\\)`;
+    chop $hddtemp;
+    if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
+        $hdd1 = $1;
+    }
+
+    $hddtemp = `/usr/sbin/hddtemp --debug /dev/sdc | grep field\\(194\\)`;
+    chop $hddtemp;
+    if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
+        $hdd2 = $1;
+    }
 }
 
 my $ssd;
