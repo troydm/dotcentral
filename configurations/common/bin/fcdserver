@@ -34,6 +34,21 @@ $SIG{TERM} = \&signal_handler;
 
 our %freq;
 
+if( -e $ENV{'HOME'} . '/.fcddump' ){
+    open(my $fh,'<', $ENV{'HOME'} . '/.fcddump');
+    binmode($fh, ':encoding(UTF-8)');
+    while(my $line=<$fh>){
+        chomp $line;
+        if($line =~ m/^(.+)=(\d+)$/){
+            $freq{$1}=$2;
+        }
+    }
+    close $fh;
+}
+
+our $freqdumpinterval = 300;
+our $lastfreqdump = time();
+
 sub list_dirs {
     my $dir = $_[0];
     my @dirs;
@@ -162,6 +177,15 @@ sub found {
     my $path = File::Spec->rel2abs($dir);
     my $f = $freq{$path} || 0;
     $freq{$path} = $f+1;
+    if((time()-$lastfreqdump) >= $freqdumpinterval){
+        open(my $fh,'>', $ENV{'HOME'} . '/.fcddump');
+        binmode($fh, ":encoding(UTF-8)");
+        foreach my $d (keys %freq) {
+            print $fh "$d=$freq{$d}\n";
+        }
+        close $fh;
+        $lastfreqdump=time();
+    }
     return $path;
 }
 
