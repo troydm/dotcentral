@@ -98,7 +98,7 @@ if($cpu > 75 || $core > 70 || $mb > 70 || $cpurpm < 800 || $psurpm < 350 || $ssd
     $critical = 0;
 }
 
-if($cpu >= 85 || $core >= 85 || $mb >= 85 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $hdd1 > 70 || $hdd2 > 70){
+if($cpu >= 85 || $core >= 85 || $mb >= 85 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $hdd1 > 65 || $hdd2 > 65){
     $critical++;
 }
 
