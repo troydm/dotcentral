@@ -20,6 +20,24 @@ close $apifh;
 
 Proc::Daemon::Init;
 
+# determine sata devices
+my $ssd1dev = '/dev/sda';
+my $ssd2dev = '/dev/sdd';
+my $hdd1dev = '/dev/sdb';
+my $hdd2dev = '/dev/sdc';
+foreach (split "\n", `lsscsi`){
+    my @a = split(" ", $_);
+    if($_ =~ q/Samsung SSD 850/){
+        $ssd1dev = pop(@a);
+    }elsif($_ =~ q/Samsung SSD 750/){
+        $ssd2dev = pop(@a);
+    }elsif($_ =~ q/HGST HDN726040AL/){
+        $hdd1dev = pop(@a);
+    }elsif($_ =~ q/HGST HDN724030AL/){
+        $hdd2dev = pop(@a);
+    }
+}
+
 my $continue = 1;
 my $notified = 0;
 my $critical = 0;
@@ -56,13 +74,13 @@ foreach my $line (split "\n", $sys ){
 }
 
 if(time() % 300 == 0){
-    my $hddtemp = `/usr/sbin/hddtemp --debug /dev/sdb | grep field\\(194\\)`;
+    my $hddtemp = `/usr/sbin/hddtemp --debug $hdd1dev | grep field\\(194\\)`;
     chop $hddtemp;
     if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
         $hdd1 = $1;
     }
 
-    $hddtemp = `/usr/sbin/hddtemp --debug /dev/sdc | grep field\\(194\\)`;
+    $hddtemp = `/usr/sbin/hddtemp --debug $hdd2dev | grep field\\(194\\)`;
     chop $hddtemp;
     if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
         $hdd2 = $1;
@@ -70,14 +88,14 @@ if(time() % 300 == 0){
 }
 
 my $ssd;
-my $ssdtemp = `/usr/sbin/hddtemp --debug /dev/sda | grep field\\(190\\)`;
+my $ssdtemp = `/usr/sbin/hddtemp --debug $ssd1dev | grep field\\(190\\)`;
 chop $ssdtemp;
 if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
     $ssd = $1;
 }
 
 my $ssd2;
-$ssdtemp = `/usr/sbin/hddtemp --debug /dev/sdd | grep field\\(190\\)`;
+$ssdtemp = `/usr/sbin/hddtemp --debug $ssd2dev | grep field\\(190\\)`;
 chop $ssdtemp;
 if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
     $ssd2 = $1;
