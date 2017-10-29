@@ -61,6 +61,7 @@ Plugin 'zah/nim.vim'
 Plugin 'troydm/hiparen.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'derekwyatt/vim-scala'
+Plugin 'leafo/moonscript-vim'
 
 " vim-scripts repos
 Plugin 'YankRing.vim'
