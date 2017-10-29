@@ -16,16 +16,16 @@ map s :tabopen duckduckgo
 map S YP
 nmap <c-a><c-a> <c-^>
 nmap <c-a>c t<cr>
-nmap <c-a>0 b1<cr>
-nmap <c-a>1 b2<cr>
-nmap <c-a>2 b3<cr>
-nmap <c-a>3 b4<cr>
-nmap <c-a>4 b5<cr>
-nmap <c-a>5 b6<cr>
-nmap <c-a>6 b7<cr>
-nmap <c-a>7 b8<cr>
-nmap <c-a>8 b9<cr>
-nmap <c-a>9 b10<cr>
+nmap <c-a>1 b1<cr>
+nmap <c-a>2 b2<cr>
+nmap <c-a>3 b3<cr>
+nmap <c-a>4 b4<cr>
+nmap <c-a>5 b5<cr>
+nmap <c-a>6 b6<cr>
+nmap <c-a>7 b7<cr>
+nmap <c-a>8 b8<cr>
+nmap <c-a>9 b9<cr>
+nmap <c-a>0 b10<cr>
 imap <c-b> <c-a>
 set defsearch=duckduckgo
 cabbrev !j !java

@@ -133,7 +133,7 @@ if has("gui_running")
     au InsertLeave * hi CursorLine      guibg=#303030
 else
     au InsertEnter * hi CursorLine      ctermbg=233   cterm=none
-    au InsertLeave * hi CursorLine      ctermbg=236   cterm=none
+    au InsertLeave * hi CursorLine      ctermbg=238   cterm=none
 endif
 
 " Code fold

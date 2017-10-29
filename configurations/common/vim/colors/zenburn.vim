@@ -219,7 +219,7 @@ if &t_Co > 255
     hi VisualNOS       ctermfg=236   ctermbg=210     cterm=bold
     hi WarningMsg      ctermfg=15    ctermbg=236     cterm=bold
     hi WildMenu        ctermbg=236   ctermfg=194     cterm=bold
-    hi CursorLine      ctermbg=236   cterm=none
+    hi CursorLine      ctermbg=238   cterm=none
 
     " spellchecking, always "bright" background
     hi SpellLocal ctermfg=14  ctermbg=237
