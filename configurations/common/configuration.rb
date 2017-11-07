@@ -37,6 +37,7 @@ end
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
 symlink '~/.tigrc', 'tigrc'
+symlink '~/.spacemacs', 'spacemacs'
 run 'mc/configuration.rb'
 run 'vifm/configuration.rb'
 run 'vim/configuration.rb'
