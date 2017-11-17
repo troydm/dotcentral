@@ -1,0 +1,16 @@
+let barposition = "bottom"
+let defaultengine = "duckduckgo"
+set incsearch
+set smoothscroll
+map d closeTab
+map <C-p> previousTab
+map <C-n> nextTab
+map <C-d> scrollPageDown
+map <C-u> scrollPageUp
+map <C-i> goBack
+map <C-o> goForward
+map b :buffer<Space>
+map B :bookmarks<Space>
+map w :new<Space>
+map u undo
+map s :execute yhP<CR>
