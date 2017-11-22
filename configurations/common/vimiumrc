@@ -1,0 +1,10 @@
+map <c-d> scrollDown
+map <c-u> scrollUp
+map <c-i> goBack
+map <c-o> goForward
+map <c-n> nextTab
+map <c-p> previousTab
+map d removeTab
+map u restoreTab
+map t Vomnibar.activateInNewTab
+map b Vomnibar.activateTabSelection
