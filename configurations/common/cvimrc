@@ -12,5 +12,5 @@ map <C-o> goForward
 map b :buffer<Space>
 map B :bookmarks<Space>
 map w :new<Space>
-map u undo
+map u :undo<CR>
 map s :execute yhP<CR>

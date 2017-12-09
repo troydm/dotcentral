@@ -62,6 +62,7 @@ Plugin 'troydm/hiparen.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'leafo/moonscript-vim'
+Plugin 'Yggdroot/indentLine'
 
 " vim-scripts repos
 Plugin 'YankRing.vim'
@@ -126,6 +127,7 @@ let g:limelight_conceal_ctermfg = 240
 let g:slimv_impl = 'sbcl'
 let g:slimv_repl_split = 2
 let g:paredit_mode = 0
+let g:indentLine_color_term = 108
 
 " Insert mode cursor line
 set cursorline

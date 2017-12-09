@@ -2,6 +2,7 @@ if has("gui_running")
     set guioptions-=L
     set guioptions-=T
     set guioptions-=r
+    let g:indentLine_color_gui = '#95bf98'
 
     if has('gui_macvim')
         set macmeta
