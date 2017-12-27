@@ -40,11 +40,13 @@ values."
      helm
      ;; auto-completion
      ;; better-defaults
+     common-lisp
      emacs-lisp
      haskell
      markdown
      java
      javascript
+     rust
      yaml
      git
      ;; org
@@ -53,7 +55,7 @@ values."
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
-     shell
+     (shell :variables shell-default-full-span nil)
      version-control
      osx
      )
@@ -339,15 +341,23 @@ you should place your code here."
   (global-set-key (kbd "M-l") 'evil-window-right)
   (global-set-key (kbd "C-x -") 'split-window-below)
   (global-set-key (kbd "C-x |") 'split-window-right)
+  (global-set-key (kbd "C-S-<right>") 'evil-window-increase-width)
+  (global-set-key (kbd "C-S-<left>") 'evil-window-decrease-width)
+  (global-set-key (kbd "C-S-<up>") 'evil-window-increase-height)
+  (global-set-key (kbd "C-S-<down>") 'evil-window-decrease-height)
   (with-eval-after-load 'helm
     (define-key helm-map (kbd "<C-tab>") 'helm-keyboard-quit)
     (define-key helm-map (kbd "ESC") 'helm-keyboard-quit)
     (define-key helm-map (kbd "C-q") 'helm-keyboard-quit))
   (define-key evil-motion-state-map "\C-f" nil)
   (define-key evil-normal-state-map (kbd "\\") nil)
-  (define-key evil-normal-state-map (kbd "\\e") (lambda () (interactive) (funcall (key-binding (kbd "C-M-x")))))
+  (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                    (define-key evil-normal-state-local-map (kbd "\\e") 'pp-eval-last-sexp)))
   (define-key evil-normal-state-map (kbd "\\t") (lambda () (interactive) (funcall (key-binding (kbd "SPC f t")))))
   (setq linum-format " %2d ")
+  ;;(add-hook 'term-mode-hook (lambda ()
+  ;;                            (sleep-for 5)
+  ;;                            (set-window-dedicated-p (selected-window) t)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -360,7 +370,7 @@ you should place your code here."
  '(neo-theme (quote arrow))
  '(package-selected-packages
    (quote
-    (js2-refactor intero flycheck hindent company ghub js2-mode eclim rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby markdown-mode magit magit-popup reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl evil-unimpaired ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (toml-mode slime-company slime racer pos-tip cargo rust-mode mmm-mode evil-magit js2-refactor intero flycheck hindent company ghub js2-mode eclim rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby markdown-mode magit magit-popup reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl evil-unimpaired ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -372,4 +382,5 @@ you should place your code here."
  '(neo-banner-face ((t (:foreground "#7F9F7F" :weight bold))))
  '(neo-dir-link-face ((t (:foreground "#F0DFAF" :weight bold))))
  '(neo-expand-btn-face ((t (:foreground "#F0DFAF"))))
- '(neo-root-dir-face ((t (:foreground "dark gray" :weight bold)))))
+ '(neo-root-dir-face ((t (:foreground "dark gray" :weight bold))))
+ '(vertical-border ((t (:foreground "#5F7F5F")))))
