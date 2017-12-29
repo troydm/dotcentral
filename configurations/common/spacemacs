@@ -358,7 +358,7 @@ you should place your code here."
   (define-key evil-insert-state-map (kbd "<tab>")
     (lambda ()
       (interactive)
-      (if (looking-back "[a-zA-z0-9]")
+      (if (looking-back "[a-zA-z0-9_\-]")
           (dabbrev-expand nil)
         (indent-for-tab-command))))
   (setq linum-format " %2d ")
