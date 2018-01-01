@@ -361,10 +361,7 @@ you should place your code here."
       (if (looking-back "[a-zA-z0-9_\-]")
           (dabbrev-expand nil)
         (indent-for-tab-command))))
-  (define-key evil-insert-state-map (kbd "S-<tab>")
-    (lambda ()
-      (interactive)
-      (dabbrev-expand -1)))
+  (define-key evil-insert-state-map (kbd "S-<tab>") 'undo)
   (setq linum-format " %2d "
         neo-show-hidden-files nil)
   ;;(add-hook 'term-mode-hook (lambda ()
