@@ -119,6 +119,26 @@ sub ff_dirp {
     return $max_path;
 }
 
+sub ff_subdir {
+    my ($wd,@p) = @_;
+    my @dirs = list_dirs($wd);
+    my $p = shift @p;
+    foreach my $d (@dirs) {
+        $d = basename($d);
+        if($d =~ /\Q$p\E/i){
+            my $nwd = $wd."/".$d;
+            return $nwd unless @p;
+            my $r = ff_subdir($nwd,@p);
+            return $r if $r;
+        }
+    }
+    return 0;
+}
+
+sub ff_subdirp {
+    return ff_subdir(cwd(),@_);
+}
+
 sub ff_parent {
     my @search = @_;
     my $wd = cwd();
@@ -204,7 +224,7 @@ sub fcd {
             return found($path);
         }
     }else{
-        my $path = ff_dirp(@p)  || ff_parentp(@p) || ff_freq(@p);
+        my $path = ff_dirp(@p) || ff_subdirp(@p) || ff_parentp(@p) || ff_freq(@p);
         if($path){
             return found($path);
         }

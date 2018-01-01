@@ -58,7 +58,7 @@ values."
      ;; syntax-checking
      (shell :variables shell-default-full-span nil)
      version-control
-     osx
+     (osx :variables osx-use-separate-clipboards t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -361,8 +361,12 @@ you should place your code here."
       (if (looking-back "[a-zA-z0-9_\-]")
           (dabbrev-expand nil)
         (indent-for-tab-command))))
-  (setq linum-format " %2d ")
-  (setq neo-show-hidden-files nil)
+  (define-key evil-insert-state-map (kbd "S-<tab>")
+    (lambda ()
+      (interactive)
+      (dabbrev-expand -1)))
+  (setq linum-format " %2d "
+        neo-show-hidden-files nil)
   ;;(add-hook 'term-mode-hook (lambda ()
   ;;                            (sleep-for 5)
   ;;                            (set-window-dedicated-p (selected-window) t)))
