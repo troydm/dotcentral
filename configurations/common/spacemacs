@@ -364,6 +364,8 @@ you should place your code here."
   (define-key evil-insert-state-map (kbd "S-<tab>") 'undo)
   (setq linum-format " %2d "
         neo-show-hidden-files nil)
+  (add-to-list 'auto-mode-alist
+               '("\\(\\.m\\'\\)" lambda nil (configuration-layer//auto-mode 'c-c++ 'objc-mode)))
   ;;(add-hook 'term-mode-hook (lambda ()
   ;;                            (sleep-for 5)
   ;;                            (set-window-dedicated-p (selected-window) t)))
