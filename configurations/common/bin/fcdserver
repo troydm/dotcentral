@@ -121,8 +121,23 @@ sub ff_dirp {
 
 sub ff_subdir {
     my ($wd,@p) = @_;
-    my @dirs = list_dirs($wd);
     my $p = shift @p;
+    if($p eq ".."){
+        return 0 if $wd eq "/";
+        my $wdbase = basename($wd);
+        my ($nwd) = $wd =~ /(.*)\/\Q$wdbase\E/;
+        if(!$nwd){
+            $nwd = "/";
+        }
+        return $nwd unless @p;
+        my $r = ff_subdir($nwd,@p);
+        return $r if $r;
+    }
+    if($p =~ /^\/(.*)/){
+        $p = $1;
+        $wd = "/";
+    }
+    my @dirs = list_dirs($wd);
     foreach my $d (@dirs) {
         $d = basename($d);
         if($d =~ /\Q$p\E/i){
