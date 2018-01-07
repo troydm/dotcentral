@@ -1,5 +1,5 @@
 erb 'tmux.conf.erb'
 symlink '~/.tmux.conf', 'tmux.conf'
-symlink '~/.local/share/konsole/zenburn.colorscheme', 'zenburn.colorscheme'
+symlink '~/.local/share/konsole/zenburn.colorscheme', '../common/zenburn.colorscheme'
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'

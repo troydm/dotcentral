@@ -9,5 +9,6 @@ configurations/common/vimperator/info
 configurations/private
 configurations/troynas/bashrc
 configurations/troynas/tmux.conf
+configurations/troypc/fontawesome
 configurations/server/bashrc
 configurations/server/tmux.conf

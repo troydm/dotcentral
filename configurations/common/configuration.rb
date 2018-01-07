@@ -40,6 +40,9 @@ symlink '~/.tigrc', 'tigrc'
 symlink '~/.spacemacs', 'spacemacs'
 symlink '~/.cvimrc', 'cvimrc'
 symlink '~/.qutebrowser', 'qutebrowser'
+if os == "linux" and hostname != "troynas"
+  symlink '~/.config/redshift.conf', 'redshift.conf'
+end
 run 'mc/configuration.rb'
 run 'vifm/configuration.rb'
 run 'vim/configuration.rb'
