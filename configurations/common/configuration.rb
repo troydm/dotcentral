@@ -24,6 +24,7 @@ chmod 'bin/ack', '0755'
 
 symlink '~/.Xresources', 'Xresources'
 symlink '~/.urxvt', 'urxvt'
+symlink '~/.hyper.js', 'hyper.js'
 symlink '~/.dircolors', 'dircolors'
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'
