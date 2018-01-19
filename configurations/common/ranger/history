@@ -1,0 +1,9 @@
+set colorscheme solarized
+set colorscheme jungle
+set colorscheme snow
+set colorscheme
+set colorscheme zenburn
+rename Music
+set show_hidden
+set show_hidden True
+rename Pictures

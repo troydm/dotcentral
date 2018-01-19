@@ -44,6 +44,7 @@ symlink '~/.qutebrowser', 'qutebrowser'
 if os == "linux" and hostname != "troynas"
   symlink '~/.config/redshift.conf', 'redshift.conf'
 end
+symlink '~/.config/ranger', 'ranger'
 run 'mc/configuration.rb'
 run 'vifm/configuration.rb'
 run 'vim/configuration.rb'
