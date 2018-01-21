@@ -1,12 +1,12 @@
 general {
     output_format = "i3bar"
     colors = false
-    interval = 2
+    interval = 1
 }
 
 order += "wireless wlan0"
-order += "cpu_temperature 0"
 order += "cpu_usage"
+order += "cpu_temperature 0"
 order += "tztime local"
 
 wireless wlan0 {
@@ -15,11 +15,11 @@ wireless wlan0 {
 }
 
 cpu_usage {
-    format = " %usage"
+    format = " %usage"
 }
 
 cpu_temperature 0 {
-    format = " %degrees°C"
+    format = " %degrees°C"
     path = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
 }
 

@@ -24,6 +24,7 @@ chmod 'bin/ack', '0755'
 
 symlink '~/.Xresources', 'Xresources'
 symlink '~/.urxvt', 'urxvt'
+symlink '~/.hyper.js', 'hyper.js'
 symlink '~/.dircolors', 'dircolors'
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'
@@ -43,6 +44,7 @@ symlink '~/.qutebrowser', 'qutebrowser'
 if os == "linux" and hostname != "troynas"
   symlink '~/.config/redshift.conf', 'redshift.conf'
 end
+symlink '~/.config/ranger', 'ranger'
 run 'mc/configuration.rb'
 run 'vifm/configuration.rb'
 run 'vim/configuration.rb'

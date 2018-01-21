@@ -34,7 +34,7 @@ $dir =~ s/^$/\//;
 
 binmode(STDOUT, ":encoding(UTF-8)");
 
-my $bg_color = "grey5";
+my $bg_color = "grey10";
 my $alt_bg_color = "grey1";
 my $user_color = "rgb533";
 my $host_color = "rgb554";

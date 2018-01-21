@@ -36,6 +36,16 @@ alias myip="curl -s icanhazip.com"
 vtop() {
     top `pgrep VBoxHeadless | awk '{print "-p " $0}' | tr '\n' ' '` -d 1
 }
+
+# GnuPGP Encryption/Decryption
+e() {
+    gpg2 -r 82430AB9 -o "$1.gpg" -e $1
+}
+
+d() {
+    gpg2 -o "${1%.*}" -d $1
+}
+
 <% end %>
 
 # fcd
