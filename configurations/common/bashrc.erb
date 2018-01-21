@@ -43,7 +43,7 @@ fcd() { cd "$(fcdclient "$@")"; }
 alias z=fcd
 
 # Add bin directory to PATH
-export PATH="$PATH:<%= pwd+"/bin" %>:."
+export PATH="$HOME/.local/bin":"<%= pwd+"/bin" %>":.:$PATH
 
 # less colors and options
 export LESS='-RS#3M~g'

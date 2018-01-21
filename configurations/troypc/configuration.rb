@@ -12,3 +12,5 @@ ls('fontawesome',{:file => false}).each { |fontdir|
     symlink "#{install_fontsdir}/#{font}", "fontawesome/#{fontdir}/#{font}"
   }
 }
+
+run 'xmonad/configuration.rb'

@@ -36,8 +36,22 @@ URxvt.clipboard.copycmd:  xclip -i -selection clipboard
 URxvt.clipboard.pastecmd: xclip -o -selection clipboard
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.url-select.button: 1C
+URxvt.url-select.launcher: firefox
 URxvt.tabbed.tab-fg: 216
 URxvt.tabbed.tab-bg: 0
+URxvt*meta8: false
+URxvt.keysym.C-Up: \033[1;5A
+URxvt.keysym.C-Down: \033[1;5B
+URxvt.keysym.C-Left: \033[1;5D
+URxvt.keysym.C-Right: \033[1;5C
+URxvt.keysym.C-S-Up: \033[1;6A
+URxvt.keysym.C-S-Down: \033[1;6B
+URxvt.keysym.C-S-Left: \033[1;6D
+URxvt.keysym.C-S-Right: \033[1;6C
+URxvt.keysym.M-Left: \033[1;3D
+URxvt.keysym.M-Right: \033[1;3C
+URxvt.keysym.M-Up: \033[1;3A
+URxvt.keysym.M-Down: \033[1;3B
 
 rofi.bg: #333333
 rofi.bgalt: #222222

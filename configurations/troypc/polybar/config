@@ -24,7 +24,7 @@ width = 80%
 height = 35
 offset-x = 10%
 offset-y = 3
-radius = 0.0
+radius = 10.0
 fixed-center = true
 
 background = ${colors.background}
@@ -33,7 +33,7 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #f00
 
-border-size = 3
+border-size = 0
 border-color = #333333
 
 padding-left = 0
@@ -46,8 +46,8 @@ font-0 = DejaVuSansMono:pixelsize=12;1
 font-1 = DejaVuSansMono:fontformat=truetype:size=10:antialias=true;0
 font-2 = fontawesome:pixelsize=12
 
-modules-left = 
-modules-center = 
+modules-left = xmonad
+modules-center =
 modules-right = filesystem cpu memory temperature mpd eth xkeyboard volume date
 
 tray-position = right
@@ -58,7 +58,7 @@ tray-padding = 2
 ;wm-restack = bspwm
 ;wm-restack = i3
 
-;override-redirect = true
+;override-redirect = false
 
 ;scroll-up = bspwm-desknext
 ;scroll-down = bspwm-deskprev
@@ -68,6 +68,16 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[module/xmonad]
+type = custom/script
+exec = ~/.local/bin/xmonad-dbus
+;exec = echo "test"
+tail = true
+interval = 1
+format = <label>
+format-foreground = ${colors.foreground}
+format-underline = ${colors.primary}
 
 [module/xwindow]
 type = internal/xwindow
@@ -95,7 +105,7 @@ interval = 25
 
 mount-0 = /
 
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = %{A:dolphin:} home: %percentage_used%%%{A-}
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
@@ -116,10 +126,10 @@ label-song-ellipsis = true
 [module/cpu]
 type = internal/cpu
 interval = 1
-format-prefix = " "
+format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.secondary}
-label = %percentage:2%%
+label = %{A:ksysguard:}%percentage:2%%%{A-}
 
 [module/memory]
 type = internal/memory
@@ -127,7 +137,7 @@ interval = 5
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.primary}
-label = %percentage_used%%
+label = %{A:ksysguard:}%percentage_used:2%%%{A-}
 
 [module/eth]
 type = internal/network
@@ -170,22 +180,22 @@ label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
+label-muted = " "
 
 bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
+bar-volume-foreground-0 = #fff
+bar-volume-foreground-1 = #fff
+bar-volume-foreground-2 = #fff
+bar-volume-foreground-3 = #fff
+bar-volume-foreground-4 = #fff
+bar-volume-foreground-5 = #fff
+bar-volume-foreground-6 = #fff
 bar-volume-gradient = false
 bar-volume-indicator = |
 bar-volume-indicator-font = 2
-bar-volume-fill = ─
+bar-volume-fill = .
 bar-volume-fill-font = 2
-bar-volume-empty = ─
+bar-volume-empty = .
 bar-volume-empty-font = 2
 bar-volume-empty-foreground = ${colors.foreground-alt}
 
@@ -193,19 +203,20 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
+hwmon-path = /sys/devices/platform/it87.656/hwmon/hwmon3/temp1_input
 
 format = <ramp> <label>
-format-underline = #f50a4d
+format-underline = ${colors.secondary}
 format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+format-warn-underline = #f50a4d
 
 label = %temperature%
 label-warn = %temperature%
-label-warn-foreground = ${colors.secondary}
+label-warn-foreground = ${colors.primary}
 
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
 [settings]
