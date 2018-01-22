@@ -17,7 +17,9 @@ configurations/troypc/xmonad/xmonad-lock
 configurations/troypc/xmonad/xmonad.hi
 configurations/troypc/xmonad/xmonad.o
 configurations/troypc/xmonad/xmonad.errors
+configurations/troypc/xmonad/xmonad.log
 configurations/troypc/xmonad/xmonad-x86_64-linux
+configurations/troypc/xmonad/prompt-history
 configurations/server/bashrc
 configurations/server/tmux.conf
 .stack-work
