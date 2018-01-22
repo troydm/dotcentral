@@ -127,6 +127,7 @@ let g:limelight_conceal_ctermfg = 240
 let g:slimv_impl = 'sbcl'
 let g:slimv_repl_split = 2
 let g:paredit_mode = 0
+let g:indentLine_char = '┊'
 let g:indentLine_color_term = 108
 
 " Insert mode cursor line
@@ -614,5 +615,6 @@ function! GetTermBufnr()
 endfunction
 
 " Invisible characters
+set fillchars=vert:│
 set listchars=tab:▸\ ,eol:¬,trail:·
 set list
