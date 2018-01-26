@@ -12,7 +12,8 @@
 set $mod Mod4
 
 # disable title bar
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 2
+
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -20,7 +21,7 @@ font pango:FontAwesome 11
 
 # Colors
 # class                 border  bg      text    ind       child_border
-client.focused          #444444 #000000 #ffffff #DDDDDD   #000000
+client.focused          #444444 #000000 #ffffff #DDDDDD   #ffffff
 client.focused_inactive #333333 #333333 #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
