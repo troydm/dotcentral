@@ -6,6 +6,14 @@ configurations/common/sshc
 configurations/common/fonts
 configurations/common/vim/bundle
 configurations/common/vimperator/info
+configurations/common/vimb/bookmark
+configurations/common/vimb/closed
+configurations/common/vimb/command
+configurations/common/vimb/cookies
+configurations/common/vimb/history
+configurations/common/vimb/hsts
+configurations/common/vimb/queue
+configurations/common/vimb/search
 configurations/private
 configurations/troynas/bashrc
 configurations/troynas/tmux.conf

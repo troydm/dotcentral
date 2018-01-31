@@ -1,0 +1,27 @@
+set input-autohide=true
+set incsearch=true
+set home-page=https://ddg.gg
+set hint-keys=hjkl
+set hint-timeout=0
+set editor-command=urxvt\ -e\ vim\ '%s'
+
+shortcut-add d=https://duckduckgo.com/?q=$0
+shortcut-add g=https://encrypted.google.com/search?q=$0
+shortcut-add yt=http://www.youtube.com/results?search_query=$0
+shortcut-default d
+
+nmap + zI
+nmap - zO
+nmap = ZZ
+
+set accelerated-2d-canvas=true
+set webgl=true
+set hardware-acceleration-policy=always
+set input-css=color:#f5d594;background-color:#333;font:DejaVu\ Sans\ Mono\ 12px;font-weight:bold
+set input-error-css=color:#d03f3f;background-color:#333;font:DejaVu\ Sans\ Mono\ 12px;font-weight:bold
+set status-css=color:#fff;background-color:#333;font:DejaVu\ Sans\ Mono\ 12px
+set status-ssl-css=color:#cfc;background-color:#333;font:DejaVu\ Sans\ Mono\ 12px
+set status-ssl-invalid-css=color:#fcc;background-color:#333;font:DejaVu\ Sans\ Mono\ 12px
+set completion-css=color:#dfdfdf;background-color:#000;font:DejaVu\ Sans\ Mono\ 12px
+set completion-hover-css=color:#aaa;background-color:#333;font:DejaVu\ Sans\ Mono\ 12px
+set completion-selected-css=color:#f5d594;background-color:#3f3f3f;font:DejaVu\ Sans\ Mono\ 12px
