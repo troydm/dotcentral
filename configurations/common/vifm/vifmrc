@@ -1,5 +1,5 @@
 " set color scheme
-color Zenburn
+color Zenburn.vifm
 
 " alias for quit command, some habits are really hard to break
 command qa :q
