@@ -13,6 +13,8 @@ shortcut-default d
 nmap + zI
 nmap - zO
 nmap = ZZ
+nnoremap <C-i> <C-o>
+nnoremap <C-o> <C-i>
 
 set accelerated-2d-canvas=true
 set webgl=true

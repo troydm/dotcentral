@@ -41,8 +41,10 @@ symlink '~/.tigrc', 'tigrc'
 symlink '~/.spacemacs', 'spacemacs'
 symlink '~/.cvimrc', 'cvimrc'
 symlink '~/.qutebrowser', 'qutebrowser'
-if os == "linux" and hostname != "troynas"
-  symlink '~/.config/redshift.conf', 'redshift.conf'
+if os == "linux" 
+  if hostname != "troynas"
+    symlink '~/.config/redshift.conf', 'redshift.conf'
+  end
   symlink '~/.config/vimb', 'vimb'
 end
 symlink '~/.config/ranger', 'ranger'
