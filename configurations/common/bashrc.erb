@@ -32,9 +32,14 @@ alias v=vagrant
 alias myip="curl -s icanhazip.com"
 
 <% if os == 'linux' %>
+# ptop
+ptop() {
+    top -d 1 -c -p `pgrep $1 | paste -sd, -`
+}
+
 # vtop
 vtop() {
-    top `pgrep VBoxHeadless | awk '{print "-p " $0}' | tr '\n' ' '` -d 1
+    top -d 1 -c `pgrep VBoxHeadless | awk '{print "-p " $0}' | tr '\n' ' '` -d 1
 }
 
 # GnuPGP Encryption/Decryption
