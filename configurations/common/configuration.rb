@@ -18,6 +18,11 @@ if install_fontsdir
   }
 end
 
+# powerline command
+unless file_exists? 'bin/powerline'
+  sudo 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline'
+end
+
 # install ack
 curl 'https://beyondgrep.com/ack-2.18-single-file', 'bin/ack'
 chmod 'bin/ack', '0755'
