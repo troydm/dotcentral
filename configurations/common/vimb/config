@@ -13,6 +13,7 @@ shortcut-default d
 nmap + zI
 nmap - zO
 nmap = ZZ
+nnoremap d :q<CR>
 nnoremap <C-i> <C-o>
 nnoremap <C-o> <C-i>
 
