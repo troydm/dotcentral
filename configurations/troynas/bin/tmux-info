@@ -106,7 +106,7 @@ open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
 
-if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 800 || $psurpm < 350 || $ssd > 65 || $hdd1 > 64 || $hdd2 > 64){
+if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $hdd1 > 64 || $hdd2 > 64){
     if(!$notified){
             notify($ret);
             $notified = 1;
