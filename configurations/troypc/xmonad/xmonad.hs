@@ -32,7 +32,7 @@ myLauncher = "rofi -show-icons -theme ~/.dotcentral/configurations/common/rofi/z
 myStartup :: X ()
 myStartup = do
               spawn "feh --bg-fill ~/.wallpapers/snow.jpeg"
-              spawn "setxkbmap -layout us,ru,ge -option altwin:swap_lalt_lwin -option grp:win_space_toggle"
+              spawn "setxkbmap -layout us,ru,ge -option ctrl:nocaps -option altwin:swap_lalt_lwin -option grp:win_space_toggle"
               spawnOnce "compton"
               spawnOnce "redshift"
               spawnOnce "polybar snow"
