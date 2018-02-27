@@ -2,6 +2,10 @@
 git 'https://github.com/troydm/sshc.git', 'sshc'
 symlink 'bin/sshc', 'sshc/sshc'
 
+# install exp
+git 'https://github.com/troydm/exp.git', 'exp'
+symlink 'bin/exp', 'exp/exp'
+
 # install Powerline fonts on OSX and Linux only
 if os == 'linux'
     install_fontsdir = '~/.fonts'
