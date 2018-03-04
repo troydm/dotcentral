@@ -7,9 +7,9 @@ git 'https://github.com/troydm/exp.git', 'exp'
 symlink 'bin/exp', 'exp/exp'
 
 # install Powerline fonts on OSX and Linux only
-if os == 'linux'
+if linux?
     install_fontsdir = '~/.fonts'
-elsif os == 'osx'
+elsif osx?
     install_fontsdir = '~/Library/Fonts'
 end
 if install_fontsdir
@@ -24,7 +24,7 @@ end
 
 # powerline command
 unless file_exists? 'bin/powerline'
-  sudo 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline'
+  shell 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline', {:verbose => true, :silent => false}
 end
 
 # install ack
@@ -50,7 +50,7 @@ symlink '~/.tigrc', 'tigrc'
 symlink '~/.spacemacs', 'spacemacs'
 symlink '~/.cvimrc', 'cvimrc'
 symlink '~/.qutebrowser', 'qutebrowser'
-if os == "linux" 
+if linux?
   if hostname != "troynas"
     symlink '~/.config/redshift.conf', 'redshift.conf'
   end
