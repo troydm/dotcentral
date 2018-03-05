@@ -196,7 +196,7 @@ gaps inner 20
 gaps outer 5
 
 exec --no-startup-id feh --bg-fill /home/troydm/Pictures/winter.jpg
-exec --no-startup-id setxkbmap us,ru,ge -option 'altwin:swap_lalt_lwin' -option 'grp:win_space_toggle'
+exec --no-startup-id setxkbmap us,ru,ge -option 'ctrl:nocaps' -option 'altwin:swap_lalt_lwin' -option 'grp:win_space_toggle'
 exec --no-startup-id redshift
 exec --no-startup-id compton -b
 exec --no-startup-id xautolock -time 10 -locker 'i3lock -c 000000' &

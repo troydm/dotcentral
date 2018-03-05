@@ -32,7 +32,7 @@ myLauncher = "rofi -show-icons -theme ~/.dotcentral/configurations/common/rofi/z
 myStartup :: X ()
 myStartup = do
               spawn "feh --bg-fill ~/.wallpapers/snow.jpeg"
-              spawn "setxkbmap -layout us,ru,ge -option altwin:swap_lalt_lwin -option grp:win_space_toggle"
+              spawn "setxkbmap -layout us,ru,ge -option ctrl:nocaps -option altwin:swap_lalt_lwin -option grp:win_space_toggle"
               spawnOnce "compton"
               spawnOnce "redshift"
               spawnOnce "polybar snow"
@@ -62,6 +62,7 @@ myKeys = [("M-<Return>", spawn myTerminal)
          ,("S-M-<Right>", windows W.swapDown)
          ,("S-M-<Down>", windows W.swapDown)
          ,("M-w", sendMessage NextLayout)
+         ,("M-x", sendMessage NextLayout)
          ,("M-f", sendMessage (Toggle "Full"))
          ,("M-q", kill)
          ,("S-M-q", confirmPrompt myPrompt "exit" $ io (exitWith ExitSuccess))
