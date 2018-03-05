@@ -4,7 +4,11 @@ symlink 'bin/sshc', 'sshc/sshc'
 
 # install Powerline fonts on OSX and Linux only
 if os == 'linux'
-    install_fontsdir = '~/.fonts'
+    if hostname == 'troymac'
+      install_fontsdir = '~/.local/share/fonts'
+    else
+      install_fontsdir = '~/.fonts'
+    end
 elsif os == 'osx'
     install_fontsdir = '~/Library/Fonts'
 end
@@ -20,13 +24,18 @@ end
 
 # powerline command
 unless file_exists? 'bin/powerline'
-  sudo 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline'
+  if hostname == "troymac"
+    sudo "nix-shell -p stdenv --pure --command 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline'"
+  else
+    sudo 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline'
+  end
 end
 
 # install ack
-curl 'https://beyondgrep.com/ack-2.18-single-file', 'bin/ack'
+curl 'https://beyondgrep.com/ack-2.22-single-file', 'bin/ack'
 chmod 'bin/ack', '0755'
 
+erb 'Xresources.erb'
 symlink '~/.Xresources', 'Xresources'
 symlink '~/.urxvt', 'urxvt'
 symlink '~/.hyper.js', 'hyper.js'

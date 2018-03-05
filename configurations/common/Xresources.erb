@@ -1,4 +1,16 @@
-URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=13
+<% if hostname == 'troymac' %>
+Xft.dpi: 192
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+Xcursor*theme: Breeze
+Xcursor*size: 40
+URxvt*buffered: false
+<% end %>
+URxvt.font: xft:DejaVu Sans Mono for Powerline:size=10
 XTerm*faceName: DejaVu Sans Mono for Powerline
 XTerm*faceSize: 10
 URxvt*scrollBar: false
@@ -60,3 +72,4 @@ rofi.bc: #000000
 rofi.hlbg: #000000
 rofi.fg: #DDDDDD
 rofi.opacity: 80
+

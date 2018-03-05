@@ -2,6 +2,7 @@ configurations/common/bin/ack
 configurations/common/bin/powerline
 configurations/common/bashrc
 configurations/common/fishrc
+configurations/common/Xresources
 configurations/common/bin/sshc
 configurations/common/sshc
 configurations/common/fonts

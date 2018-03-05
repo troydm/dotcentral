@@ -31,6 +31,24 @@ alias l=ls
 alias v=vagrant
 alias myip="curl -s icanhazip.com"
 
+# add_PATH
+add_PATH(){
+    local d="${1/#\~/$HOME}"
+    echo $PATH | grep -F "$d" >/dev/null || export PATH="$d":$PATH
+}
+
+# add LD_LIBRARY_PATH
+add_LD_LIBRARY_PATH(){
+    local d="${1/#\~/$HOME}"
+    echo $LD_LIBRARY_PATH | grep -F "$d" >/dev/null || export LD_LIBRARY_PATH="$d":$LD_LIBRARY_PATH
+}
+
+# add MAN_PATH
+add_MAN_PATH(){
+    local d="${1/#\~/$HOME}"
+    echo $MAN_PATH | grep -F "$d" >/dev/null || export MAN_PATH="$d":$MAN_PATH
+}
+
 <% if os == 'linux' %>
 # ptop
 ptop() {
