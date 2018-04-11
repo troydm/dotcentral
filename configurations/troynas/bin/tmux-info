@@ -9,14 +9,28 @@ use Proc::Daemon;
 use File::Basename 'dirname';
 use Cwd 'abs_path';
 
-# read notifymyandroid api key
-open my $apifh, '<', dirname(abs_path($0))."/../../private/common/notifymyandroid/api_key" or die $!;
-my $apikey;
-while(<$apifh>){
-    chomp;
-    $apikey = $_;
+# get notifymyandroid api key from enviroment variable
+die 'notifymyandroid API key wasn\'t specified in NOTIFYMYANDROID_API_KEY enviroment variable' unless exists $ENV{NOTIFYMYANDROID_API_KEY};
+my $apikey = $ENV{NOTIFYMYANDROID_API_KEY};
+
+sub notify {
+    my $info = shift;
+    my $ua = LWP::UserAgent->new;
+
+    my $req = POST 'https://www.notifymyandroid.com/publicapi/notify',
+                  [ apikey => $apikey,
+                    application =>'tmux-info',
+                    event=>'troynas server is overheating!',
+                    description=>$info,
+                    priority=>'2'];
+
+    return $ua->request($req)->as_string;
 }
-close $apifh;
+
+if(@ARGV == 1 && $ARGV[0] eq 'notify-test'){
+    print notify('This is notify test CPU:46.5°C 14.0°C MB:45.0°C RPM: CPU 1521 PSU 402 SSD:42°C 46°C HDD:45°C 42°C');
+    exit(0);
+}
 
 Proc::Daemon::Init;
 
@@ -106,10 +120,9 @@ open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
 
-if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $hdd1 > 64 || $hdd2 > 64){
-    if(!$notified){
-            notify($ret);
-            $notified = 1;
+if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $hdd1 > 62 || $hdd2 > 62){
+    if(!$notified && notify($ret) =~ m/success/){
+        $notified = 1;
     }
 }else{
     $notified = 0;
@@ -120,26 +133,12 @@ if($cpu >= 85 || $core >= 85 || $mb >= 85 || $cpurpm < 400 || $psurpm < 350 || $
     $critical++;
 }
 
-if($critical >= 60){
+if($critical >= 30){
      system("cp /tmp/tmux-info /home/troydm/critical-shutdown.log");
      exec("sudo shutdown -h now");
 }
 
 return $ret;
-}
-
-sub notify(){
-    my $info = shift;
-    my $ua = LWP::UserAgent->new;
-
-    my $req = POST 'https://www.notifymyandroid.com/publicapi/notify',
-                  [ apikey => $apikey,
-                    application =>'tmux-info',
-                    event=>'troynas server is overheating!',
-                    description=>$info,
-                    priority=>'2'];
-
-    $ua->request($req)->as_string;
 }
 
 while($continue){

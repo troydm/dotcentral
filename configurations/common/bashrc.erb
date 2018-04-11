@@ -43,10 +43,10 @@ add_LD_LIBRARY_PATH(){
     echo $LD_LIBRARY_PATH | grep -F "$d" >/dev/null || export LD_LIBRARY_PATH="$d":$LD_LIBRARY_PATH
 }
 
-# add MAN_PATH
-add_MAN_PATH(){
+# add MANPATH
+add_MANPATH(){
     local d="${1/#\~/$HOME}"
-    echo $MAN_PATH | grep -F "$d" >/dev/null || export MAN_PATH="$d":$MAN_PATH
+    echo $MANPATH | grep -F "$d" >/dev/null || export MANPATH="$d":$MANPATH
 }
 
 <% if os == 'linux' %>

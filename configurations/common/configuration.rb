@@ -6,6 +6,10 @@ symlink 'bin/sshc', 'sshc/sshc'
 git 'https://github.com/troydm/exp.git', 'exp'
 symlink 'bin/exp', 'exp/exp'
 
+# install tldr
+git 'https://github.com/pepa65/tldr-bash-client.git', 'tldr'
+symlink 'bin/tldr', 'tldr/tldr'
+
 # install Powerline fonts on OSX and Linux only
 if linux?
     if hostname == 'troymac'

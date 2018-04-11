@@ -1,4 +1,9 @@
 #!/usr/bin/env perl
+#
+# forecast.io command line client
+# written in Perl as you can see down below
+# 2017(c) Dmitry Geurkov (d.geurkov@gmail.com)
+#
 
 use strict;
 use warnings;
@@ -37203,7 +37208,7 @@ unless($ARGV[0]){
 }
 
 # find city lat and lon by name
-my $city = $ARGV[@ARGV-1];
+my $city = $ARGV[-1];
 my $coords = $cities{$city};
 unless($coords){
     foreach my $c (keys %cities){
@@ -37220,15 +37225,9 @@ unless($coords){
 }
 my $country = $coords->{'country'};
 
-# read foreacast.io api key
-open my $apifh, '<', dirname(abs_path($0))."/../../private/common/forecast.io/api_key" or die $!;
-my $apikey;
-while(<$apifh>){
-    chomp;
-    $apikey = $_;
-}
-close $apifh;
-
+# get foreacast.io api key from enviroment variable
+die 'forecast.io API key wasn\'t specified in FORECAST_IO_API_KEY enviroment variable' unless exists $ENV{FORECAST_IO_API_KEY};
+my $apikey = $ENV{FORECAST_IO_API_KEY};
 my $url = "https://api.darksky.net/forecast/$apikey/$coords->{'lat'},$coords->{'lon'}?units=ca";
 
 my $req = `curl -s "$url"`;
