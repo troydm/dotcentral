@@ -43,9 +43,11 @@ end
 curl 'https://beyondgrep.com/ack-2.22-single-file', 'bin/ack'
 chmod 'bin/ack', '0755'
 
-erb 'Xresources.erb'
-symlink '~/.Xresources', 'Xresources'
-symlink '~/.urxvt', 'urxvt'
+if linux?
+  erb 'Xresources.erb'
+  symlink '~/.Xresources', 'Xresources'
+  symlink '~/.urxvt', 'urxvt'
+end
 symlink '~/.hyper.js', 'hyper.js'
 symlink '~/.dircolors', 'dircolors'
 erb 'bashrc.erb'
