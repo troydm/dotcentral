@@ -37,3 +37,4 @@ configurations/troypc/xmonad/prompt-history
 configurations/server/bashrc
 configurations/server/tmux.conf
 .stack-work
+.DS_Store

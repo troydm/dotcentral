@@ -25,14 +25,18 @@ if install_fontsdir
   mkdir install_fontsdir
   ls('fonts',{:file => false}).each { |fontdir|
       ls("fonts/#{fontdir}",{:grep => '.[ot]tf'}).each { |font|
-          symlink "#{install_fontsdir}/#{font}", "fonts/#{fontdir}/#{font}"
+          if linux?
+            symlink "#{install_fontsdir}/#{font}", "fonts/#{fontdir}/#{font}"
+          elsif osx?
+            copy "fonts/#{fontdir}/#{font}", "#{install_fontsdir}/#{font}"
+          end
       }
   }
 end
 
 # powerline command
 unless file_exists? 'bin/powerline'
-  if hostname == "troymac"
+  if linux? and hostname == "troymac"
     shell "nix-shell -p stdenv --pure --command 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline'", {:verbose => true, :silent => false}
   else
     shell 'cd bin && gcc -o ./powerline -O2 ./powerline.c && strip ./powerline', {:verbose => true, :silent => false}
