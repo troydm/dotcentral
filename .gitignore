@@ -23,6 +23,8 @@ configurations/common/vimb/search
 configurations/private
 configurations/troynas/bashrc
 configurations/troynas/tmux.conf
+configurations/troynas/bin/tsundoku
+configurations/troynas/tsundoku
 configurations/troypc/fontawesome
 configurations/troypc/xmonad/xmonad-git
 configurations/troypc/xmonad/xmonad-contrib-git
