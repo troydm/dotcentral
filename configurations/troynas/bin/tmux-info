@@ -9,22 +9,24 @@ use Proc::Daemon;
 use File::Basename 'dirname';
 use Cwd 'abs_path';
 
-# get notifymyandroid api key from enviroment variable
-die 'notifymyandroid API key wasn\'t specified in NOTIFYMYANDROID_API_KEY enviroment variable' unless exists $ENV{NOTIFYMYANDROID_API_KEY};
-my $apikey = $ENV{NOTIFYMYANDROID_API_KEY};
+# get pushover api key from enviroment variable
+die 'pushover API key wasn\'t specified in PUSHOVER_API_KEY enviroment variable' unless exists $ENV{PUSHOVER_API_KEY};
+die 'pushover User key wasn\'t specified in PUSHOVER_USER_KEY enviroment variable' unless exists $ENV{PUSHOVER_USER_KEY};
+my $apikey = $ENV{PUSHOVER_API_KEY};
+my $userkey = $ENV{PUSHOVER_USER_KEY};
 
 sub notify {
     my $info = shift;
-    my $ua = LWP::UserAgent->new;
-
-    my $req = POST 'https://www.notifymyandroid.com/publicapi/notify',
-                  [ apikey => $apikey,
-                    application =>'tmux-info',
-                    event=>'troynas server is overheating!',
-                    description=>$info,
-                    priority=>'2'];
-
-    return $ua->request($req)->as_string;
+    LWP::UserAgent->new()->post(
+        "https://api.pushover.net/1/messages.json", [
+            token => $apikey,
+            user => $userkey,
+            title => 'troynas server is overheating!',
+            message => $info,
+            priority => '2',
+            retry => '180',
+            expire => '172800',
+        ])->as_string;
 }
 
 if(@ARGV == 1 && $ARGV[0] eq 'notify-test'){
