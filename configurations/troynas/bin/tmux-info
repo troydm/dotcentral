@@ -122,7 +122,7 @@ open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
 
-if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 65 || $hdd1 > 62 || $hdd2 > 62){
+if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 70 || $hdd1 > 62 || $hdd2 > 62){
     if(!$notified && notify($ret) =~ m/success/){
         $notified = 1;
     }
