@@ -9,22 +9,24 @@ use Proc::Daemon;
 use File::Basename 'dirname';
 use Cwd 'abs_path';
 
-# get notifymyandroid api key from enviroment variable
-die 'notifymyandroid API key wasn\'t specified in NOTIFYMYANDROID_API_KEY enviroment variable' unless exists $ENV{NOTIFYMYANDROID_API_KEY};
-my $apikey = $ENV{NOTIFYMYANDROID_API_KEY};
+# get pushover api key from enviroment variable
+die 'pushover API key wasn\'t specified in PUSHOVER_API_KEY enviroment variable' unless exists $ENV{PUSHOVER_API_KEY};
+die 'pushover User key wasn\'t specified in PUSHOVER_USER_KEY enviroment variable' unless exists $ENV{PUSHOVER_USER_KEY};
+my $apikey = $ENV{PUSHOVER_API_KEY};
+my $userkey = $ENV{PUSHOVER_USER_KEY};
 
 sub notify {
     my $info = shift;
-    my $ua = LWP::UserAgent->new;
-
-    my $req = POST 'https://www.notifymyandroid.com/publicapi/notify',
-                  [ apikey => $apikey,
-                    application =>'tmux-info',
-                    event=>'troynas server is overheating!',
-                    description=>$info,
-                    priority=>'2'];
-
-    return $ua->request($req)->as_string;
+    LWP::UserAgent->new()->post(
+        "https://api.pushover.net/1/messages.json", [
+            token => $apikey,
+            user => $userkey,
+            title => 'troynas server is overheating!',
+            message => $info,
+            priority => '2',
+            retry => '180',
+            expire => '172800',
+        ])->as_string;
 }
 
 if(@ARGV == 1 && $ARGV[0] eq 'notify-test'){
@@ -43,7 +45,7 @@ foreach (split "\n", `lsscsi`){
     my @a = split(" ", $_);
     if($_ =~ q/Samsung SSD 850/){
         $ssd1dev = pop(@a);
-    }elsif($_ =~ q/Samsung SSD 750/){
+    }elsif($_ =~ q/TS128GSSD230S/){
         $ssd2dev = pop(@a);
     }elsif($_ =~ q/HGST HDN726040AL/){
         $hdd1dev = pop(@a);
@@ -109,7 +111,7 @@ if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
 }
 
 my $ssd2;
-$ssdtemp = `/usr/sbin/hddtemp --debug $ssd2dev | grep field\\(190\\)`;
+$ssdtemp = `/usr/sbin/hddtemp --debug $ssd2dev | grep field\\(194\\)`;
 chop $ssdtemp;
 if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
     $ssd2 = $1;
@@ -120,8 +122,8 @@ open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
 
-if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $hdd1 > 62 || $hdd2 > 62){
-    if(!$notified && notify($ret) =~ m/success/){
+if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 70 || $hdd1 > 62 || $hdd2 > 62){
+    if(!$notified && notify($ret) =~ m/200 OK/){
         $notified = 1;
     }
 }else{
@@ -129,7 +131,7 @@ if($cpu > 75 || $core > 73 || $mb > 73 || $cpurpm < 500 || $psurpm < 350 || $ssd
     $critical = 0;
 }
 
-if($cpu >= 85 || $core >= 85 || $mb >= 85 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $hdd1 > 65 || $hdd2 > 65){
+if($cpu >= 85 || $core >= 85 || $mb >= 85 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $ssd2 > 70 || $hdd1 > 65 || $hdd2 > 65){
     $critical++;
 }
 
