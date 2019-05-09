@@ -36,6 +36,7 @@ configurations/troypc/xmonad/xmonad.errors
 configurations/troypc/xmonad/xmonad.log
 configurations/troypc/xmonad/xmonad-x86_64-linux
 configurations/troypc/xmonad/prompt-history
+configurations/troymac/bashrc
 configurations/server/bashrc
 configurations/server/tmux.conf
 .stack-work
