@@ -95,7 +95,7 @@
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
   services.xserver.libinput.tappingDragLock = false;
-  services.xserver.libinput.accelSpeed = "0.8";
+  services.xserver.libinput.accelSpeed = "0.6";
   services.xserver.libinput.additionalOptions = ''
     Option "TappingDrag" "0"
   '';
