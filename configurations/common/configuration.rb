@@ -63,6 +63,7 @@ if file_exists? '~/.config/fish/config.fish'
   erb 'fishrc.erb'
   source '~/.config/fish/config.fish', 'fishrc'
 end
+symlink '~/.config/kitty/kitty.conf', 'kitty.conf'
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
 symlink '~/.tigrc', 'tigrc'
