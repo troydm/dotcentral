@@ -12,7 +12,7 @@ module.exports = {
     fontSize: 13,
 
     // font family with optional fallbacks
-    fontFamily: '"DejaVu Sans Mono for Powerline"',
+    fontFamily: '"DejaVuSansMono Nerd Font Mono"',
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
     cursorColor: 'rgba(239,239,239,0.8)',
@@ -36,7 +36,10 @@ module.exports = {
     css: '',
 
     // custom css to embed in the terminal window
-    termCSS: '',
+    termCSS: 'font-smooth: never; -webkit-font-smoothing: none;',
+
+    // disable webGL renderder
+    webGLRenderer: false,
 
     // set to `true` (without backticks) if you're using a Linux setup that doesn't show native menus
     // default: `false` on Linux, `true` on Windows (ignored on macOS)
@@ -84,11 +87,11 @@ module.exports = {
     //
     // Powershell on Windows
     // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-    shell: '',
+    shell: 'bash',
 
     // for setting shell arguments (i.e. for using interactive shellArgs: ['-i'])
     // by default ['--login'] will be used
-    shellArgs: ['--login'],
+    shellArgs: [],
 
     // for environment variables
     env: {},
