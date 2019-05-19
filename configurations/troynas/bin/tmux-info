@@ -8,6 +8,30 @@ use LWP::Protocol::https;
 use Proc::Daemon;
 use File::Basename 'dirname';
 use Cwd 'abs_path';
+use List::Util qw(sum);
+
+# cpu usage
+my ($prev_idle, $prev_total) = qw(0 0);
+sub cpu_usage() {
+    open my $fh, '<', '/proc/stat';
+    my $cpu = <$fh>;
+    chop $cpu;
+    close $fh;
+
+    my @cpu = split /\s+/, $cpu;
+    shift @cpu;
+    my $idle = $cpu[3];
+    my $total = sum(@cpu);
+
+    my $diff_idle = $idle - $prev_idle;
+    my $diff_total = $total - $prev_total;
+    my $diff_usage = (1000 * ($diff_total - $diff_idle) / ($diff_total + 5)) / 10;
+
+    $prev_idle = $idle;
+    $prev_total = $total;
+
+    return sprintf("%5.2f%%", $diff_usage);
+}
 
 # get pushover api key from enviroment variable
 die 'pushover API key wasn\'t specified in PUSHOVER_API_KEY enviroment variable' unless exists $ENV{PUSHOVER_API_KEY};
@@ -117,7 +141,8 @@ if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
     $ssd2 = $1;
 }
 
-my $ret = ":$cpu"." $core".":$mb".":$cpurpm⏻:$psurpm﬙:$ssd"." $ssd2".":$hdd1"." $hdd2"."";
+my $cpu_usage = cpu_usage();
+my $ret = ":$cpu_usage $cpu"." $core".":$mb".":$cpurpm⏻:$psurpm﬙:$ssd"." $ssd2".":$hdd1"." $hdd2"."";
 open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
