@@ -6,7 +6,7 @@ set -g status-left " "
 # Right status bar
 set -g status-interval 1
 set -g status-right-length 200
-set -g status-right "#[bg=colour236 fg=colour234]#[default]#(tmux-mem-cpu-load) #(cat /tmp/tmux-info) %m/%d %a %H:%M:%S"
+set -g status-right "#[bg=colour236 fg=colour234]#[default]#(cat /tmp/tmux-info) %m/%d %a%H:%M:%S"
 
 # Session
 new -d -s server
