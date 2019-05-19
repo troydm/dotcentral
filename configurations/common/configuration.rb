@@ -46,6 +46,10 @@ end
 curl 'https://beyondgrep.com/ack-2.28-single-file', 'bin/ack'
 chmod 'bin/ack', '0755'
 
+if osx?
+  symlink '~/.chunkwmrc', 'chunkwmrc'
+  symlink '~/.skhdrc', 'skhdrc'
+end
 if linux?
   erb 'Xresources.erb'
   symlink '~/.Xresources', 'Xresources'

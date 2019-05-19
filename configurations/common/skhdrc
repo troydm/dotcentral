@@ -1,0 +1,46 @@
+# open terminal
+cmd - return : /Applications/kitty.app/Contents/MacOS/kitty -d ~
+
+# close focused window
+cmd - q : chunkc tiling::window --close
+
+# focus window
+cmd - h : chunkc tiling::window --focus west
+cmd - j : chunkc tiling::window --focus south
+cmd - k : chunkc tiling::window --focus north
+cmd - l : chunkc tiling::window --focus east
+
+# move window
+shift + cmd - h : chunkc tiling::window --warp west
+shift + cmd - j : chunkc tiling::window --warp south
+shift + cmd - k : chunkc tiling::window --warp north
+shift + cmd - l : chunkc tiling::window --warp east
+
+# equalize size of windows
+shift + cmd - 0x18 : chunkc tiling::desktop --equalize
+
+# swap window
+alt + cmd - h : chunkc tiling::window --swap west
+alt + cmd - j : chunkc tiling::window --swap south
+alt + cmd - k : chunkc tiling::window --swap north
+alt + cmd - l : chunkc tiling::window --swap east
+
+# toggle window fullscreen
+cmd - f : chunkc tiling::window --toggle fullscreen
+
+# toggle window native fullscreen
+shift + cmd - f : chunkc tiling::window --toggle native-fullscreen
+
+# change layout of desktop
+shift + cmd - a : chunkc tiling::desktop --layout bsp
+shift + cmd - s : chunkc tiling::desktop --layout monocle
+shift + cmd - d : chunkc tiling::desktop --layout float
+
+# make floating window fill screen
+shift + alt - f     : chunkc tiling::window --grid-layout 1:1:0:0:1:1
+
+# make floating window fill left-half of screen
+shift + alt - left   : chunkc tiling::window --grid-layout 1:2:0:0:1:1
+
+# make floating window fill right-half of screen
+shift + alt - right  : chunkc tiling::window --grid-layout 1:2:1:0:1:1
