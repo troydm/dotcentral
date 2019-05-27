@@ -20,7 +20,7 @@ if linux?
 elsif osx?
     install_fontsdir = '~/Library/Fonts'
 end
-if install_fontsdir
+if install_fontsdir && !file_exists?('fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf')
   mkdir 'fonts'
   curl 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.ttf', 'fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf'
   mkdir install_fontsdir
@@ -43,8 +43,10 @@ unless file_exists? 'bin/powerline'
 end
 
 # install ack
-curl 'https://beyondgrep.com/ack-2.28-single-file', 'bin/ack'
-chmod 'bin/ack', '0755'
+unless file_exists? 'bin/ack'
+  curl 'https://beyondgrep.com/ack-2.28-single-file', 'bin/ack'
+  chmod 'bin/ack', '0755'
+end
 
 if osx?
   symlink '~/.chunkwmrc', 'chunkwmrc'
