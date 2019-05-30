@@ -1,0 +1,13 @@
+[Unit]
+Description=tmux-info service
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/store/troydm/workspace/dotcentral/configurations/troynas/bin/tmux-info
+Restart=always
+Environment="PUSHOVER_USER_KEY="
+Environment="PUSHOVER_API_KEY="
+
+[Install]
+WantedBy=multi-user.target
