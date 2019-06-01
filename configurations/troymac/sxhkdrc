@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + d
-        rofi -font 'DejaVu Sans Mono for Powerline 20' -color-window '#333,#000000' -bw 8 -color-normal '#aaa,#000,#999,#ddd,#333' -show drun
+        rofi -font 'DejaVuSansMono Nerd Font Mono 20' -color-window '#333,#000' -bw 8 -color-normal '#000,#fff,#222,#ddd,#000' -show drun
 
 # make sxhkd reload its configuration files:
 super + shift + r
