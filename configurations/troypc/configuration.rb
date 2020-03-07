@@ -6,7 +6,7 @@ if linux?
   
   # install FontAwesome
   install_fontsdir = '~/.fonts'
-  git 'https://github.com/FortAwesome/Font-Awesome.git', 'fontawesome','v4.7.0'
+  git 'https://github.com/FortAwesome/Font-Awesome.git', 'fontawesome', branch: 'v4.7.0'
   mkdir install_fontsdir
   ls('fontawesome',file: false).each { |fontdir|
     ls("fontawesome/#{fontdir}",grep: '.[ot]tf').each { |font|
