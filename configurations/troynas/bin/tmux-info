@@ -71,9 +71,9 @@ foreach (split "\n", `lsscsi`){
         $ssd1dev = pop(@a);
     }elsif($_ =~ q/TS128GSSD230S/){
         $ssd2dev = pop(@a);
-    }elsif($_ =~ q/HGST HDN726040AL/){
+    }elsif($_ =~ q/WDC WD4003FFBX-6/){
         $hdd1dev = pop(@a);
-    }elsif($_ =~ q/HGST HDN724030AL/){
+    }elsif($_ =~ q/HGST HDN726040AL/){
         $hdd2dev = pop(@a);
     }
 }
