@@ -3,6 +3,7 @@
 xsetroot -cursor_name left_ptr &
 compton&
 redshift&
+dunst&
 feh --bg-scale /home/troydm/.dotcentral/configurations/troymac/wallpaper/snow-leopard-bg.jpg
 
 bspc monitor -d I II III IV V VI VII VIII IX X

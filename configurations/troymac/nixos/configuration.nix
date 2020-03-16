@@ -41,7 +41,7 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     pciutils binutils gcc wget git ruby perl python curl links2
-    firefox-bin rxvt_unicode xorg.xbacklight xclip xorg.xdpyinfo compton rofi feh
+    firefox-bin rxvt_unicode xorg.xbacklight xclip xorg.xdpyinfo compton rofi feh dunst libnotify
     vim_configurable vimb redshift lm_sensors
   ];
 

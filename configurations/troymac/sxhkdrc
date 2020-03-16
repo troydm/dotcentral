@@ -93,7 +93,14 @@ super + {o,i}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-        bspc {desktop -f,node -d} '^{1-9,10}'
+        move={0,1}; to={1-9,10}; \
+        if [ $move -eq 0 ]; then \
+            notify-send "switched to $to desktop"; \
+            bspc desktop -f "^$to"; \
+        else \
+            notify-send "window moved to $to desktop"; \
+            bspc node -d "^$to"; \
+        fi
 
 #
 # preselect
