@@ -57,7 +57,11 @@ ptop() {
 
 # vtop
 vtop() {
-    top -d 1 -c `pgrep VBoxHeadless | awk '{print "-p " $0}' | tr '\n' ' '` -d 1
+    if pgrep VBoxHeadless > /dev/null; then
+        top -d 1 -c `pgrep VBoxHeadless | awk '{print "-p " $0}' | tr '\n' ' '` -d 1
+    else
+        echo -e "There are no VirtualBox VM's currently running";
+    fi
 }
 
 # GnuPGP Encryption/Decryption
