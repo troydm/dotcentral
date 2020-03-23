@@ -58,10 +58,7 @@ int main(int argc, char* argv[]){
         }
         while(dir[i] != '\0'){
             if(dir[i] == '/'){
-                dirfixed[j++] = '\xee';
-                dirfixed[j++] = '\x82';
-                dirfixed[j++] = '\xb1';
-                dirfixed[j++] = '\x20';
+                dirfixed[j++] = '/';
             }else
                 dirfixed[j++] = dir[i];
             i++;
@@ -80,6 +77,7 @@ int main(int argc, char* argv[]){
                 color("233","242");
                 fputs("",stdout);
                 color("151","242");
+                fputs("",stdout);
                 fputs(&git[0],stdout);
                 resetcolor();
                 colorfg("242");
