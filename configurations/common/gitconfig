@@ -1,6 +1,7 @@
 [user]
     name = troydm
     email = d.geurkov@gmail.com
+    signingkey = 16ACE3FF82430AB9
 
 [push]
     default = simple
