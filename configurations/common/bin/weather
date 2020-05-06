@@ -37241,7 +37241,7 @@ sub icon {
     }elsif($_[0] =~ /snow/){
         return colored("❆","blue bold");
     }elsif($_[0] =~ /rain/){
-        return colored("☔","blue bold");
+        return colored("","blue bold");
     }else{
         return colored("☼","rgb543 bold");
     }
