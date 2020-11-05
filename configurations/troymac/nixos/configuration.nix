@@ -25,11 +25,11 @@
   networking.enableIPv6 = false; # Disable IPv6
 
   # Select internationalisation properties.
-  i18n = {
-    consoleFont = "latarcyrheb-sun32";
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
+  console = {
+    font = "latarcyrheb-sun32";
+    keyMap = "us";
   };
+  i18n.defaultLocale = "en_US.UTF-8";
 
   # Set your time zone.
   time.timeZone = "Europe/Kiev";
@@ -41,12 +41,8 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     pciutils binutils gcc wget git ruby perl python curl links2
-    firefox-bin rxvt_unicode xorg.xbacklight xclip xorg.xdpyinfo compton rofi feh dunst libnotify
-    vim_configurable vimb redshift lm_sensors
-  ];
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "webkitgtk-2.4.11"
+    firefox-bin rxvt_unicode xorg.xbacklight xclip xorg.xdpyinfo compton rofi feh
+    vim_configurable redshift lm_sensors
   ];
 
 
@@ -78,16 +74,14 @@
   services.xserver.xkbOptions = "grp:win_space_toggle,ctrl:nocaps";
   services.xserver.autoRepeatDelay = 500;
 
-  # Slim Display Manager
-  services.xserver.displayManager.slim.enable = true;
-  services.xserver.displayManager.slim.defaultUser = "troydm";
-  services.xserver.displayManager.slim.theme = pkgs.fetchurl { 
-            url = "https://github.com/troydm/nixos-slim-theme/releases/download/Final-HiDPI/nixos-slim-theme-hidpi.tar.gz"; 
-            sha256 = "2186fdc046c49866f82e49e16b0845b99e0205bb9e136ffeceb059b9494b6fa4"; 
+  # LightDM Display Manager
+  services.xserver.displayManager.defaultSession = "none+bspwm";
+  services.xserver.displayManager.lightdm = {
+    enable = true;
+    greeters.enso.enable = true;
   };
 
   # BSPWM
-  services.xserver.windowManager.default = "bspwm";
   services.xserver.windowManager.bspwm.enable = true;
   services.xserver.windowManager.bspwm.configFile = "/home/troydm/.dotcentral/configurations/troymac/bspwmrc";
   services.xserver.windowManager.bspwm.sxhkd.configFile = "/home/troydm/.dotcentral/configurations/troymac/sxhkdrc";
@@ -130,6 +124,6 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }
