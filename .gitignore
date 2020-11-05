@@ -24,6 +24,8 @@ configurations/private
 configurations/troynas/bashrc
 configurations/troynas/tmux.conf
 configurations/troynas/bin/tsundoku
+configurations/troynas/bin/arc_summary
+configurations/troynas/bin/bashtop
 configurations/troynas/tsundoku
 configurations/troypc/fontawesome
 configurations/troypc/xmonad/xmonad-git
