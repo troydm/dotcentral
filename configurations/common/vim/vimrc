@@ -441,6 +441,7 @@ if has("gui_running")
     nnoremap <silent> <c-tab> :EasyBufferToggle<CR>
 else
     nnoremap <silent> <esc>[27;5;9~ :EasyBufferToggle<CR>
+    nnoremap <silent> <esc>[1;5I :EasyBufferToggle<CR>
 endif
 nnoremap <C-q> :Bclose<CR>
 
