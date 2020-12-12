@@ -1,0 +1,1 @@
+symlink '~/.config/nvim', '.'
