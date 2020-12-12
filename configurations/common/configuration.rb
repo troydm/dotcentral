@@ -49,7 +49,7 @@ unless file_exists? 'bin/ack'
 end
 
 if osx?
-  symlink '~/.chunkwmrc', 'chunkwmrc'
+  symlink '~/.yabairc', 'yabairc'
   symlink '~/.skhdrc', 'skhdrc'
 end
 if linux?
