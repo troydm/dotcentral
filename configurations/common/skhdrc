@@ -169,4 +169,4 @@ shift + cmd - f : yabai -m window --toggle float;\
 cmd - return : osascript -e 'tell application "iTerm" to create window with default profile'
 
 # open spotlight search dialog
-cmd - d : sleep 0.01 && osascript -e 'tell application "System Events" to keystroke "`" using {control down}'
+cmd - d : sleep 0.2 && osascript -e 'tell application "System Events" to keystroke "`" using {control down}'
