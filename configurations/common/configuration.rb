@@ -20,9 +20,9 @@ if linux?
 elsif osx?
     install_fontsdir = '~/Library/Fonts'
 end
-if install_fontsdir && !file_exists?('fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf')
+if install_fontsdir
   mkdir 'fonts'
-  curl 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.ttf', 'fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf'
+  curl 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.ttf', 'fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf', content_length_check: true
   mkdir install_fontsdir
   ls("fonts",grep: '.[ot]tf').each { |font|
     if linux?
@@ -43,10 +43,8 @@ unless file_exists? 'bin/powerline'
 end
 
 # install ack
-unless file_exists? 'bin/ack'
-  curl 'https://beyondgrep.com/ack-2.28-single-file', 'bin/ack'
-  chmod 'bin/ack', '0755'
-end
+curl 'https://beyondgrep.com/ack-2.28-single-file', 'bin/ack', content_length_check: true
+chmod 'bin/ack', '0755'
 
 if osx?
   symlink '~/.yabairc', 'yabairc'
@@ -83,8 +81,5 @@ if linux?
   symlink '~/.config/vimb', 'vimb'
 end
 symlink '~/.config/ranger', 'ranger'
-run 'mc/configuration.rb'
-run 'vifm/configuration.rb'
-run 'vim/configuration.rb'
-run 'nvim/configuration.rb'
-run 'vimperator/configuration.rb'
+
+['mc','vifm','vim','nvim','vimperator'].each { |c| run c }
