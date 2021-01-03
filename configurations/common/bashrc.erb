@@ -146,13 +146,16 @@ if [ "$TERM" = "xterm-256color" ] || [ "$TERM" = "screen-256color" ]; then
         zle -N zle-keymap-select
     else
         PROMPT_COMMAND='powerline 2> /dev/null'
-        # PS1="\[\033[1m\033[38;5;222m\033[48;5;236m\] λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
-        # PS2="\[\033[0m\033[38;5;222m\033[48;5;236m\] ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
-        PS1=" λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
-        PS2=" ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
-        bind 'set editing-mode vi'
-        bind 'set show-mode-in-prompt on'
-        bind 'set vi-ins-mode-string \1\033[1m\033[38;5;222m\033[48;5;236m\2'
-        bind 'set vi-cmd-mode-string \1\033[1m\033[37;1m\033[48;5;236m\2'
+        if [[ $((${BASH_VERSION::1}*10+${BASH_VERSION:2:1})) < 44 ]]; then
+          PS1="\[\033[1m\033[38;5;222m\033[48;5;236m\] λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+          PS2="\[\033[0m\033[38;5;222m\033[48;5;236m\] ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+        else
+          PS1=" λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+          PS2=" ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+          bind 'set editing-mode vi'
+          bind 'set show-mode-in-prompt on'
+          bind 'set vi-ins-mode-string \1\033[1m\033[38;5;222m\033[48;5;236m\2'
+          bind 'set vi-cmd-mode-string \1\033[1m\033[37;1m\033[48;5;236m\2'
+        fi
     fi
 fi
