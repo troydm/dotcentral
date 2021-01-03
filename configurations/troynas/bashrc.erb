@@ -2,8 +2,9 @@
 alias temp="watch -n 1 'cat /tmp/tmux-info && echo'"
 
 # Add bin directory to PATH
-export PATH=$PATH:"<%= pwd+"/bin" %>"
-export PATH=/opt/swift/usr/bin:$PATH
+add_PATH "<%= pwd+"/bin" %>"
+add_PATH /opt/swift/usr/bin
+add_PATH ~/.roswell/bin
 
 # Neomutt alias
 alias mutt=neomutt

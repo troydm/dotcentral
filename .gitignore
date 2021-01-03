@@ -10,7 +10,9 @@ configurations/common/exp
 configurations/common/tldr
 configurations/common/sshc
 configurations/common/fonts
+configurations/common/ranger/bookmarks
 configurations/common/vim/bundle
+configurations/common/nvim/plugged
 configurations/common/vimperator/info
 configurations/common/vimb/bookmark
 configurations/common/vimb/closed

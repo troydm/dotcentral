@@ -31,40 +31,47 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ruby
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-snippets-in-popup t)
      ;; better-defaults
      common-lisp
      emacs-lisp
-     haskell
+     git
      markdown
+     haskell
+     purescript
      c-c++
      java
-     javascript
+     typescript
      rust
+     ruby
+     python
+     lua
      yaml
-     git
+     vim-powerline
      ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-shell 'shell
+            shell-default-full-span nil
+            shell-default-position 'bottom
+            shell-default-height 30)
      ;; spell-checking
      ;; syntax-checking
-     (shell :variables shell-default-full-span nil)
-     version-control
+     ;; version-control
      (osx :variables osx-use-separate-clipboards t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(zenburn-theme)
+   dotspacemacs-additional-packages '(yasnippet-snippets
+                                      (neotree :location (recipe :repo "troydm/emacs-neotree" :fetcher github)))
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -229,7 +236,7 @@ values."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-    dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
@@ -309,6 +316,34 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (defun my-window-right()
+    (interactive)
+    (condition-case nil (evil-window-right 1)
+      (error (evil-window-left 1))))
+  (defun my-window-left()
+    (interactive)
+    (condition-case nil (evil-window-left 1)
+      (error (evil-window-right 1))))
+  (defun my-window-up()
+    (interactive)
+    (condition-case nil (evil-window-up 1)
+      (error (evil-window-down 1))))
+  (defun my-window-down()
+    (interactive)
+    (condition-case nil (evil-window-down 1)
+      (error (evil-window-up 1))))
+  (defvar spacemacs-evil-cursors '(("normal" "DarkGoldenrod2" box)
+                                   ("insert" "chartreuse3" (bar . 2))
+                                   ("emacs" "SkyBlue2" box)
+                                   ("hybrid" "SkyBlue2" (bar . 2))
+                                   ("replace" "chocolate" (hbar . 2))
+                                   ("evilified" "LightGoldenrod3" box)
+                                   ("visual" "gray" (hbar . 2))
+                                   ("motion" "green" box)
+                                   ("lisp" "HotPink1" box)
+                                   ("iedit" "firebrick1" box)
+                                   ("iedit-insert" "firebrick1" (bar . 2)))
+    "Colors assigned to evil states with cursor definitions.")
   )
 
 (defun dotspacemacs/user-config ()
@@ -318,7 +353,13 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (setq linum-format " %2d "
+        neo-show-hidden-files nil
+        neo-auto-forward-on-open-dir nil
+        inferior-lisp-program "ros run --"
+        dotspacemacs-scratch-mode 'lisp-interaction-mode)
   (define-key input-decode-map "\e[27;5;9~" [C-tab])
+  (define-key input-decode-map "\e[1;5I" [C-tab])
   (define-key input-decode-map "\e[h" [M-<left>])
   (define-key input-decode-map "\e[1;3D" (kbd "M-<left>"))
   (define-key input-decode-map "\e[j" [M-<down>])
@@ -332,14 +373,22 @@ you should place your code here."
   (global-set-key (kbd "C-x x") 'delete-window)
   (global-set-key (kbd "C-q") 'kill-this-buffer)
   (global-set-key (kbd "<C-tab>") 'helm-mini)
-  (global-set-key (kbd "M-<up>") 'evil-window-up)
-  (global-set-key (kbd "M-<down>") 'evil-window-down)
-  (global-set-key (kbd "M-<left>") 'evil-window-left)
-  (global-set-key (kbd "M-<right>") 'evil-window-right)
-  (global-set-key (kbd "M-k") 'evil-window-up)
-  (global-set-key (kbd "M-j") 'evil-window-down)
-  (global-set-key (kbd "M-h") 'evil-window-left)
-  (global-set-key (kbd "M-l") 'evil-window-right)
+  (global-set-key (kbd "˚") 'my-window-up)
+  (global-set-key (kbd "∆") 'my-window-down)
+  (global-set-key (kbd "˙") 'my-window-left)
+  (global-set-key (kbd "¬") 'my-window-right)
+  (global-set-key (kbd "M-<up>")    'my-window-up)
+  (global-set-key (kbd "M-<down>")  'my-window-down)
+  (global-set-key (kbd "M-<left>")  'my-window-left)
+  (global-set-key (kbd "M-<right>") 'my-window-right)
+  (global-set-key (kbd "ESC <up>")    'my-window-up)
+  (global-set-key (kbd "ESC <down>")  'my-window-down)
+  (global-set-key (kbd "ESC <left>")  'my-window-left)
+  (global-set-key (kbd "ESC <right>") 'my-window-right)
+  (global-set-key (kbd "M-k") 'my-window-up)
+  (global-set-key (kbd "M-j") 'my-window-down)
+  (global-set-key (kbd "M-h") 'my-window-left)
+  (global-set-key (kbd "M-l") 'my-window-right)
   (global-set-key (kbd "C-x -") 'split-window-below)
   (global-set-key (kbd "C-x |") 'split-window-right)
   (global-set-key (kbd "C-S-<right>") 'evil-window-increase-width)
@@ -354,7 +403,10 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "\\") nil)
   (add-hook 'emacs-lisp-mode-hook (lambda ()
                                     (define-key evil-normal-state-local-map (kbd "\\e") 'pp-eval-last-sexp)))
-  (define-key evil-normal-state-map (kbd "\\t") (lambda () (interactive) (funcall (key-binding (kbd "SPC f t")))))
+  (define-key evil-normal-state-map (kbd "\\t") 'neotree-toggle)
+  (define-key evil-normal-state-map (kbd "\\s") 'shell)
+  (define-key spacemacs-buffer-mode-map (kbd "\\t") 'neotree-toggle)
+  (define-key spacemacs-buffer-mode-map (kbd "\\s") 'shell)
   (define-key evil-insert-state-map (kbd "<tab>")
     (lambda ()
       (interactive)
@@ -362,13 +414,10 @@ you should place your code here."
           (dabbrev-expand nil)
         (indent-for-tab-command))))
   (define-key evil-insert-state-map (kbd "S-<tab>") 'undo)
-  (setq linum-format " %2d "
-        neo-show-hidden-files nil)
   (add-to-list 'auto-mode-alist
                '("\\(\\.m\\'\\)" lambda nil (configuration-layer//auto-mode 'c-c++ 'objc-mode)))
-  ;;(add-hook 'term-mode-hook (lambda ()
-  ;;                            (sleep-for 5)
-  ;;                            (set-window-dedicated-p (selected-window) t)))
+  (add-hook 'term-load-hook (lambda ()
+                              (define-key term-raw-map (kbd "ESC ESC") nil)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -378,9 +427,12 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(neo-theme 'arrow)
+ '(neo-theme (quote arrow))
  '(package-selected-packages
-   '(web-beautify smeargle shell-pop multi-term markdown-toc magit-gitflow livid-mode skewer-mode json-mode json-snatcher json-reformat multiple-cursors js-doc hlint-refactor helm-hoogle helm-gitignore haskell-snippets gitignore-mode gitconfig-mode gitattributes-mode git-messenger git-link gh-md eshell-z esh-help company-ghci company-ghc haskell-mode coffee-mode cmm-mode yaml-mode xterm-color orgit simple-httpd git-timemachine eshell-prompt-extras ghc yasnippet disaster cmake-mode clang-format toml-mode slime-company slime racer pos-tip cargo rust-mode mmm-mode evil-magit js2-refactor intero flycheck hindent company ghub js2-mode eclim rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby markdown-mode magit magit-popup reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter diff-hl evil-unimpaired ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+   (quote
+    (avy neotree projectile helm helm-core org-plus-contrib dash yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-statistics company-emacs-eclim company-cabal company-c-headers company-anaconda common-lisp-snippets auto-yasnippet ac-ispell auto-complete yapfify tide typescript-mode pyvenv pytest pyenv-mode py-isort psci purescript-mode psc-ide pip-requirements lua-mode live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic slime pos-tip magit-popup skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode flycheck gitignore-mode fringe-helper git-gutter+ git-gutter magit git-commit with-editor transient yasnippet ghc company haskell-mode markdown-mode rust-mode inf-ruby define-word zenburn-theme yaml-mode xterm-color ws-butler winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toml-mode toc-org spaceline smeargle slime-company shell-pop rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restart-emacs rbenv rake rainbow-delimiters racer popwin persp-mode pbcopy paradox osx-trash osx-dictionary orgit org-bullets open-junk-file multi-term move-text mmm-mode minitest markdown-toc magit-gitflow lorem-ipsum livid-mode linum-relative link-hint launchctl json-mode js2-refactor js-doc intero indent-guide hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help elisp-slime-nav eclim dumb-jump disaster diminish diff-hl company-ghci company-ghc column-enforce-mode coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format chruby cargo bundler auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(paradox-github-token t)
+ '(vc-follow-symlinks t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -393,4 +445,22 @@ you should place your code here."
  '(neo-dir-link-face ((t (:foreground "#F0DFAF" :weight bold))))
  '(neo-expand-btn-face ((t (:foreground "#F0DFAF"))))
  '(neo-root-dir-face ((t (:foreground "dark gray" :weight bold))))
+ '(powerline-SPLIT-insert ((t (:foreground "brightwhite" :background "brightblack"))))
+ '(powerline-branch-insert ((t (:foreground "#7F9F7F" :background "#585858"))))
+ '(powerline-branch-normal ((t (:foreground "#7F9F7F" :background "#585858"))))
+ '(powerline-charcode-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-fileencoding-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-fileformat-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-fileinfo-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-filename-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-filesize-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-filetype-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-lineinfo-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-scrollpercent-insert ((t (:foreground "brightwhite" :background "#585858"))))
+ '(powerline-state_indicator-insert ((t (:foreground "#F0DFAF" :background "brightblack"))))
+ '(powerline-state_indicator-motion ((t (:foreground "brightwhite" :background "brightblack"))))
+ '(powerline-state_indicator-normal ((t (:foreground "brightwhite" :background "brightblack"))))
+ '(powerline-state_indicator-replace ((t (:foreground "#F0DFAF" :background "brightblack"))))
+ '(powerline-state_indicator-visual ((t (:foreground "brightblack" :background "#F0DFAF" :weight bold))))
+ '(spacemacs-normal-face ((t (:foreground "#F0DFAF" :background "brightblack"))))
  '(vertical-border ((t (:foreground "#5F7F5F")))))

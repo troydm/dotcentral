@@ -1,7 +1,7 @@
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin')
-call plug#begin('~/.config/nvim/autoload/plugged')
+call plug#begin(stdpath('config').'/plugged')
 
 Plug 'jnurmine/Zenburn'
 Plug 'vim-airline/vim-airline'
@@ -16,6 +16,7 @@ Plug 'troydm/zoomwintab.vim'
 Plug 'troydm/easybuffer.vim'
 Plug 'troydm/easytree.vim'
 Plug 'troydm/shellasync.vim'
+Plug 'troydm/neasytree.nvim'
 
 " Initialize plugin system
 call plug#end()
@@ -45,13 +46,12 @@ endif
 nnoremap <silent> <C-q> :Bclose<CR>
 nnoremap <silent> <leader>s :ShellTerminal<CR>
 nnoremap <silent> <leader>g :Gstatus<CR>
-nnoremap <silent> <leader>t :EasyTree<CR>
+nnoremap <silent> <leader>t :NEasyTree<CR>
 nnoremap <silent> <leader>r :YRShow<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
 
-if has("gui_running")
-    nnoremap <silent> <C-Tab> :EasyBufferToggle<CR>
-else
+nnoremap <silent> <C-Tab> :EasyBufferToggle<CR>
+if !has("gui_running")
     nnoremap <silent> <esc>[27;5;9~ :EasyBufferToggle<CR>
     nnoremap <silent> <esc>[1;5I :EasyBufferToggle<CR>
 endif

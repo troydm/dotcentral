@@ -15,6 +15,7 @@ Plugin 'gmarik/Vundle.vim'
 " Bundles
 
 " original repos on github
+Plugin 'sheerun/vim-polyglot'
 Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'tpope/vim-fugitive'
@@ -24,17 +25,12 @@ Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
-" Plugin 'rson/vim-conque'
-" Plugin 'molok/vim-smartusline'
 Plugin 'ervandew/supertab'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'yegappan/mru'
 Plugin 'Raimondi/delimitMate'
-Plugin 'oscarh/vimerl'
 Plugin 'sjl/vitality.vim'
-Plugin 'luizribeiro/javacomplete'
-Plugin 'benmills/vimux'
 Plugin 'troydm/pb.vim'
 Plugin 'tmhedberg/matchit'
 Plugin 'troydm/syntastic'
@@ -44,24 +40,15 @@ Plugin 'troydm/asyncfinder.vim'
 Plugin 'troydm/easybuffer.vim'
 Plugin 'troydm/easytree.vim'
 Plugin 'troydm/zoomwintab.vim'
-Plugin 'chaquotay/ftl-vim-syntax'
 Plugin 'mbbill/undotree'
 Plugin 'vim-scripts/cbackup.vim'
-Plugin 'Shougo/vimproc'
-" Plugin 'Shougo/unite.vim'
-" Plugin 'Shougo/vimfiler'
-" Plugin 'Shougo/vimshell'
-Plugin 'eagletmt/ghcmod-vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'kovisoft/slimv'
 Plugin 'fidian/hexmode'
 Plugin 'rust-lang/rust.vim'
 Plugin 'tpope/vim-fireplace'
-Plugin 'zah/nim.vim'
 Plugin 'troydm/hiparen.vim'
 Plugin 'vim-airline/vim-airline'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'leafo/moonscript-vim'
 Plugin 'Yggdroot/indentLine'
 
 " vim-scripts repos
@@ -625,6 +612,7 @@ nnoremap <C-x>- <C-w>s
 nnoremap <silent> <leader>s :ShellTerminal<CR>
 nnoremap <silent> <leader>g :Gstatus<CR>
 nnoremap <silent> <leader>t :EasyTree<CR>
+nnoremap <silent> <leader>T :Tagbar<CR>
 nnoremap <silent> <leader>y :YRShow<CR>
 nnoremap <silent> <leader>h :GhcModType<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
