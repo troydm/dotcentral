@@ -43,7 +43,7 @@ unless file_exists? 'bin/powerline'
 end
 
 # install ack
-curl 'https://beyondgrep.com/ack-2.28-single-file', 'bin/ack', content_length_check: true
+curl 'https://beyondgrep.com/ack-v3.4.0', 'bin/ack', content_length_check: true
 chmod 'bin/ack', '0755'
 
 if osx?

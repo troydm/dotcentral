@@ -50,7 +50,7 @@ add_MANPATH(){
     echo $MANPATH | grep -F "$d" >/dev/null || export MANPATH="$d":$MANPATH
 }
 
-<% if os == 'linux' %>
+<% if linux? %>
 # ptop
 ptop() {
     top -d 1 -c -p `pgrep $1 | paste -sd, -`
@@ -101,13 +101,22 @@ if [ -n "$ZSH_VERSION" ]; then
     setopt APPEND_HISTORY
     setopt AUTO_CD
     setopt LONGLISTJOBS
+
     # vi mode for zsh
     bindkey -v
+
+    # vi mode keys
+    bindkey '^p' up-history
+    bindkey '^n' down-history
+    bindkey '^?' backward-delete-char
+    bindkey '^h' backward-delete-char
+    bindkey '^w' backward-kill-word
     bindkey '^r' history-incremental-search-backward
     bindkey '^[[3~' delete-char
     bindkey '^[[Z' reverse-menu-complete
     export KEYTIMEOUT=1
 
+    # auto completion
     zstyle ':completion:*' menu select
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} 'ma=48;5;236;38;5;223'
     zstyle :compinstall filename "$HOME/.zshrc"
@@ -118,12 +127,32 @@ fi
 # Add powerline prompt
 if [ "$TERM" = "xterm-256color" ] || [ "$TERM" = "screen-256color" ]; then
     if [ -n "$ZSH_VERSION" ]; then
+        PS1_NORMAL="%{[1m[37;1m[48;5;236m%} λ %{[0m[38;5;236m%}%{[0m%} "
+        PS1_INSERT="%{[1m[38;5;222m[48;5;236m%} λ %{[0m[38;5;236m%}%{[0m%} "
+        PS2_NORMAL="%{[0m[37;1m[48;5;236m%} ← %{[0m[38;5;236m%}%{[0m%} "
+        PS2_INSERT="%{[0m[38;5;222m[48;5;236m%} ← %{[0m[38;5;236m%}%{[0m%} "
         function precmd(){ powerline 2> /dev/null; }
-        PS1="%{[1m[38;5;222m[48;5;236m%} λ %{[0m[38;5;236m%}%{[0m%} "
-        PS2="%{[0m[38;5;222m[48;5;236m%} ← %{[0m[38;5;236m%}%{[0m%} "
+        function zle-line-init {
+            PS1="${${KEYMAP/vicmd/$PS1_NORMAL}/(main|viins)/$PS1_INSERT}"
+            PS2="${${KEYMAP/vicmd/$PS2_NORMAL}/(main|viins)/$PS2_INSERT}"
+            zle reset-prompt
+        }
+        function zle-keymap-select {
+            PS1="${${KEYMAP/vicmd/$PS1_NORMAL}/(main|viins)/$PS1_INSERT}"
+            PS2="${${KEYMAP/vicmd/$PS2_NORMAL}/(main|viins)/$PS2_INSERT}"
+            zle reset-prompt
+        }
+        zle -N zle-line-init
+        zle -N zle-keymap-select
     else
         PROMPT_COMMAND='powerline 2> /dev/null'
-        PS1="\[\033[1m\033[38;5;222m\033[48;5;236m\] λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
-        PS2="\[\033[0m\033[38;5;222m\033[48;5;236m\] ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+        # PS1="\[\033[1m\033[38;5;222m\033[48;5;236m\] λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+        # PS2="\[\033[0m\033[38;5;222m\033[48;5;236m\] ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+        PS1=" λ \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+        PS2=" ← \[\033[0m\033[38;5;236m\]\[\033[0m\] "
+        bind 'set editing-mode vi'
+        bind 'set show-mode-in-prompt on'
+        bind 'set vi-ins-mode-string \1\033[1m\033[38;5;222m\033[48;5;236m\2'
+        bind 'set vi-cmd-mode-string \1\033[1m\033[37;1m\033[48;5;236m\2'
     fi
 fi
