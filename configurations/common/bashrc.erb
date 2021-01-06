@@ -35,19 +35,19 @@ alias myip="curl -s icanhazip.com"
 # add_PATH
 add_PATH(){
     local d="${1/#\~/$HOME}"
-    echo $PATH | grep -F "$d" >/dev/null || export PATH="$d":$PATH
+    echo $PATH | tr ':' '\n' | grep -Fx "$d" >/dev/null || export PATH="$d":$PATH
 }
 
 # add LD_LIBRARY_PATH
 add_LD_LIBRARY_PATH(){
     local d="${1/#\~/$HOME}"
-    echo $LD_LIBRARY_PATH | grep -F "$d" >/dev/null || export LD_LIBRARY_PATH="$d":$LD_LIBRARY_PATH
+    echo $LD_LIBRARY_PATH | tr ':' '\n' | grep -Fx "$d" >/dev/null || export LD_LIBRARY_PATH="$d":$LD_LIBRARY_PATH
 }
 
 # add MANPATH
 add_MANPATH(){
     local d="${1/#\~/$HOME}"
-    echo $MANPATH | grep -F "$d" >/dev/null || export MANPATH="$d":$MANPATH
+    echo $MANPATH | tr ':' '\n' | grep -Fx "$d" >/dev/null || export MANPATH="$d":$MANPATH
 }
 
 <% if linux? %>
@@ -80,8 +80,11 @@ d() {
 fcd() { cd "$(fcdclient "$@")"; }
 alias z=fcd
 
-# Add bin directory to PATH
-export PATH="$HOME/.local/bin":"<%= pwd+"/bin" %>":.:/usr/local/bin:$PATH
+# Add common directories to PATH
+add_PATH ~/.local/bin
+add_PATH <%= pwd+"/bin" %>
+add_PATH .
+add_PATH /usr/local/bin
 
 # less colors and options
 export LESS='-RS#3M~g'
