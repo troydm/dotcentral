@@ -2,6 +2,11 @@
 git 'https://github.com/troydm/sshc.git', 'sshc'
 symlink 'bin/sshc', 'sshc/sshc'
 
+# install fcd
+git 'git@github.com:troydm/fcd.git', 'fcd'
+symlink 'bin/fcdclient', 'fcd/fcdclient'
+symlink 'bin/fcdserver', 'fcd/fcdserver'
+
 # install exp
 git 'https://github.com/troydm/exp.git', 'exp'
 symlink 'bin/exp', 'exp/exp'

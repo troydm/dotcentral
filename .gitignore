@@ -2,11 +2,14 @@ configurations/common/bin/exp
 configurations/common/bin/tldr
 configurations/common/bin/ack
 configurations/common/bin/powerline
+configurations/common/bin/fcdclient
+configurations/common/bin/fcdserver
 configurations/common/bashrc
 configurations/common/fishrc
 configurations/common/Xresources
 configurations/common/bin/sshc
 configurations/common/exp
+configurations/common/fcd
 configurations/common/tldr
 configurations/common/sshc
 configurations/common/fonts
