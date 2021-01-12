@@ -11,8 +11,8 @@ set -o vi
 
 # dircolors
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ] && [ -f ~/.dircolors ]; then
-    eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if [ -f ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -31,6 +31,7 @@ alias l=ls
 # useful aliases
 alias v=vagrant
 alias myip="curl -s icanhazip.com"
+alias path="echo $PATH | tr ':' '\n'"
 
 # add_PATH
 add_PATH(){

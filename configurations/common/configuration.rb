@@ -60,6 +60,7 @@ if linux?
   symlink '~/.Xresources', 'Xresources'
   symlink '~/.urxvt', 'urxvt'
 end
+symlink '~/.alacritty.yml', 'alacritty.yml'
 symlink '~/.hyper.js', 'hyper.js'
 symlink '~/.dircolors', 'dircolors'
 erb 'bashrc.erb'

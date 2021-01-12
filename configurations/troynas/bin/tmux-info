@@ -96,10 +96,10 @@ my $cpurpm;
 my $psurpm;
 
 foreach my $line (split "\n", $sys ){
-    if($line =~ q/^temp1:\s+\+(\d+.\d+)/){
+    if($line =~ q/^temp1:\s+\+(\d+).\d+/){
         $core = $1;
     }
-    if($line =~ q/^SYSTIN:\s+\+(\d+.\d+)/){
+    if($line =~ q/^SYSTIN:\s+\+(\d+).\d+/){
         $mb = $1;
     }
     if($line =~ q/^CPUTIN:\s+\+(\d+.\d+)/){
