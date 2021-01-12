@@ -5,6 +5,7 @@ configurations/common/bin/powerline
 configurations/common/bin/fcdclient
 configurations/common/bin/fcdserver
 configurations/common/bashrc
+configurations/common/alacritty.yml
 configurations/common/fishrc
 configurations/common/Xresources
 configurations/common/bin/sshc
