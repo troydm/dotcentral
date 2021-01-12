@@ -60,8 +60,12 @@ if linux?
   symlink '~/.Xresources', 'Xresources'
   symlink '~/.urxvt', 'urxvt'
 end
+erb 'alacritty.yml.erb'
+symlink '~/.alacritty.yml', 'alacritty.yml'
 symlink '~/.hyper.js', 'hyper.js'
-symlink '~/.dircolors', 'dircolors'
+unless osx?
+  symlink '~/.dircolors', 'dircolors'
+end
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'
 if file_exists? '~/.zshrc'

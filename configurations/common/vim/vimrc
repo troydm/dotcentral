@@ -100,7 +100,6 @@ let g:ConqueTerm_CWInsert = 1
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|(^|[/\\])build($|[/\\])'
 let g:viewdoc_open = "topleft new"
 let g:no_viewdoc_abbrev = 1
-let g:snippets_dir = '~/.vim/bundle/snipmate-snippets/snippets'
 let g:vitality_fix_focus = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_enable_signs = 1
@@ -120,6 +119,8 @@ let g:paredit_mode = 0
 let g:indentLine_char = '┊'
 let g:indentLine_color_term = 108
 let g:indentLine_fileTypeExclude = ['easytree', 'easybuffer', 'shellasyncterm']
+let g:snipMate = {}
+let g:snipMate.snippet_version = 1
 
 " Insert mode cursor line
 set cursorline
