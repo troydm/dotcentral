@@ -16,6 +16,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
 Plugin 'sheerun/vim-polyglot'
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'tpope/vim-fugitive'
@@ -609,6 +610,7 @@ nnoremap <C-x>- <C-w>s
 "nnoremap <C-M>x :Eval<CR>
 
 " some convenient keymappings
+nnoremap <silent> <leader>f :Autoformat<CR>
 nnoremap <silent> <leader>s :ShellTerminal<CR>
 nnoremap <silent> <leader>g :Gstatus<CR>
 nnoremap <silent> <leader>t :EasyTree<CR>
