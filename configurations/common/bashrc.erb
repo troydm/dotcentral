@@ -11,8 +11,8 @@ set -o vi
 
 # dircolors
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ] && [ -f ~/.dircolors ]; then
-    eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if [ -f ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
