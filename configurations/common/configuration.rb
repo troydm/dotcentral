@@ -16,26 +16,8 @@ git 'https://github.com/pepa65/tldr-bash-client.git', 'tldr'
 symlink 'bin/tldr', 'tldr/tldr'
 
 # install Nerd Fonts on OSX and Linux only
-if linux?
-    if hostname == 'troymac'
-      install_fontsdir = '~/.local/share/fonts'
-    else
-      install_fontsdir = '~/.fonts'
-    end
-elsif osx?
-    install_fontsdir = '~/Library/Fonts'
-end
-if install_fontsdir
-  mkdir 'fonts'
-  curl 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.ttf', 'fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf', content_length_check: true
-  mkdir install_fontsdir
-  ls("fonts",grep: '.[ot]tf').each { |font|
-    if linux?
-      symlink "#{install_fontsdir}/#{font}", "fonts/#{font}"
-    elsif osx?
-      copy "fonts/#{font}", "#{install_fontsdir}/#{font}"
-    end
-  }
+if linux? or osx?
+  Font.nerd_font_install 'DejaVuSansMono/Regular/complete/DejaVu Sans Mono Nerd Font Complete Mono.ttf', 'fonts'
 end
 
 # powerline command
