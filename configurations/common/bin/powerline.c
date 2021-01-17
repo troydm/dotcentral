@@ -76,12 +76,12 @@ int main(int argc, char* argv[]){
                 fputs(&dirfixed[0],stdout);
                 if (dir_alt == 0) {
                     color(dir_bg_color,dir_bg_alt_color);
-                    fputs("",stdout);
+                    fputs("",stdout);
                     color(dir_color,dir_bg_alt_color);
                     dir_alt = 1;
                 } else {
                     color(dir_bg_alt_color,dir_bg_color);
-                    fputs("",stdout);
+                    fputs("",stdout);
                     color(dir_color,dir_bg_color);
                     dir_alt = 0;
                 }
