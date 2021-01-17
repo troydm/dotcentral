@@ -10,7 +10,7 @@ const char* hostname_color = "230";
 const char* user_hostname_bg_color = "242";
 const char* dir_color = "223";
 const char* dir_bg_color = "233";
-const char* dir_bg_alt_color = "242";
+const char* dir_bg_alt_color = "238";
 const char* git_color = "151";
 const char* git_bg_color = "242";
 

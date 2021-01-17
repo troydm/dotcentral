@@ -40,6 +40,7 @@ yabai -m config active_window_opacity 1.0
 yabai -m config normal_window_opacity 0.7
 
 # ignore some of the windows
+yabai -m rule --add app="^Stats$" manage=off border=off
 yabai -m rule --add app="^Finder$" manage=off
 yabai -m rule --add app="^Activity Monitor$" manage=off
 yabai -m rule --add title='Preferences$' manage=off
