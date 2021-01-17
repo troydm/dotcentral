@@ -1,3 +1,4 @@
+git 'git@github.com:troydm/dotcentral.git', '.'
 require './specifications/font.rb'
 require './specifications/ssh.rb'
 
