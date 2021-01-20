@@ -83,7 +83,7 @@ d() {
 <% end %>
 
 # fcd
-fcd() { cd "$(fcdclient "$@")"; }
+fcd() { fcdclient "$@"; cd "$(cat /tmp/fcd_$USER)"; rm -f /tmp/fcd_$USER; }
 alias z=fcd
 
 # Add common directories to PATH
