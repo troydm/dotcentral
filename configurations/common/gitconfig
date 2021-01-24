@@ -9,15 +9,15 @@
 [alias]
     ad = add
     st = status
-    co = checkout
-    ci = commit
+    ch = checkout
+    co = commit
     br = branch
     log-tree = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
     type = cat-file -t
     dump = cat-file -p
 
 [instaweb]
-    httpd=webrick  
+    httpd=webrick
 
 [color]
     branch = auto
@@ -31,7 +31,7 @@
     old = 196
     new = 154
     commit = 208
-    whitespace = 159 
+    whitespace = 159
 
 [color "branch"]
     current = 214
@@ -43,7 +43,7 @@
     header = 245
     added = 191
     changed = 111
-    untracked = 225 
+    untracked = 225
     nobranch = 228
 
 [credential]
