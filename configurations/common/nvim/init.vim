@@ -191,10 +191,6 @@ nnoremap <silent> <esc>l :silent! call WinMoveRight()<CR>
 nnoremap <silent> <esc>h :silent! call WinMoveLeft()<CR>
 nnoremap <silent> <esc>k :silent! call WinMoveUp()<CR>
 nnoremap <silent> <esc>j :silent! call WinMoveDown()<CR>
-nnoremap <silent> ¬ :silent! call WinMoveRight()<CR>
-nnoremap <silent> ˙ :silent! call WinMoveLeft()<CR>
-nnoremap <silent> ˚ :silent! call WinMoveUp()<CR>
-nnoremap <silent> ∆ :silent! call WinMoveDown()<CR>
 nnoremap <silent> <A-right> :silent! call WinMoveRight()<CR>
 nnoremap <silent> <A-left> :silent! call WinMoveLeft()<CR>
 nnoremap <silent> <A-up> :silent! call WinMoveUp()<CR>
@@ -223,10 +219,6 @@ au FileType shellasyncterm inoremap <silent> <buffer> <Esc>h <Esc>:silent! call 
                          \ inoremap <silent> <buffer> <Esc>j <Esc>:silent! call WinMoveDown()<CR>|
                          \ inoremap <silent> <buffer> <Esc>k <Esc>:silent! call WinMoveUp()<CR>|
                          \ inoremap <silent> <buffer> <Esc>l <Esc>:silent! call WinMoveRight()<CR>|
-                         \ inoremap <silent> <buffer> ¬ <Esc>:silent! call WinMoveRight()<CR>|
-                         \ inoremap <silent> <buffer> ˙ <Esc>:silent! call WinMoveLeft()<CR>|
-                         \ inoremap <silent> <buffer> ∆ <Esc>:silent! call WinMoveDown()<CR>|
-                         \ inoremap <silent> <buffer> ˚ <Esc>:silent! call WinMoveUp()<CR>|
                          \ inoremap <silent> <buffer> <Esc>[1;3C <Esc>:silent! call WinMoveRight()<CR>|
                          \ inoremap <silent> <buffer> <Esc>[1;3D <Esc>:silent! call WinMoveLeft()<CR>|
                          \ inoremap <silent> <buffer> <Esc>[1;3B <Esc>:silent! call WinMoveDown()<CR>|

@@ -373,10 +373,6 @@ you should place your code here."
   (global-set-key (kbd "C-x x") 'delete-window)
   (global-set-key (kbd "C-q") 'kill-this-buffer)
   (global-set-key (kbd "<C-tab>") 'helm-mini)
-  (global-set-key (kbd "˚") 'my-window-up)
-  (global-set-key (kbd "∆") 'my-window-down)
-  (global-set-key (kbd "˙") 'my-window-left)
-  (global-set-key (kbd "¬") 'my-window-right)
   (global-set-key (kbd "M-<up>")    'my-window-up)
   (global-set-key (kbd "M-<down>")  'my-window-down)
   (global-set-key (kbd "M-<left>")  'my-window-left)
@@ -427,6 +423,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(neo-theme (quote arrow))
  '(package-selected-packages
    (quote
