@@ -607,6 +607,7 @@ nnoremap <silent> <leader>f :Autoformat<CR>
 nnoremap <silent> <leader>s :ShellTerminal<CR>
 nnoremap <silent> <leader>g :Gstatus<CR>
 nnoremap <silent> <leader>t :EasyTree<CR>
+nnoremap <silent> <leader>b :EasyBuffer<CR>
 nnoremap <silent> <leader>T :Tagbar<CR>
 nnoremap <silent> <leader>y :YRShow<CR>
 nnoremap <silent> <leader>h :GhcModType<CR>

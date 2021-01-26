@@ -47,6 +47,7 @@ nnoremap <silent> <C-q> :Bclose<CR>
 nnoremap <silent> <leader>s :ShellTerminal<CR>
 nnoremap <silent> <leader>g :Gstatus<CR>
 nnoremap <silent> <leader>t :NEasyTree<CR>
+nnoremap <silent> <leader>b :EasyBuffer<CR>
 nnoremap <silent> <leader>r :YRShow<CR>
 nnoremap <silent> <leader>u :UndotreeToggle<CR>
 
