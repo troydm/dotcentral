@@ -6,7 +6,7 @@
 ;; Zenburn
 (load-theme 'zenburn t)
 (defun zenburn-color (name)
-  (cdr (assoc name zenburn-default-colors-alist)))
+  (cdr (assoc (format "zenburn-%s" name) zenburn-default-colors-alist)))
 
 ;; Backups
 (setq backup-directory-alist '((".*" . "~/.emacs.d/backups/"))
@@ -17,14 +17,14 @@
 (require 'ivy)
 (require 'swiper)
 (require 'counsel)
-(ivy-mode t)
+(ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 ;; (define-key ivy-minibuffer-map (kbd "ESC") #'kill-this-buffer)
 ;; (define-key counsel-ag-map (kbd "ESC") #'kill-this-buffer)
 
 ;; Highlight Line
 (global-hl-line-mode t)  
-(set-face-attribute 'hl-line nil :background (zenburn-color "zenburn-bg-2"))
+(set-face-attribute 'hl-line nil :background (zenburn-color "bg-2"))
 
 ;; Disable Bell on Quit
 (setq ring-bell-function
@@ -42,22 +42,24 @@
 (require 'powerline-evil)
 (setq powerline-evil-tag-style 'verbose)
 (set-face-attribute 'powerline-active0 nil :background "brightblack")
-(set-face-attribute 'powerline-active2 nil :background (zenburn-color "zenburn-bg+1"))
-(set-face-attribute 'powerline-inactive2 nil :background (zenburn-color "zenburn-bg-2"))
+(set-face-attribute 'powerline-active2 nil :background (zenburn-color "bg+1"))
+(set-face-attribute 'powerline-inactive2 nil :background (zenburn-color "bg-2"))
 (set-face-attribute 'powerline-inactive0 nil :background "black")
 (set-face-attribute 'powerline-evil-base-face nil :background "brightblack" :foreground "brightwhite")
 (set-face-attribute 'powerline-evil-normal-face nil
 		    :background "brightblack" :foreground "brightwhite")
 (set-face-attribute 'powerline-evil-insert-face nil
-		    :background "brightblack" :foreground (zenburn-color "zenburn-yellow"))
+		    :background "brightblack" :foreground (zenburn-color "yellow"))
 (set-face-attribute 'powerline-evil-visual-face nil
-		    :background (zenburn-color "zenburn-yellow-2") :foreground "brightblack" :weight 'bold)
+		    :background (zenburn-color "yellow-2") :foreground "brightblack" :weight 'bold)
 (set-face-attribute 'powerline-evil-emacs-face nil
-		    :background "brightblack" :foreground (zenburn-color "zenburn-cyan") :weight 'bold)
+		    :background "brightblack" :foreground (zenburn-color "cyan") :weight 'bold)
 (set-face-attribute 'powerline-evil-operator-face nil
-		    :background "brightblack" :foreground (zenburn-color "zenburn-red") :weight 'bold)
+		    :background "brightblack" :foreground (zenburn-color "red") :weight 'bold)
 (set-face-attribute 'powerline-evil-replace-face nil
-		    :background "brightblack" :foreground (zenburn-color "zenburn-orange") :weight 'bold)
+		    :background "brightblack" :foreground (zenburn-color "orange") :weight 'bold)
+(set-face-attribute 'powerline-evil-motion-face nil
+		    :background (zenburn-color "green-1") :foreground "brightwhite")
 (defun my-powerline-evil-theme ()
   (interactive)
   (setq-default mode-line-format
@@ -91,8 +93,7 @@
 				      (concat (powerline-raw "[" mode-line 'l)
 					      (powerline-raw (format "%s / %s" backend (vc-working-revision buffer-file-name backend)))
 					      (powerline-raw "]" mode-line)))))
-				(funcall separator-left mode-line face2)
-				))
+				(funcall separator-left mode-line face2)))
 			  (rhs (list
 				(funcall separator-right face2 'powerline-evil-insert-face)
 				(powerline-major-mode 'powerline-evil-insert-face)
@@ -158,11 +159,21 @@
 
 (define-key evil-normal-state-map (kbd "C-f") nil)
 (define-key evil-normal-state-map (kbd "C-f") #'counsel-find-file)
-(define-key evil-normal-state-map (kbd "C-g") #'counsel-ag)
+(define-key evil-normal-state-map (kbd "C-g") #'counsel-ack)
 (define-key evil-normal-state-map (kbd "M-g") #'swiper)
 (define-key evil-normal-state-map (kbd "\\") nil)
 (define-key evil-normal-state-map (kbd "\\e") #'eval-last-sexp)
 (define-key evil-normal-state-map (kbd "\\b") #'ivy-switch-buffer)
+(define-key evil-normal-state-map (kbd "\\t") #'neotree)
+(define-key evil-emacs-state-map (kbd "M-g") #'swiper)
+
+;; Neotree
+(add-to-list 'load-path "~/.emacs.d/elpa/neotree-20200324.1946")
+(require 'neotree)
+(evil-set-initial-state 'neotree-mode 'emacs)
+(set-face-attribute 'neo-root-dir-face nil :foreground (zenburn-color "red"))
+(set-face-attribute 'neo-expand-btn-face nil :foreground "brightwhite" :weight 'bold)
+(set-face-attribute 'neo-dir-link-face nil :foreground (zenburn-color "yellow") :weight 'bold)
 
 ;; Slime
 (setq inferior-lisp-program "ros run --")
@@ -175,7 +186,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(treemacs-evil treemacs zenburn-theme slime powerline-evil counsel)))
+   '(lispy magit zenburn-theme slime powerline-evil pfuture hydra ht f counsel cfrs ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
