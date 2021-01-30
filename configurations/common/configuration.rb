@@ -62,7 +62,6 @@ symlink '~/.config/kitty/kitty.conf', 'kitty.conf'
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
 symlink '~/.tigrc', 'tigrc'
-symlink '~/.spacemacs', 'spacemacs'
 symlink '~/.cvimrc', 'cvimrc'
 symlink '~/.qutebrowser', 'qutebrowser'
 if linux?
@@ -73,4 +72,4 @@ if linux?
 end
 symlink '~/.config/ranger', 'ranger'
 
-['mc','vifm','vim','nvim','vimperator'].each { |c| run c }
+['emacs','mc','vifm','vim','nvim','vimperator'].each { |c| run c }

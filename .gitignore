@@ -26,6 +26,13 @@ configurations/common/vimb/history
 configurations/common/vimb/hsts
 configurations/common/vimb/queue
 configurations/common/vimb/search
+configurations/common/emacs/bashrc
+configurations/common/emacs/emacs.d/auto-save-list
+configurations/common/emacs/emacs.d/elpa
+configurations/common/emacs/emacs.d/backups
+configurations/common/emacs/emacs.d/recentf
+configurations/common/emacs/spacemacs.d
+configurations/common/emacs/doomemacs.d
 configurations/private
 configurations/troynas/bashrc
 configurations/troynas/tmux.conf

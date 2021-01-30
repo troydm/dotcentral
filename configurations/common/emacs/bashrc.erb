@@ -1,0 +1,23 @@
+switch_emacs() {
+    case $1 in
+        spacemacs)
+            rm -f ~/.emacs.d
+            ln -s <%= pwd + '/spacemacs.d' %> ~/.emacs.d
+            echo 'Switched to Spacemacs'
+            ;;
+        doomemacs)
+            rm -f ~/.emacs.d
+            ln -s <%= pwd + '/doomemacs.d' %> ~/.emacs.d
+            echo 'Switched to Doom Emacs'
+            ;;
+        custom)
+            rm -f ~/.emacs.d
+            ln -s <%= pwd + '/emacs.d' %> ~/.emacs.d
+            echo 'Switched to Custom Emacs'
+            ;;
+        *)
+            echo 'spacemacs'
+            echo 'doomemacs'
+            echo 'custom'
+    esac
+}
