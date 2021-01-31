@@ -10,7 +10,7 @@
 	      (message (format "Installing %s package" package))
 	      (package-install package))) packages))
 
-(install-packages 'zenburn-theme 'counsel 'powerline-evil 'magit 'slime 'lispy)
+(install-packages 'zenburn-theme 'undo-tree 'counsel 'powerline-evil 'magit 'slime 'lispy)
 (package-initialize)
 
 (shell-command "git clone https://github.com/troydm/emacs-neotree.git ~/.emacs.d/elpa/neotree-20200324.1946")
