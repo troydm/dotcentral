@@ -19,12 +19,19 @@
 (require 'counsel)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
-;; (define-key ivy-minibuffer-map (kbd "ESC") #'kill-this-buffer)
-;; (define-key counsel-ag-map (kbd "ESC") #'kill-this-buffer)
+(define-key ivy-minibuffer-map (kbd "ESC <escape>") (kbd "C-g"))
+(define-key counsel-ag-map (kbd "ESC <escape>") (kbd "C-g"))
+
+;; Display Line Numbers
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 ;; Highlight Line
 (global-hl-line-mode t)  
 (set-face-attribute 'hl-line nil :background (zenburn-color "bg-2"))
+
+;; Hide Menu for Non-GUI mode
+(unless (display-graphic-p)
+   (menu-bar-mode -1))
 
 ;; Disable Bell on Quit
 (setq ring-bell-function
@@ -32,10 +39,14 @@
 	(unless (memq this-command '(exit-minibuffer close-buffer-or-window minibuffer-keyboard-quit keyboard-quit))
 	  (ding))))
 
+;; Undotree
+(require 'undo-tree)
+(global-undo-tree-mode)
+
 ;; Evil
 (require 'evil)
 (evil-mode t)
-(setq evil-esc-delay 0.5)
+(setq evil-esc-delay 0.3)
 
 ;; Evil Powerline
 (require 'powerline)
@@ -89,9 +100,9 @@
 				  (powerline-raw "[Read Only]" mode-line))
 				(when (and vc-mode buffer-file-name)
 				  (let ((backend (vc-backend buffer-file-name)))
-				    (when backend
+				    (if (string= backend "Git")
 				      (concat (powerline-raw "[" mode-line 'l)
-					      (powerline-raw (format "%s / %s" backend (vc-working-revision buffer-file-name backend)))
+					      (powerline-raw (format "%s" (car (vc-git-branches))))
 					      (powerline-raw "]" mode-line)))))
 				(funcall separator-left mode-line face2)))
 			  (rhs (list
@@ -149,7 +160,7 @@
     (delete-window)))
 (global-set-key (kbd "C-q") #'close-buffer-or-window)
 
-;; Convenient Keybindings
+;; Convenient Global Keybindings
 (global-set-key (kbd "M-x") #'counsel-M-x)
 (global-set-key (kbd "C-s") #'save-buffer)
 (global-set-key (kbd "C-x C-f") #'counsel-find-file)
@@ -157,15 +168,17 @@
 (global-set-key (kbd "C-x -") #'split-window-vertically)
 (global-set-key (kbd "C-x |") #'split-window-horizontally)
 
+;; Convenient Evil Keybindings
 (define-key evil-normal-state-map (kbd "C-f") nil)
 (define-key evil-normal-state-map (kbd "C-f") #'counsel-find-file)
 (define-key evil-normal-state-map (kbd "C-g") #'counsel-ack)
-(define-key evil-normal-state-map (kbd "M-g") #'swiper)
+(define-key evil-normal-state-map (kbd "M-/") #'swiper)
 (define-key evil-normal-state-map (kbd "\\") nil)
 (define-key evil-normal-state-map (kbd "\\e") #'eval-last-sexp)
 (define-key evil-normal-state-map (kbd "\\b") #'ivy-switch-buffer)
 (define-key evil-normal-state-map (kbd "\\t") #'neotree)
-(define-key evil-emacs-state-map (kbd "M-g") #'swiper)
+(define-key evil-normal-state-map (kbd "\\u") #'undo-tree-visualize)
+(define-key evil-emacs-state-map (kbd "M-/") #'swiper)
 
 ;; Neotree
 (add-to-list 'load-path "~/.emacs.d/elpa/neotree-20200324.1946")
@@ -185,8 +198,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-undo-system 'undo-tree)
  '(package-selected-packages
-   '(lispy magit zenburn-theme slime powerline-evil pfuture hydra ht f counsel cfrs ace-window)))
+   '(undo-tree lispy magit zenburn-theme slime powerline-evil pfuture hydra ht f counsel cfrs ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -16,8 +16,9 @@ switch_emacs() {
             echo 'Switched to Custom Emacs'
             ;;
         *)
-            echo 'spacemacs'
-            echo 'doomemacs'
-            echo 'custom'
+            local current_emacs=$(readlink ~/.emacs.d)
+            [[ "$current_emacs" == "<%= pwd + '/spacemacs.d' %>" ]] && echo 'spacemacs *' || echo 'spacemacs'
+            [[ "$current_emacs" == "<%= pwd + '/doomemacs.d' %>" ]] && echo 'doomemacs *' || echo 'doomemacs'
+            [[ "$current_emacs" == "<%= pwd + '/emacs.d' %>" ]] && echo 'custom *' || echo 'custom'
     esac
 }
