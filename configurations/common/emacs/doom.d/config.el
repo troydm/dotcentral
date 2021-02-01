@@ -75,6 +75,9 @@
 ;; (setq-hook! neotree-mode-hook neo-show-updir-line t)
 ;;(setq neo-show-updir-line t)
 
+;; Fullscreen and Maximize Window
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 ;; Convenient Key Bindings
 (map! :nve "\\t" #'neotree
       :nve "\\e" "C-x C-e"

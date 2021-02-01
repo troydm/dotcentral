@@ -401,6 +401,7 @@ you should place your code here."
                                     (define-key evil-normal-state-local-map (kbd "\\e") 'pp-eval-last-sexp)))
   (define-key evil-normal-state-map (kbd "\\t") 'neotree-toggle)
   (define-key evil-normal-state-map (kbd "\\s") 'shell)
+  (define-key evil-normal-state-map (kbd "\\b") #'helm-mini)
   (define-key spacemacs-buffer-mode-map (kbd "\\t") 'neotree-toggle)
   (define-key spacemacs-buffer-mode-map (kbd "\\s") 'shell)
   (define-key evil-insert-state-map (kbd "<tab>")
