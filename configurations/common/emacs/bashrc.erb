@@ -22,3 +22,4 @@ switch_emacs() {
             [[ "$current_emacs" == "<%= pwd + '/emacs.d' %>" ]] && echo 'custom *' || echo 'custom'
     esac
 }
+type complete 2>&1 1>/dev/null && complete -W "spacemacs doomemacs custom" switch_emacs
