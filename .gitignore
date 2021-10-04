@@ -42,6 +42,7 @@ configurations/troynas/bin/arc_summary
 configurations/troynas/bin/bashtop
 configurations/troynas/tsundoku
 configurations/troypc/fontawesome
+configurations/troypc/bashrc
 configurations/troypc/xmonad/xmonad-git
 configurations/troypc/xmonad/xmonad-contrib-git
 configurations/troypc/xmonad/xmonad-dbus-git
