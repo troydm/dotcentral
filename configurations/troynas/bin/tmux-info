@@ -147,7 +147,7 @@ open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
 
-if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 70 || $hdd1 > 62 || $hdd2 > 62){
+if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 75 || $hdd1 > 62 || $hdd2 > 62){
     if(!$notified && notify($ret) =~ m/200 OK/){
         $notified = 1;
     }
@@ -156,7 +156,7 @@ if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd
     $critical = 0;
 }
 
-if($cpu >= 85 || $core >= 85 || $mb >= 65 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $ssd2 > 70 || $hdd1 > 65 || $hdd2 > 65){
+if($cpu >= 85 || $core >= 85 || $mb >= 65 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $ssd2 > 75 || $hdd1 > 65 || $hdd2 > 65){
     $critical++;
 }
 

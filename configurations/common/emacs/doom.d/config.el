@@ -21,6 +21,7 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+(setq doom-font (font-spec :family "DejaVuSansMono Nerd Font Mono" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -74,6 +75,9 @@
 ;; (add-hook 'window-setup-hook (lambda () (interactive) (neotree)))
 ;; (setq-hook! neotree-mode-hook neo-show-updir-line t)
 ;;(setq neo-show-updir-line t)
+(use-package neotree
+  :config
+  (setq neo-show-updir-line t))
 
 ;; Fullscreen and Maximize Window
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -81,11 +85,15 @@
 ;; Convenient Key Bindings
 (map! :nve "\\t" #'neotree
       :nve "\\e" "C-x C-e"
+      :nve "\\b" #'ivy-switch-buffer
+      :nve "C-x x" #'delete-window
+      :nve "C-x |" #'split-window-horizontally
+      :nve "C-x -" #'split-window-vertically
       :nve "C-f" #'counsel-find-file
       :nve "C-s" #'save-buffer)
 
 ;; Customize Zenburn
-(setq-default doom-zenburn-brighter-comments t
+(setq-default doom-zenburn-brighter-comments nil
               doom-zenburn-brighter-modeline t)
 (custom-theme-set-faces! 'doom-zenburn
   `(mode-line :background ,(doom-color 'base1) :foreground ,(doom-color 'fg))

@@ -22,6 +22,10 @@
 (define-key ivy-minibuffer-map (kbd "ESC <escape>") (kbd "C-g"))
 (define-key counsel-ag-map (kbd "ESC <escape>") (kbd "C-g"))
 
+;; GUI Font & Fullscreen
+(add-to-list 'default-frame-alist '(font . "DejaVuSansMono Nerd Font Mono-14"))
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
 ;; Display Line Numbers
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (set-face-foreground 'line-number (zenburn-color "bg+3"))
@@ -38,6 +42,8 @@
 (set-face-attribute 'whitespace-tab nil :foreground (zenburn-color "green+2") :background (zenburn-color "bg"))
 (set-face-foreground 'whitespace-newline (zenburn-color "bg+2"))
 
+;; Eros
+(eros-mode 1)
 
 ;; Tab Completion
 (setq-default indent-tabs-mode nil)
@@ -219,7 +225,16 @@
 
 ;; Slime
 (setq inferior-lisp-program "ros run --")
-(add-to-list 'slime-contribs 'slime-repl)
+(slime-setup '(slime-fancy slime-repl slime-company))
+(require 'cl-lib)
+(defun slime-eval-last-expression-eros ()
+  (interactive)
+  (cl-destructuring-bind (output value)
+      (slime-eval `(swank:eval-and-grab-output ,(slime-last-expression)))
+    (eros--make-result-overlay (concat output value)
+      :where (point)
+      :duration eros-eval-result-duration)))
+(evil-define-key 'normal lisp-mode-map (kbd "C-x C-e") #'slime-eval-last-expression-eros)
 
 ;; Custom Set Variables
 (custom-set-variables
@@ -229,7 +244,7 @@
  ;; If there is more than one, they won't work right.
  '(evil-undo-system 'undo-tree)
  '(package-selected-packages
-   '(company undo-tree lispy magit zenburn-theme slime powerline-evil pfuture hydra ht f counsel cfrs ace-window)))
+   '(slime-company company undo-tree lispy magit zenburn-theme slime powerline-evil pfuture hydra ht f counsel cfrs ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
