@@ -153,6 +153,9 @@ alt + cmd - f : yabai -m window --toggle native-fullscreen
 # hide all application windows
 shift + cmd - w : osascript -e 'tell application "System Events" to set visible of (first process whose frontmost is true) to false'
 
+# toggle window border
+shift + cmd - b : yabai -m window --toggle border
+
 # toggle window split type
 shift + cmd - x : yabai -m window --toggle split
 

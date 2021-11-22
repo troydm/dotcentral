@@ -1,3 +1,6 @@
+erb 'bashrc.erb'
+source '~/.bashrc', 'bashrc'
+
 if linux?
   symlink '~/.config/compton.conf', 'compton.conf'
   symlink '~/.wallpapers', 'wallpapers'

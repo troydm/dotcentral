@@ -1,5 +1,5 @@
 #!/bin/sh
 
 echo 'startxmonad: Starting.' 1>&2
-/home/troydm/.local/bin/xmonad >~/.xmonad/xmonad.log 2>&1
+PATH=/home/troydm/.local/bin:$PATH /home/troydm/.local/bin/xmonad >~/.xmonad/xmonad.log 2>&1
 echo 'startxmonad: Done.' 1>&2
