@@ -23,4 +23,6 @@ switch_emacs() {
     esac
 }
 type complete 2>&1 1>/dev/null && complete -W "spacemacs doomemacs custom" switch_emacs
+<% if linux? and hostname == 'troynas' %>
 alias emacs="TERM=xterm-direct emacs"
+<% end %>

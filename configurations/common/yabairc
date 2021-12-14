@@ -41,6 +41,7 @@ yabai -m config normal_window_opacity 0.7
 
 # ignore some of the windows
 yabai -m rule --add title="Cataclysm" manage=off border=off
+yabai -m rule --add app="^Steam$" manage=off border=off
 yabai -m rule --add title="^Opening" manage=off border=off
 yabai -m rule --add title="^MTGA" manage=off border=off
 yabai -m rule --add app="^Stats$" manage=off border=off
