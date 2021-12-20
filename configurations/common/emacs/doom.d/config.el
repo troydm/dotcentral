@@ -98,6 +98,10 @@
   `(mode-line-inactive :background ,(doom-color 'base0) :foreground ,(doom-color 'fg-1))
   `(mode-line-emphasis :foreground ,(doom-color 'base8)))
 
+;; Roswell
+(let ((roswell-helper (expand-file-name "~/.roswell/helper.el")))
+  (if (file-exists-p roswell-helper) (load roswell-helper)))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
