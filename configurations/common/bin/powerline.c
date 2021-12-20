@@ -50,7 +50,11 @@ int main(int argc, char* argv[]){
         homedir = pw->pw_dir;
     }
     gethostname(&hostname[1],254);
-
+    // strip '.local' suffix
+    char *i = index(hostname, '.');
+    if (i != NULL) {
+        *i = '\0';
+    }
     // print user@hostname
     color(user_color,user_hostname_bg_color);
     fputs(user,stdout);
