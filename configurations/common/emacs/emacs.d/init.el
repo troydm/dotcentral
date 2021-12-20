@@ -223,18 +223,22 @@
 (set-face-attribute 'neo-expand-btn-face nil :foreground "brightwhite" :weight 'bold)
 (set-face-attribute 'neo-dir-link-face nil :foreground (zenburn-color "yellow") :weight 'bold)
 
-;; Slime
-(setq inferior-lisp-program "ros run --")
-(slime-setup '(slime-fancy slime-repl slime-company))
-(require 'cl-lib)
-(defun slime-eval-last-expression-eros ()
-  (interactive)
-  (cl-destructuring-bind (output value)
-      (slime-eval `(swank:eval-and-grab-output ,(slime-last-expression)))
-    (eros--make-result-overlay (concat output value)
-      :where (point)
-      :duration eros-eval-result-duration)))
-(evil-define-key 'normal lisp-mode-map (kbd "C-x C-e") #'slime-eval-last-expression-eros)
+;; Roswell Slime/Sly Configuration
+(let ((roswell-helper (expand-file-name "~/.roswell/helper.el")))
+  (if (file-exists-p roswell-helper) (load roswell-helper)))
+(if (boundp 'sly-contribs)
+    (evil-define-key 'normal lisp-mode-map (kbd "C-x C-e") #'sly-eval-last-expression)
+  (progn
+    (slime-setup '(slime-fancy slime-repl slime-company))
+    (require 'cl-lib)
+    (defun slime-eval-last-expression-eros ()
+      (interactive)
+      (cl-destructuring-bind (output value)
+          (slime-eval `(swank:eval-and-grab-output ,(slime-last-expression)))
+        (eros--make-result-overlay (concat output value)
+          :where (point)
+          :duration eros-eval-result-duration)))
+    (evil-define-key 'normal lisp-mode-map (kbd "C-x C-e") #'slime-eval-last-expression-eros)))
 
 ;; Custom Set Variables
 (custom-set-variables
