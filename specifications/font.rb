@@ -26,7 +26,7 @@ class Font
     mkdir download_folder
     download_font_path = "#{download_folder}/#{file_name(nerd_font_path.gsub(' ','_'))}"
     curl "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/#{nerd_font_path.gsub(' ', '%20')}",
-      download_font_path, content_length_check: false
+      download_font_path, content_length_check: true, verbose: false
     download_font_path
   end
 
