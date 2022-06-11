@@ -85,6 +85,7 @@ my $critical = 0;
 $SIG{TERM} = sub { $continue = 0; };
 my $hdd1='35';
 my $hdd2='35';
+my $hddfree='';
 
 sub update(){
 my $sys = `sensors`;
@@ -126,6 +127,13 @@ if(time() % 300 == 0){
         $hdd2 = $1;
     }
 }
+if(time() % 10 == 0){
+    $hddfree = `df -h /store`;
+    chop $hddfree;
+    if ($hddfree =~ q/store\s+\d+G\s+\d+G\s+(\d+G)/) {
+        $hddfree = $1;
+    }
+}
 
 my $ssd;
 my $ssdtemp = `/usr/sbin/hddtemp --debug $ssd1dev | grep field\\(190\\)`;
@@ -142,7 +150,7 @@ if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
 }
 
 my $cpu_usage = cpu_usage();
-my $ret = ":$cpu_usage $cpu"." $core".":$mb".":$cpurpm⏻:$psurpm﬙:$ssd"." $ssd2".":$hdd1"." $hdd2"."";
+my $ret = ":$cpu_usage $cpu"." $core".":$mb".":$cpurpm⏻:$psurpm﬙:$ssd"." $ssd2".":$hdd1"." $hdd2"." $hddfree";
 open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
