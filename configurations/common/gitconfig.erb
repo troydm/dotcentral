@@ -48,5 +48,14 @@
 
 [credential]
     helper = cache --timeout=3600
+
 [pull]
-	rebase = false
+    rebase = false
+
+<% if hostname == 'troynas' %>
+[commit]
+    gpgSign = true
+
+[tag]
+    gpgSign = true
+<% end %>

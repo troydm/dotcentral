@@ -59,6 +59,7 @@ if file_exists? '~/.config/fish/config.fish'
 end
 mkdir '~/.config/kitty'
 symlink '~/.config/kitty/kitty.conf', 'kitty.conf'
+erb 'gitconfig.erb'
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
 symlink '~/.tigrc', 'tigrc'
