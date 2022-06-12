@@ -1,4 +1,5 @@
 set nocompatible
+
 filetype off
 
 if has('win32') || has('win64')
@@ -42,7 +43,7 @@ Plugin 'troydm/easybuffer.vim'
 Plugin 'troydm/easytree.vim'
 Plugin 'troydm/zoomwintab.vim'
 Plugin 'mbbill/undotree'
-Plugin 'vim-scripts/cbackup.vim'
+Plugin 'troydm/easybackup.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'kovisoft/slimv'
 Plugin 'fidian/hexmode'
