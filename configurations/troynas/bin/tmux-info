@@ -128,11 +128,10 @@ if(time() % 300 == 0){
     }
 }
 if(time() % 10 == 0){
-    $hddfree = `df -h /store`;
+    $hddfree = `df -h /store | tail -1`;
     chop $hddfree;
-    if ($hddfree =~ q/store\s+\d+G\s+\d+G\s+(\d+G)/) {
-        $hddfree = $1;
-    }
+    my @cols = split /\s+/, $hddfree;
+    $hddfree = $cols[3];
 }
 
 my $ssd;
@@ -150,7 +149,8 @@ if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
 }
 
 my $cpu_usage = cpu_usage();
-my $ret = ":$cpu_usage $cpu"." $core".":$mb".":$cpurpm⏻:$psurpm﬙:$ssd"." $ssd2".":$hdd1"." $hdd2"." $hddfree";
+my @widgets = (":$cpu_usage $cpu $core", "󰇅:$mb", "󰈐:$cpurpm", "⏻:$psurpm", ":$ssd $ssd2", "󰋊:$hdd1 $hdd2 $hddfree");
+my $ret = "".join("", @widgets)."";
 open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
