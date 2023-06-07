@@ -17,7 +17,7 @@ symlink 'bin/tldr', 'tldr/tldr'
 
 # install Nerd Fonts on OSX and Linux only
 if linux? or osx?
-  Font.nerd_font_install 'DejaVuSansMono/Regular/complete/DejaVu Sans Mono Nerd Font Complete Mono.ttf', 'fonts'
+  Font.nerd_font_install 'DejaVuSansMono/Regular/DejaVuSansMNerdFontMono-Regular.ttf', 'fonts'
 end
 
 # powerline command
