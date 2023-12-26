@@ -92,6 +92,9 @@ add_PATH <%= pwd+"/bin" %>
 add_PATH .
 add_PATH /usr/local/bin
 add_LD_LIBRARY_PATH /usr/local/lib
+if [ -d ~/.local/share/gem/ruby/3.0.0/bin ]; then
+    add_PATH ~/.local/share/gem/ruby/3.0.0/bin
+fi
 
 # less colors and options
 export LESS='-RS#3M~g'
