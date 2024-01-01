@@ -18,7 +18,8 @@
   boot.kernelPackages = pkgs.linuxPackages;
 
   # Nix
-  nix.buildCores = 4;
+  nix.settings.cores = 4;
+  # nixpkgs.config.allowBroken = true;
 
   networking.hostName = "troymac"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -40,8 +41,8 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    pciutils binutils gcc wget git ruby perl python curl links2
-    firefox-bin rxvt_unicode xorg.xbacklight xclip xorg.xdpyinfo compton rofi feh
+    pciutils binutils gcc wget git ruby perl python3Full curl links2
+    firefox-bin rxvt_unicode alacritty xorg.xbacklight xclip xorg.xdpyinfo picom rofi feh
     vim_configurable redshift lm_sensors
   ];
 
@@ -68,7 +69,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.useGlamor = true;
   services.xserver.dpi = 227;
   services.xserver.layout = "us,ru,ge";
   services.xserver.xkbOptions = "grp:win_space_toggle,ctrl:nocaps";
@@ -78,7 +78,7 @@
   services.xserver.displayManager.defaultSession = "none+bspwm";
   services.xserver.displayManager.lightdm = {
     enable = true;
-    greeters.enso.enable = true;
+    greeters.gtk.cursorTheme.size = 50;
   };
 
   # BSPWM
@@ -88,9 +88,9 @@
 
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
-  services.xserver.libinput.tappingDragLock = false;
-  services.xserver.libinput.accelSpeed = "0.6";
-  services.xserver.libinput.additionalOptions = ''
+  services.xserver.libinput.touchpad.tappingDragLock = false;
+  services.xserver.libinput.touchpad.accelSpeed = "0.6";
+  services.xserver.libinput.touchpad.additionalOptions = ''
     Option "TappingDrag" "0"
   '';
 
@@ -108,7 +108,7 @@
         if ${pkgs.gnugrep}/bin/grep -q '\bXHC1\b.*\benabled\b' /proc/acpi/wakeup; then
           echo XHC1 > /proc/acpi/wakeup
         fi
-        echo 69 > /sys/class/backlight/intel_backlight/brightness
+        echo 50 > /sys/class/backlight/acpi_video0/brightness
     '';
     serviceConfig.Type = "oneshot";
   };

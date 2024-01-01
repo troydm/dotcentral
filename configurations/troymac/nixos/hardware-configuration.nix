@@ -9,10 +9,10 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" "wl" "8192eu" ];
+  boot.kernelModules = [ "kvm-intel" "wl" ];
   boot.blacklistedKernelModules = [ "rtl8xxxu" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.rtl8192eu ];
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
   boot.extraModprobeConfig = ''
     options snd-hda-intel index=0 model=intel-mac-auto id=PCH
     options snd-hda-intel index=1 model=intel-mac-auto id=HDMI
@@ -36,7 +36,7 @@
   hardware.pulseaudio.enable = true;
   hardware.opengl.extraPackages = [ pkgs.vaapiIntel ];
 
-  nix.maxJobs = lib.mkDefault 4;
+  nix.settings.max-jobs = lib.mkDefault 4;
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "powersave";
