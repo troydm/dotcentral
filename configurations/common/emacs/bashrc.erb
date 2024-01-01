@@ -1,0 +1,28 @@
+switch_emacs() {
+    case $1 in
+        spacemacs)
+            rm -f ~/.emacs.d
+            ln -s <%= pwd + '/spacemacs.d' %> ~/.emacs.d
+            echo 'Switched to Spacemacs'
+            ;;
+        doomemacs)
+            rm -f ~/.emacs.d
+            ln -s <%= pwd + '/doomemacs.d' %> ~/.emacs.d
+            echo 'Switched to Doom Emacs'
+            ;;
+        custom)
+            rm -f ~/.emacs.d
+            ln -s <%= pwd + '/emacs.d' %> ~/.emacs.d
+            echo 'Switched to Custom Emacs'
+            ;;
+        *)
+            local current_emacs=$(readlink ~/.emacs.d)
+            [[ "$current_emacs" == "<%= pwd + '/spacemacs.d' %>" ]] && echo 'spacemacs *' || echo 'spacemacs'
+            [[ "$current_emacs" == "<%= pwd + '/doomemacs.d' %>" ]] && echo 'doomemacs *' || echo 'doomemacs'
+            [[ "$current_emacs" == "<%= pwd + '/emacs.d' %>" ]] && echo 'custom *' || echo 'custom'
+    esac
+}
+type complete 2>&1 1>/dev/null && complete -W "spacemacs doomemacs custom" switch_emacs
+<% if linux? and hostname == 'troynas' %>
+alias emacs="TERM=xterm-direct emacs"
+<% end %>

@@ -85,6 +85,7 @@ my $critical = 0;
 $SIG{TERM} = sub { $continue = 0; };
 my $hdd1='35';
 my $hdd2='35';
+my $hddfree='';
 
 sub update(){
 my $sys = `sensors`;
@@ -126,6 +127,12 @@ if(time() % 300 == 0){
         $hdd2 = $1;
     }
 }
+if(time() % 10 == 0){
+    $hddfree = `df -h /store | tail -1`;
+    chop $hddfree;
+    my @cols = split /\s+/, $hddfree;
+    $hddfree = $cols[3];
+}
 
 my $ssd;
 my $ssdtemp = `/usr/sbin/hddtemp --debug $ssd1dev | grep field\\(190\\)`;
@@ -142,12 +149,13 @@ if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
 }
 
 my $cpu_usage = cpu_usage();
-my $ret = ":$cpu_usage $cpu"." $core".":$mb".":$cpurpm⏻:$psurpm﬙:$ssd"." $ssd2".":$hdd1"." $hdd2"."";
+my @widgets = (":$cpu_usage $cpu $core", "󰇅:$mb", "󰈐:$cpurpm", "⏻:$psurpm", ":$ssd $ssd2", "󰋊:$hdd1 $hdd2 $hddfree");
+my $ret = "".join("", @widgets)."";
 open my $fh, '>', '/tmp/tmux-info';
 print $fh $ret;
 close $fh;
 
-if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 70 || $hdd1 > 62 || $hdd2 > 62){
+if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 75 || $hdd1 > 62 || $hdd2 > 62){
     if(!$notified && notify($ret) =~ m/200 OK/){
         $notified = 1;
     }
@@ -156,7 +164,7 @@ if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd
     $critical = 0;
 }
 
-if($cpu >= 85 || $core >= 85 || $mb >= 65 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $ssd2 > 70 || $hdd1 > 65 || $hdd2 > 65){
+if($cpu >= 85 || $core >= 85 || $mb >= 65 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $ssd2 > 75 || $hdd1 > 65 || $hdd2 > 65){
     $critical++;
 }
 

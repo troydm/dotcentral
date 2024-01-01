@@ -1,4 +1,5 @@
 set nocompatible
+
 filetype off
 
 if has('win32') || has('win64')
@@ -16,6 +17,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " original repos on github
 Plugin 'sheerun/vim-polyglot'
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'tpope/vim-fugitive'
@@ -41,7 +43,7 @@ Plugin 'troydm/easybuffer.vim'
 Plugin 'troydm/easytree.vim'
 Plugin 'troydm/zoomwintab.vim'
 Plugin 'mbbill/undotree'
-Plugin 'vim-scripts/cbackup.vim'
+Plugin 'troydm/easybackup.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'kovisoft/slimv'
 Plugin 'fidian/hexmode'
@@ -99,7 +101,6 @@ let g:ConqueTerm_CWInsert = 1
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp|class)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|(^|[/\\])build($|[/\\])'
 let g:viewdoc_open = "topleft new"
 let g:no_viewdoc_abbrev = 1
-let g:snippets_dir = '~/.vim/bundle/snipmate-snippets/snippets'
 let g:vitality_fix_focus = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_enable_signs = 1
@@ -119,6 +120,8 @@ let g:paredit_mode = 0
 let g:indentLine_char = '┊'
 let g:indentLine_color_term = 108
 let g:indentLine_fileTypeExclude = ['easytree', 'easybuffer', 'shellasyncterm']
+let g:snipMate = {}
+let g:snipMate.snippet_version = 1
 
 " Insert mode cursor line
 set cursorline
@@ -550,10 +553,6 @@ nnoremap <silent> <esc>l :silent! call WinMoveRight()<CR>
 nnoremap <silent> <esc>h :silent! call WinMoveLeft()<CR>
 nnoremap <silent> <esc>k :silent! call WinMoveUp()<CR>
 nnoremap <silent> <esc>j :silent! call WinMoveDown()<CR>
-nnoremap <silent> ¬ :silent! call WinMoveRight()<CR>
-nnoremap <silent> ˙ :silent! call WinMoveLeft()<CR>
-nnoremap <silent> ˚ :silent! call WinMoveUp()<CR>
-nnoremap <silent> ∆ :silent! call WinMoveDown()<CR>
 nnoremap <silent> <esc>[1;10C :call WinSwapRight()<CR>
 nnoremap <silent> <esc>[1;10D :call WinSwapLeft()<CR>
 nnoremap <silent> <esc>[1;10A :call WinSwapUp()<CR>
@@ -576,10 +575,6 @@ au FileType shellasyncterm inoremap <silent> <buffer> <Esc>h <Esc>:silent! call 
                          \ inoremap <silent> <buffer> <Esc>j <Esc>:silent! call WinMoveDown()<CR>|
                          \ inoremap <silent> <buffer> <Esc>k <Esc>:silent! call WinMoveUp()<CR>|
                          \ inoremap <silent> <buffer> <Esc>l <Esc>:silent! call WinMoveRight()<CR>|
-                         \ inoremap <silent> <buffer> ¬ <Esc>:silent! call WinMoveRight()<CR>|
-                         \ inoremap <silent> <buffer> ˙ <Esc>:silent! call WinMoveLeft()<CR>|
-                         \ inoremap <silent> <buffer> ˚ <Esc>:silent! call WinMoveUp()<CR>|
-                         \ inoremap <silent> <buffer> ∆ <Esc>:silent! call WinMoveDown()<CR>|
                          \ inoremap <silent> <buffer> <Esc>[1;3D <Esc>:silent! call WinMoveLeft()<CR>|
                          \ inoremap <silent> <buffer> <Esc>[1;3B <Esc>:silent! call WinMoveDown()<CR>|
                          \ inoremap <silent> <buffer> <Esc>[1;3A <Esc>:silent! call WinMoveUp()<CR>|
@@ -609,9 +604,11 @@ nnoremap <C-x>- <C-w>s
 "nnoremap <C-M>x :Eval<CR>
 
 " some convenient keymappings
+nnoremap <silent> <leader>f :Autoformat<CR>
 nnoremap <silent> <leader>s :ShellTerminal<CR>
-nnoremap <silent> <leader>g :Gstatus<CR>
+nnoremap <silent> <leader>g :Git<CR>
 nnoremap <silent> <leader>t :EasyTree<CR>
+nnoremap <silent> <leader>b :EasyBuffer<CR>
 nnoremap <silent> <leader>T :Tagbar<CR>
 nnoremap <silent> <leader>y :YRShow<CR>
 nnoremap <silent> <leader>h :GhcModType<CR>

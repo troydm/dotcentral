@@ -148,7 +148,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("DejaVu Sans Mono for Powerline"
+   dotspacemacs-default-font '("DejaVuSansMono Nerd Font Mono"
                                :size 13
                                :weight normal
                                :width normal
@@ -373,10 +373,6 @@ you should place your code here."
   (global-set-key (kbd "C-x x") 'delete-window)
   (global-set-key (kbd "C-q") 'kill-this-buffer)
   (global-set-key (kbd "<C-tab>") 'helm-mini)
-  (global-set-key (kbd "˚") 'my-window-up)
-  (global-set-key (kbd "∆") 'my-window-down)
-  (global-set-key (kbd "˙") 'my-window-left)
-  (global-set-key (kbd "¬") 'my-window-right)
   (global-set-key (kbd "M-<up>")    'my-window-up)
   (global-set-key (kbd "M-<down>")  'my-window-down)
   (global-set-key (kbd "M-<left>")  'my-window-left)
@@ -405,6 +401,7 @@ you should place your code here."
                                     (define-key evil-normal-state-local-map (kbd "\\e") 'pp-eval-last-sexp)))
   (define-key evil-normal-state-map (kbd "\\t") 'neotree-toggle)
   (define-key evil-normal-state-map (kbd "\\s") 'shell)
+  (define-key evil-normal-state-map (kbd "\\b") #'helm-mini)
   (define-key spacemacs-buffer-mode-map (kbd "\\t") 'neotree-toggle)
   (define-key spacemacs-buffer-mode-map (kbd "\\s") 'shell)
   (define-key evil-insert-state-map (kbd "<tab>")
@@ -427,6 +424,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(neo-theme (quote arrow))
  '(package-selected-packages
    (quote

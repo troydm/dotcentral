@@ -1,0 +1,25 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature 'say';
+use DDP;
+
+my $url = "https://hidemy.name/en/proxy-list/?country=RU&type=45#list";
+my $userAgent = "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0";
+
+my $req = `curl -s "$url" -H "User-Agent: $userAgent"`;
+
+my @proxies;
+
+while ($req =~ m/<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})<\/td><td>(\d+)<\/td><td><i class="flag-icon flag-icon-ru"><\/i> <span class=country>[^<]+<\/span> <span class=city>[^<]+<\/span><\/td><td><div class=bar style="[^"]+"><p>(\d+) ms<\/p><div class=speed style="[^"]+"><\/div><\/div><\/td><td>(SOCKS[45])<\/td>/g) {
+    my %proxy = (ip => $1, port => $2, speed => $3, type => $4);
+    push @proxies, \%proxy;
+}
+@proxies = sort { $a->{speed} <=> $b->{speed} } @proxies;
+my $i = int(rand(10));
+my $pid = fork();
+if ($pid == 0) {
+    `pkill socat`;
+    `socat -lf/dev/null TCP-LISTEN:4145,reuseaddr,keepalive,fork TCP4:$proxies[$i]->{ip}:$proxies[$i]->{port}`;
+}

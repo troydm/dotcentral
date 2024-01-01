@@ -5,7 +5,9 @@ configurations/common/bin/powerline
 configurations/common/bin/fcdclient
 configurations/common/bin/fcdserver
 configurations/common/bashrc
+configurations/common/alacritty.yml
 configurations/common/fishrc
+configurations/common/gitconfig
 configurations/common/Xresources
 configurations/common/bin/sshc
 configurations/common/exp
@@ -25,6 +27,14 @@ configurations/common/vimb/history
 configurations/common/vimb/hsts
 configurations/common/vimb/queue
 configurations/common/vimb/search
+configurations/common/emacs/bashrc
+configurations/common/emacs/emacs.d/auto-save-list
+configurations/common/emacs/emacs.d/elpa
+configurations/common/emacs/emacs.d/backups
+configurations/common/emacs/emacs.d/recentf
+configurations/common/emacs/emacs.d/transient
+configurations/common/emacs/spacemacs.d
+configurations/common/emacs/doomemacs.d
 configurations/private
 configurations/troynas/bashrc
 configurations/troynas/tmux.conf
@@ -33,6 +43,7 @@ configurations/troynas/bin/arc_summary
 configurations/troynas/bin/bashtop
 configurations/troynas/tsundoku
 configurations/troypc/fontawesome
+configurations/troypc/bashrc
 configurations/troypc/xmonad/xmonad-git
 configurations/troypc/xmonad/xmonad-contrib-git
 configurations/troypc/xmonad/xmonad-dbus-git

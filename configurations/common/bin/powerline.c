@@ -4,6 +4,17 @@
 #include <unistd.h>
 #include <pwd.h>
 
+// color config
+const char* user_color = "217";
+const char* hostname_color = "230";
+const char* user_hostname_bg_color = "242";
+const char* dir_color = "223";
+const char* dir_bg_color = "233";
+const char* dir_bg_alt_color = "239";
+const char* git_color = "151";
+const char* git_bg_color = "242";
+
+// color utility functions
 void color(const char* fg, const char* bg){
     fputs("\x1b[38;5;",stdout);
     fputs(fg,stdout);
@@ -24,6 +35,7 @@ void resetcolor(){
 
 int main(int argc, char* argv[]){
     struct passwd* pw;
+    int dir_alt = 0;
     char* user = "";
     char* homedir = "";
     char hostname[256];
@@ -38,14 +50,20 @@ int main(int argc, char* argv[]){
         homedir = pw->pw_dir;
     }
     gethostname(&hostname[1],254);
-
-    color("217","242");
+    // strip '.local' suffix
+    char *i = index(hostname, '.');
+    if (i != NULL) {
+        *i = '\0';
+    }
+    // print user@hostname
+    color(user_color,user_hostname_bg_color);
     fputs(user,stdout);
-    color("230","242");
+    color(hostname_color,user_hostname_bg_color);
     fputs(hostname,stdout);
-    color("242","233");
+    color(user_hostname_bg_color,dir_bg_color);
     fputs("",stdout);
-    color("223","233");
+    // print current dir
+    color(dir_color,dir_bg_color);
     if(getcwd(&dir[0], 1024)){
         int homedir_size = strlen(homedir);
         int j = 1;
@@ -58,7 +76,20 @@ int main(int argc, char* argv[]){
         }
         while(dir[i] != '\0'){
             if(dir[i] == '/'){
-                dirfixed[j++] = '/';
+                dirfixed[j++] = '\0';
+                fputs(&dirfixed[0],stdout);
+                if (dir_alt == 0) {
+                    color(dir_bg_color,dir_bg_alt_color);
+                    fputs("",stdout);
+                    color(dir_color,dir_bg_alt_color);
+                    dir_alt = 1;
+                } else {
+                    color(dir_bg_alt_color,dir_bg_color);
+                    fputs("",stdout);
+                    color(dir_color,dir_bg_color);
+                    dir_alt = 0;
+                }
+                j = 0;
             }else
                 dirfixed[j++] = dir[i];
             i++;
@@ -74,22 +105,32 @@ int main(int argc, char* argv[]){
             git_len = strlen(&git[0]);
             if(git_len > 0){
                 git[git_len-1] = '\0';
-                color("233","242");
+                if (dir_alt == 0) {
+                    color(dir_bg_color,git_bg_color);
+                } else {
+                    color(dir_bg_alt_color,git_bg_color);
+                }
+                // print git branch
                 fputs("",stdout);
-                color("151","242");
+                color(git_color,git_bg_color);
                 fputs("",stdout);
                 fputs(&git[0],stdout);
                 resetcolor();
-                colorfg("242");
+                colorfg(git_bg_color);
                 fputs("",stdout);
             }
         }
         pclose(fp);
     }
 
+    // print ending arrow
     if(git_len == 0){
         resetcolor();
-        colorfg("233");
+        if (dir_alt == 0) {
+            colorfg(dir_bg_color);
+        } else {
+            colorfg(dir_bg_alt_color);
+        }
         fputs("",stdout);
     }
     resetcolor();
@@ -97,3 +138,4 @@ int main(int argc, char* argv[]){
 
     return 0;
 }
+

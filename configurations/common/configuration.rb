@@ -16,26 +16,8 @@ git 'https://github.com/pepa65/tldr-bash-client.git', 'tldr'
 symlink 'bin/tldr', 'tldr/tldr'
 
 # install Nerd Fonts on OSX and Linux only
-if linux?
-    if hostname == 'troymac'
-      install_fontsdir = '~/.local/share/fonts'
-    else
-      install_fontsdir = '~/.fonts'
-    end
-elsif osx?
-    install_fontsdir = '~/Library/Fonts'
-end
-if install_fontsdir
-  mkdir 'fonts'
-  curl 'https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete%20Mono.ttf', 'fonts/DejaVu_Sans_Mono_Nerd_Font_Complete_Mono.ttf', content_length_check: true
-  mkdir install_fontsdir
-  ls("fonts",grep: '.[ot]tf').each { |font|
-    if linux?
-      symlink "#{install_fontsdir}/#{font}", "fonts/#{font}"
-    elsif osx?
-      copy "fonts/#{font}", "#{install_fontsdir}/#{font}"
-    end
-  }
+if linux? or osx?
+  Font.nerd_font_install 'DejaVuSansMono/Regular/DejaVuSansMNerdFontMono-Regular.ttf', 'fonts'
 end
 
 # powerline command
@@ -60,9 +42,12 @@ if linux?
   symlink '~/.Xresources', 'Xresources'
   symlink '~/.urxvt', 'urxvt'
 end
+erb 'alacritty.yml.erb'
 symlink '~/.alacritty.yml', 'alacritty.yml'
 symlink '~/.hyper.js', 'hyper.js'
-symlink '~/.dircolors', 'dircolors'
+unless osx?
+  symlink '~/.dircolors', 'dircolors'
+end
 erb 'bashrc.erb'
 source '~/.bashrc', 'bashrc'
 if file_exists? '~/.zshrc'
@@ -74,10 +59,10 @@ if file_exists? '~/.config/fish/config.fish'
 end
 mkdir '~/.config/kitty'
 symlink '~/.config/kitty/kitty.conf', 'kitty.conf'
+erb 'gitconfig.erb'
 symlink '~/.gitconfig', 'gitconfig'
 symlink '~/.gitignore', 'gitignore'
 symlink '~/.tigrc', 'tigrc'
-symlink '~/.spacemacs', 'spacemacs'
 symlink '~/.cvimrc', 'cvimrc'
 symlink '~/.qutebrowser', 'qutebrowser'
 if linux?
@@ -88,4 +73,4 @@ if linux?
 end
 symlink '~/.config/ranger', 'ranger'
 
-['mc','vifm','vim','nvim','vimperator'].each { |c| run c }
+['emacs','mc','vifm','vim','nvim','vimperator'].each { |c| run c }

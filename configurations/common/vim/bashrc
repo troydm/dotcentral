@@ -1,14 +1,9 @@
-# Some vim hacks
-vim()
-{
+# editor vim
+vim() {
     local STTYOPTS="$(stty -g)"
     stty stop '' start '' -ixoff
     command vim "$@"
     stty "$STTYOPTS"
 }
-
 alias vi=vim
-
-# editor vim
 export EDITOR=vim
-

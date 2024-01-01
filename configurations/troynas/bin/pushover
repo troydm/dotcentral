@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use LWP::UserAgent;
+use LWP::Protocol::https;
+
+my $title = $ARGV[0];
+my $msg = $ARGV[1];
+my $priority = $ARGV[2] || '0';
+
+# get pushover api key from enviroment variable
+die 'pushover API key wasn\'t specified in PUSHOVER_API_KEY enviroment variable' unless exists $ENV{PUSHOVER_API_KEY};
+die 'pushover User key wasn\'t specified in PUSHOVER_USER_KEY enviroment variable' unless exists $ENV{PUSHOVER_USER_KEY};
+my $apikey = $ENV{PUSHOVER_API_KEY};
+my $userkey = $ENV{PUSHOVER_USER_KEY};
+
+my $result = LWP::UserAgent->new()->post(
+    "https://api.pushover.net/1/messages.json", [
+        token => $apikey,
+        user => $userkey,
+        title => $title,
+        message => $msg,
+        priority => $priority,
+        retry => '180',
+        expire => '172800',
+    ])->as_string;
+
+print $result;

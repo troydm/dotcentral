@@ -46,8 +46,13 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
+<% if osx? %>
+    x: 5
+    y: 25
+<% else %>
     x: 5
     y: 5
+<% end %>
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -61,6 +66,9 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background and no title bar buttons
+<% if osx? %>
+  decorations: transparent
+<% end %>
   #decorations: full
 
   # Startup Mode (changes require restart)
@@ -114,7 +122,7 @@ font:
     family: DejaVuSansMono Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
-    #style: Regular
+    style: Book
 
   # Bold font face
   #bold:
@@ -150,7 +158,11 @@ font:
     #style: Bold Italic
 
   # Point size
+<% if osx? %>
+  size: 14.0
+<% else %>
   size: 10.0
+<% end %>
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -401,8 +413,14 @@ background_opacity: 0.85
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
+<% if osx? %>
+shell:
+<% if hostname == 'troypc.local' %>
+  program: /usr/local/bin/bash
+<% else %>
+  program: /bin/bash
+<% end %>
+<% end %>
 #  args:
 #    - --login
 
@@ -680,9 +698,11 @@ background_opacity: 0.85
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
+<% if hostname != 'troymac.local' %>
 key_bindings:
   - {  key: V,         mods: Alt,                        action: Paste          }
   - {  key: C,         mods: Alt,                        action: Copy           }
+<% end %>
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }

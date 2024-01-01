@@ -11,6 +11,7 @@ set -o vi
 
 # dircolors
 # enable color support of ls and also add handy aliases
+<% if linux? %>
 if [ -f ~/.dircolors ]; then
     eval "$(dircolors -b ~/.dircolors)"
     alias ls='ls --color=auto'
@@ -21,6 +22,10 @@ if [ -f ~/.dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+<% elsif macos? %>
+export LSCOLORS=DxExcEFCCxDxHx
+alias ls='ls -G'
+<% end %>
 
 # some more ls aliases
 alias ll='ls -Ahl'
@@ -78,7 +83,7 @@ d() {
 <% end %>
 
 # fcd
-fcd() { cd "$(fcdclient "$@")"; }
+fcd() { fcdclient "$@"; cd "$(cat /tmp/fcd_$USER)"; rm -f /tmp/fcd_$USER; }
 alias z=fcd
 
 # Add common directories to PATH
@@ -86,6 +91,10 @@ add_PATH ~/.local/bin
 add_PATH <%= pwd+"/bin" %>
 add_PATH .
 add_PATH /usr/local/bin
+add_LD_LIBRARY_PATH /usr/local/lib
+if [ -d ~/.local/share/gem/ruby/3.0.0/bin ]; then
+    add_PATH ~/.local/share/gem/ruby/3.0.0/bin
+fi
 
 # less colors and options
 export LESS='-RS#3M~g'
