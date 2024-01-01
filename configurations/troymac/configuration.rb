@@ -1,5 +1,5 @@
 if linux?
-  symlink '~/.config/compton.conf', 'compton.conf'
+  symlink '~/.config/picom.conf', 'picom.conf'
   mkdir '~/.config/dunst'
   symlink '~/.config/dunst/dunstrc', 'dunstrc'
 end

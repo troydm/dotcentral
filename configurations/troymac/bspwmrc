@@ -1,7 +1,7 @@
 #! /bin/sh
 
 xsetroot -cursor_name left_ptr &
-compton&
+picom&
 redshift&
 dunst&
 feh --bg-scale /home/troydm/.dotcentral/configurations/troymac/wallpaper/snow-leopard-bg.jpg
