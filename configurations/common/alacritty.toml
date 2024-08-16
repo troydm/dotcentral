@@ -1,0 +1,60 @@
+[colors.bright]
+black = "#000000"
+blue = "#8cd0d3"
+cyan = "#93e0e3"
+green = "#bfebbf"
+magenta = "#ec93d3"
+red = "#dca3a3"
+white = "#ffffff"
+yellow = "#f0dfaf"
+
+[colors.cursor]
+cursor = "CellForeground"
+text = "CellBackground"
+
+[colors.normal]
+black = "#3f3f3f"
+blue = "#6ca0a3"
+cyan = "#8cd0d3"
+green = "#7f9f7f"
+magenta = "#dc8cc3"
+red = "#cc9393"
+white = "#dcdccc"
+yellow = "#d0bf8f"
+
+[colors.primary]
+background = "#3f3f3f"
+foreground = "#dcdccc"
+
+[colors.selection]
+background = "#aaaaaa"
+text = "#000000"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+
+size = 14.0
+
+
+[font.normal]
+family = "DejaVuSansM Nerd Font Mono"
+style = "Regular"
+
+
+[shell]
+
+program = "/bin/bash"
+
+
+
+[window]
+opacity = 0.85
+decorations = "transparent"
+
+[window.padding]
+
+x = 5
+y = 25
+

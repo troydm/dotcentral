@@ -42,8 +42,8 @@ if linux?
   symlink '~/.Xresources', 'Xresources'
   symlink '~/.urxvt', 'urxvt'
 end
-erb 'alacritty.yml.erb'
-symlink '~/.alacritty.yml', 'alacritty.yml'
+erb 'alacritty.toml.erb'
+symlink '~/.alacritty.toml', 'alacritty.toml'
 symlink '~/.hyper.js', 'hyper.js'
 unless osx?
   symlink '~/.dircolors', 'dircolors'
