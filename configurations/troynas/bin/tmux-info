@@ -40,21 +40,21 @@ my $apikey = $ENV{PUSHOVER_API_KEY};
 my $userkey = $ENV{PUSHOVER_USER_KEY};
 
 sub notify {
-    my $info = shift;
+    my ($info, $pri) = @_;
     LWP::UserAgent->new()->post(
         "https://api.pushover.net/1/messages.json", [
             token => $apikey,
             user => $userkey,
-            title => 'troynas server is overheating!',
+            title => 'troynas server tmux-info notification',
             message => $info,
-            priority => '2',
+            priority => "$pri",
             retry => '180',
             expire => '172800',
         ])->as_string;
 }
 
 if(@ARGV == 1 && $ARGV[0] eq 'notify-test'){
-    print notify('This is notify test CPU:46.5°C 14.0°C MB:45.0°C RPM: CPU 1521 PSU 402 SSD:42°C 46°C HDD:45°C 42°C');
+    print notify('This is notify test CPU:46.5°C 14.0°C MB:45.0°C RPM: CPU 1521 PSU 402 SSD:42°C 46°C HDD:45°C 42°C', 0);
     exit(0);
 }
 
@@ -87,97 +87,186 @@ my $hdd1='35';
 my $hdd2='35';
 my $hddfree='';
 
-sub update(){
-my $sys = `sensors`;
-
-my $cpu;
-my $core;
-my $mb;
-my $cpurpm;
-my $psurpm;
-
-foreach my $line (split "\n", $sys ){
-    if($line =~ q/^temp1:\s+\+(\d+).\d+/){
-        $core = $1;
+sub render_widgets {
+    my ($widgetsref, $ascii) = @_;
+    my @widgets;
+    my $deg = '';
+    if ($ascii) {
+        $deg = 'C';
     }
-    if($line =~ q/^SYSTIN:\s+\+(\d+).\d+/){
-        $mb = $1;
+    foreach my $widget (@$widgetsref) {
+        my $display = $widget->{display};
+        if ($ascii) {
+            $display =~ s/%icon%/$widget->{icon_ascii}/g;
+        } else {
+            $display =~ s/%icon%/$widget->{icon}/g;
+        }
+        $display =~ s/%deg%/$deg/g;
+        push(@widgets, $display);
     }
-    if($line =~ q/^CPUTIN:\s+\+(\d+.\d+)/){
-        $cpu = $1;
-    }
-    if($line =~ q/^fan2:\s+(\d+)/){
-        $cpurpm = $1;
-    }
-    if($line =~ q/^fan1:\s+(\d+)/){
-        $psurpm = $1;
+    if ($ascii) {
+        return "|".join("|", @widgets)."|";
+    } else {
+        return "".join("", @widgets)."";
     }
 }
 
-if(time() % 300 == 0){
-    my $hddtemp = `/usr/sbin/hddtemp --debug $hdd1dev | grep field\\(194\\)`;
-    chop $hddtemp;
-    if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
-        $hdd1 = $1;
+sub update {
+    my $sys = `sensors`;
+
+    my $cpu;
+    my $core;
+    my $mb;
+    my $cpurpm;
+    my $psurpm;
+
+    foreach my $line (split "\n", $sys ){
+        if($line =~ q/^temp1:\s+\+(\d+).\d+/){
+            $core = $1;
+        }
+        if($line =~ q/^SYSTIN:\s+\+(\d+).\d+/){
+            $mb = $1;
+        }
+        if($line =~ q/^CPUTIN:\s+\+(\d+.\d+)/){
+            $cpu = $1;
+        }
+        if($line =~ q/^fan2:\s+(\d+)/){
+            $cpurpm = $1;
+        }
+        if($line =~ q/^fan1:\s+(\d+)/){
+            $psurpm = $1;
+        }
     }
 
-    $hddtemp = `/usr/sbin/hddtemp --debug $hdd2dev | grep field\\(194\\)`;
-    chop $hddtemp;
-    if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
-        $hdd2 = $1;
+    if(time() % 300 == 0){
+        my $hddtemp = `/usr/sbin/hddtemp --debug $hdd1dev | grep field\\(194\\)`;
+        chop $hddtemp;
+        if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
+            $hdd1 = $1;
+        }
+
+        $hddtemp = `/usr/sbin/hddtemp --debug $hdd2dev | grep field\\(194\\)`;
+        chop $hddtemp;
+        if($hddtemp =~ q/\=\s+(\d+.?\d*)/){
+            $hdd2 = $1;
+        }
     }
-}
-if(time() % 10 == 0){
-    $hddfree = `df -h /store | tail -1`;
-    chop $hddfree;
-    my @cols = split /\s+/, $hddfree;
-    $hddfree = $cols[3];
-}
-
-my $ssd;
-my $ssdtemp = `/usr/sbin/hddtemp --debug $ssd1dev | grep field\\(190\\)`;
-chop $ssdtemp;
-if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
-    $ssd = $1;
-}
-
-my $ssd2;
-$ssdtemp = `/usr/sbin/hddtemp --debug $ssd2dev | grep field\\(194\\)`;
-chop $ssdtemp;
-if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
-    $ssd2 = $1;
-}
-
-my $cpu_usage = cpu_usage();
-my @widgets = (":$cpu_usage $cpu $core", "󰇅:$mb", "󰈐:$cpurpm", "⏻:$psurpm", ":$ssd $ssd2", "󰋊:$hdd1 $hdd2 $hddfree");
-my $ret = "".join("", @widgets)."";
-open my $fh, '>', '/tmp/tmux-info';
-print $fh $ret;
-close $fh;
-
-if($cpu > 82 || $core > 78 || $mb > 65 || $cpurpm < 500 || $psurpm < 350 || $ssd > 65 || $ssd2 > 75 || $hdd1 > 62 || $hdd2 > 62){
-    if(!$notified && notify($ret) =~ m/200 OK/){
-        $notified = 1;
+    if(time() % 10 == 0){
+        $hddfree = `df -h /store | tail -1`;
+        chop $hddfree;
+        my @cols = split /\s+/, $hddfree;
+        $hddfree = $cols[3];
     }
-}else{
-    $notified = 0;
-    $critical = 0;
-}
 
-if($cpu >= 85 || $core >= 85 || $mb >= 65 || $cpurpm < 400 || $psurpm < 350 || $ssd > 70 || $ssd2 > 75 || $hdd1 > 65 || $hdd2 > 65){
-    $critical++;
-}
+    my $ssd;
+    my $ssdtemp = `/usr/sbin/hddtemp --debug $ssd1dev | grep field\\(190\\)`;
+    chop $ssdtemp;
+    if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
+        $ssd = $1;
+    }
 
-if($critical >= 30){
-     system("cp /tmp/tmux-info /home/troydm/critical-shutdown.log");
-     exec("sudo shutdown -h now");
-}
+    my $ssd2;
+    $ssdtemp = `/usr/sbin/hddtemp --debug $ssd2dev | grep field\\(194\\)`;
+    chop $ssdtemp;
+    if($ssdtemp =~ q/\=\s+(\d+.?\d*)/){
+        $ssd2 = $1;
+    }
 
-return $ret;
+    my $cpu_usage = cpu_usage();
+    my @widgets = (
+        {
+            icon => '',
+            icon_ascii => 'cpu',
+            alert => $cpu > 82 || $core > 78 || $mb > 65,
+            critical => $cpu >= 85 || $core >= 85 || $mb >= 65,
+            display => "%icon%:$cpu_usage $cpu%deg% $core%deg%"
+        },
+        {
+            icon => '',
+            icon_ascii => 'mb',
+            alert => $mb > 60,
+            critical => $mb >= 70,
+            display => "%icon%:$mb%deg%"
+        },
+        {
+            icon => '',
+            icon_ascii => 'cpu_fan',
+            alert => $cpurpm < 500,
+            critical => $cpurpm < 500,
+            display => "%icon%:$cpurpm"
+        },
+        {
+            icon => '⏻',
+            icon_ascii => 'psu_fan',
+            alert => $psurpm < 350,
+            critical => $psurpm < 350,
+            display => "%icon%:$psurpm"
+        },
+        {
+            icon => '',
+            icon_ascii => 'ssd',
+            alert => $ssd > 65 || $ssd2 > 75,
+            critical => $ssd > 70 || $ssd2 > 75,
+            display => "%icon%:$ssd%deg% $ssd2%deg%"
+        },
+        {
+            icon => '',
+            icon_ascii => 'hdd',
+            alert => $hdd1 > 62 || $hdd2 > 62 || ($hddfree ne '' && $hddfree < 0.5),
+            critical => 0,
+            display => "%icon%:$hdd1%deg% $hdd2%deg% $hddfree"
+        }
+    );
+    my $ret = render_widgets(\@widgets, 0);
+    open my $fh, '>', '/tmp/tmux-info';
+    print $fh $ret;
+    close $fh;
+
+    my @alerts;
+    my @crits;
+    foreach my $widget (@widgets) {
+        if ($widget->{alert}) {
+            push(@alerts, $widget->{icon_ascii}.' alert');
+        }
+        if ($widget->{critical}) {
+            push(@crits, $widget->{icon_ascii}.' critical');
+        }
+    }
+
+    if ((scalar @alerts) > 0) {
+        if(!$notified){
+            my $msg = render_widgets(\@widgets, 1);
+            $msg .= ' [alerts: '.join(', ', @alerts).']';
+            if ((scalar @crits) > 0) {
+                $msg .= ' [crits: '.join(', ', @crits).']';
+            }
+            if (notify($msg, 0) =~ m/200 OK/) {
+                $notified = 1;
+            }
+        }
+    } else {
+        $notified = 0;
+    }
+
+    if ((scalar @crits) > 0) {
+        $critical++;
+    } else {
+        $critical = 0;
+    }
+
+    if($critical >= 30){
+        my $msg = render_widgets(\@widgets, 1);
+        $msg .= ' critical alerts timer went off, shutting down server';
+        notify($msg, 2);
+        system("cp /tmp/tmux-info /home/troydm/critical-shutdown.log");
+        exec("sudo shutdown -h now");
+    }
+
+    return $ret;
 }
 
 while($continue){
-update;
-sleep 1;
+    update;
+    sleep 1;
 }
 
