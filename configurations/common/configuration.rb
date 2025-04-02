@@ -3,7 +3,7 @@ git 'https://github.com/troydm/sshc.git', 'sshc'
 symlink 'bin/sshc', 'sshc/sshc'
 
 # install fcd
-git 'git@github.com:troydm/fcd.git', 'fcd'
+git 'https://github.com/troydm/fcd.git', 'fcd'
 symlink 'bin/fcdclient', 'fcd/fcdclient'
 symlink 'bin/fcdserver', 'fcd/fcdserver'
 
