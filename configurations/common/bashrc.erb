@@ -88,6 +88,7 @@ alias z=fcd
 
 # Add common directories to PATH
 add_PATH ~/.local/bin
+add_PATH ~/.ghcup/bin
 add_PATH <%= pwd+"/bin" %>
 add_PATH .
 add_PATH /usr/local/bin
@@ -172,3 +173,9 @@ if [ "$TERM" = "xterm-256color" ] || [ "$TERM" = "screen-256color" ]; then
         fi
     fi
 fi
+
+# mise
+if type mise 2>&1 >/dev/null; then
+  eval "$(~/.local/bin/mise activate bash)"
+fi
+
