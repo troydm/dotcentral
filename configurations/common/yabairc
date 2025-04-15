@@ -49,6 +49,7 @@ yabai -m rule --add app="^Stats$" manage=off border=off
 yabai -m rule --add app="^Finder$" manage=off
 yabai -m rule --add app="^Activity Monitor$" manage=off border=off
 yabai -m rule --add app='^System Preferences$' manage=off border=off
-yabai -m rule --add title="^Hotkey Window$" manage=off border=off
+yabai -m rule --add app='iTerm2' title='Hotkey Window' manage=off
 yabai -m rule --add app="^VMware Horizon Client$" manage=off border=off
 yabai -m rule --add app="^Microsoft Remote Desktop$" manage=off border=off
+yabai -m rule --apply

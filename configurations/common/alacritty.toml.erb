@@ -46,8 +46,8 @@ style = "Regular"
 
 <% if osx? %>
 [shell]
-<% if hostname == 'troypc.local' %>
-program = "/usr/local/bin/bash"
+<% if osx? %>
+program = "/bin/zsh"
 <% else %>
 program = "/bin/bash"
 <% end %>
