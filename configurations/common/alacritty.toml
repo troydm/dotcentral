@@ -34,34 +34,27 @@ text = "#000000"
 TERM = "xterm-256color"
 
 [font]
-<% if osx? %>
+
 size = 14.0
-<% else %>
-size = 10.0
-<% end %>
+
 
 [font.normal]
 family = "DejaVuSansM Nerd Font Mono"
 style = "Regular"
 
-<% if osx? %>
+
 [terminal.shell]
-<% if osx? %>
+
 program = "/bin/zsh"
-<% else %>
-program = "/bin/bash"
-<% end %>
-<% end %>
+
+
 
 [window]
 opacity = 0.85
 decorations = "transparent"
 
 [window.padding]
-<% if osx? %>
+
 x = 5
 y = 25
-<% else %>
-x = 5
-y = 5
-<% end %>
+
